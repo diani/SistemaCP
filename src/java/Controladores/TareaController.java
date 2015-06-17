@@ -87,7 +87,8 @@ public class TareaController implements Serializable {
                 if (persistAction != PersistAction.DELETE) {
                     getFacade().edit(selected);
                 } else {
-                    getFacade().remove(selected);
+                    selected.setTarHabilitado(new Boolean(false));
+                    getFacade().edit(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

@@ -17,51 +17,64 @@
             <h:form id="ProcesoListForm">
                 <p:panel header="#{bundle.ListProcesoTitle}">
                     <p:dataTable id="datalist" value="#{procesoController.items}" var="item"
-                                 selectionMode="single" selection="#{procesoController.selected}"
                                  paginator="true"
                                  rowKey="#{item.procCodigo}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column>
+                        <p:column filterBy="#{item.procCodigo}" sortBy="#{item.procCodigo}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.procCodigo}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item.prodCodigo}" sortBy="#{item.prodCodigo}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListProcesoTitle_prodCodigo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.prodCodigo.prodDescripcion}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.procMateriaPrima}" sortBy="#{item.procMateriaPrima}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procMateriaPrima}"/>
                             </f:facet>
                             <h:outputText value="#{item.procMateriaPrima}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item.procProductoTerminado}" sortBy="#{item.procProductoTerminado}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procProductoTerminado}"/>
                             </f:facet>
                             <h:outputText value="#{item.procProductoTerminado}"/>
                         </p:column>
-                        <p:column>
+                         
+                        <p:column filterBy="#{item.procHabilitadoInterno}" style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procHabilitadoInterno}"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item.procHabilitadoInterno}" disabled="true"/>
                         </p:column>
-                        <p:column>
+                       <p:column style="text-align: center">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListProcesoTitle_prodCodigo}"/>
+                                <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
-                            <h:outputText value="#{item.prodCodigo}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ProcesoEditForm" oncomplete="PF('ProcesoEditDialog').show()">
+                                <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Delete}"/>
+                            </f:facet>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" action="#{procesoController.destroy}" update=":growl,datalist">
+                                <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
+                            </p:commandButton>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{procesoController.prepareCreate}" update=":ProcesoCreateForm" oncomplete="PF('ProcesoCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ProcesoViewForm" oncomplete="PF('ProcesoViewDialog').show()" disabled="#{empty procesoController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ProcesoEditForm" oncomplete="PF('ProcesoEditDialog').show()" disabled="#{empty procesoController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{procesoController.destroy}" update=":growl,datalist" disabled="#{empty procesoController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

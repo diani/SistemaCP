@@ -13,13 +13,13 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{unidadesMpController.selected != null}">
                         <p:outputLabel value="#{bundle.EditUnidadesMpLabel_uniMpCodigo}" for="uniMpCodigo" />
-                        <p:inputText id="uniMpCodigo" value="#{unidadesMpController.selected.uniMpCodigo}" title="#{bundle.EditUnidadesMpTitle_uniMpCodigo}" required="true" requiredMessage="#{bundle.EditUnidadesMpRequiredMessage_uniMpCodigo}"/>
+                        <p:inputText id="uniMpCodigo" disabled="true" value="#{unidadesMpController.selected.uniMpCodigo}" title="#{bundle.EditUnidadesMpTitle_uniMpCodigo}" required="true" requiredMessage="#{bundle.EditUnidadesMpRequiredMessage_uniMpCodigo}"/>
                         <p:outputLabel value="#{bundle.EditUnidadesMpLabel_uniMpDescripcion}" for="uniMpDescripcion" />
-                        <p:inputText id="uniMpDescripcion" value="#{unidadesMpController.selected.uniMpDescripcion}" title="#{bundle.EditUnidadesMpTitle_uniMpDescripcion}" />
+                        <p:inputText id="uniMpDescripcion" required="true" value="#{unidadesMpController.selected.uniMpDescripcion}" title="#{bundle.EditUnidadesMpTitle_uniMpDescripcion}" />
+                        <p:outputLabel value="#{bundle.EditUnidadesMpLabel_uniMpEquivalenciaMp}" for="uniMpEquivalenciaMp" />
+                        <p:inputText id="uniMpEquivalenciaMp" required="true" value="#{unidadesMpController.selected.uniMpEquivalenciaMp}" title="#{bundle.EditUnidadesMpTitle_uniMpEquivalenciaMp}" />
                         <p:outputLabel value="#{bundle.EditUnidadesMpLabel_uniMpHabilitado}" for="uniMpHabilitado" />
                         <p:selectBooleanCheckbox id="uniMpHabilitado" value="#{unidadesMpController.selected.uniMpHabilitado}" />
-                        <p:outputLabel value="#{bundle.EditUnidadesMpLabel_uniMpEquivalenciaMp}" for="uniMpEquivalenciaMp" />
-                        <p:inputText id="uniMpEquivalenciaMp" value="#{unidadesMpController.selected.uniMpEquivalenciaMp}" title="#{bundle.EditUnidadesMpTitle_uniMpEquivalenciaMp}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{unidadesMpController.update}" value="#{bundle.Save}" update="display,:UnidadesMpListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UnidadesMpEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UnidadesMpEditDialog.hide()"/>

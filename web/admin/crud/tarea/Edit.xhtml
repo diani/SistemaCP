@@ -13,9 +13,9 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tareaController.selected != null}">
                         <p:outputLabel value="#{bundle.EditTareaLabel_tarCodigo}" for="tarCodigo" />
-                        <p:inputText id="tarCodigo" value="#{tareaController.selected.tarCodigo}" title="#{bundle.EditTareaTitle_tarCodigo}" required="true" requiredMessage="#{bundle.EditTareaRequiredMessage_tarCodigo}"/>
+                        <p:inputText id="tarCodigo" disabled="true" value="#{tareaController.selected.tarCodigo}" title="#{bundle.EditTareaTitle_tarCodigo}" required="true" requiredMessage="#{bundle.EditTareaRequiredMessage_tarCodigo}"/>
                         <p:outputLabel value="#{bundle.EditTareaLabel_tarDescripcion}" for="tarDescripcion" />
-                        <p:inputText id="tarDescripcion" value="#{tareaController.selected.tarDescripcion}" title="#{bundle.EditTareaTitle_tarDescripcion}" />
+                        <p:inputText id="tarDescripcion" required="true" value="#{tareaController.selected.tarDescripcion}" title="#{bundle.EditTareaTitle_tarDescripcion}" />
                         <p:outputLabel value="#{bundle.EditTareaLabel_tarHabilitado}" for="tarHabilitado" />
                         <p:selectBooleanCheckbox id="tarHabilitado" value="#{tareaController.selected.tarHabilitado}" />
                     </p:panelGrid>

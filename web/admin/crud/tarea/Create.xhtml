@@ -12,10 +12,8 @@
             <h:form id="TareaCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tareaController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTareaLabel_tarCodigo}" for="tarCodigo" />
-                        <p:inputText id="tarCodigo" value="#{tareaController.selected.tarCodigo}" title="#{bundle.CreateTareaTitle_tarCodigo}" required="true" requiredMessage="#{bundle.CreateTareaRequiredMessage_tarCodigo}"/>
                         <p:outputLabel value="#{bundle.CreateTareaLabel_tarDescripcion}" for="tarDescripcion" />
-                        <p:inputText id="tarDescripcion" value="#{tareaController.selected.tarDescripcion}" title="#{bundle.CreateTareaTitle_tarDescripcion}" />
+                        <p:inputText id="tarDescripcion" required="true" value="#{tareaController.selected.tarDescripcion}" title="#{bundle.CreateTareaTitle_tarDescripcion}" />
                         <p:outputLabel value="#{bundle.CreateTareaLabel_tarHabilitado}" for="tarHabilitado" />
                         <p:selectBooleanCheckbox id="tarHabilitado" value="#{tareaController.selected.tarHabilitado}" />
                     </p:panelGrid>

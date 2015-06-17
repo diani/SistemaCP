@@ -13,11 +13,11 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{productoController.selected != null}">
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodCodigo}" for="prodCodigo" />
-                        <p:inputText id="prodCodigo" value="#{productoController.selected.prodCodigo}" title="#{bundle.EditProductoTitle_prodCodigo}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_prodCodigo}"/>
+                        <p:inputText id="prodCodigo" disabled="true" value="#{productoController.selected.prodCodigo}" title="#{bundle.EditProductoTitle_prodCodigo}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_prodCodigo}"/>
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodCodigoAux}" for="prodCodigoAux" />
-                        <p:inputText id="prodCodigoAux" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.EditProductoTitle_prodCodigoAux}" />
+                        <p:inputText id="prodCodigoAux" required="true" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.EditProductoTitle_prodCodigoAux}" />
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodDescripcion}" for="prodDescripcion" />
-                        <p:inputText id="prodDescripcion" value="#{productoController.selected.prodDescripcion}" title="#{bundle.EditProductoTitle_prodDescripcion}" />
+                        <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.EditProductoTitle_prodDescripcion}" />
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodHabilitado}" for="prodHabilitado" />
                         <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>

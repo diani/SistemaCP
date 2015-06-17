@@ -12,14 +12,12 @@
             <h:form id="PresentacionProductoCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{presentacionProductoController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdCodigo}" for="preProdCodigo" />
-                        <p:inputText id="preProdCodigo" value="#{presentacionProductoController.selected.preProdCodigo}" title="#{bundle.CreatePresentacionProductoTitle_preProdCodigo}" required="true" requiredMessage="#{bundle.CreatePresentacionProductoRequiredMessage_preProdCodigo}"/>
                         <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdDescripcion}" for="preProdDescripcion" />
-                        <p:inputText id="preProdDescripcion" value="#{presentacionProductoController.selected.preProdDescripcion}" title="#{bundle.CreatePresentacionProductoTitle_preProdDescripcion}" />
+                        <p:inputText id="preProdDescripcion" required="true" value="#{presentacionProductoController.selected.preProdDescripcion}" title="#{bundle.CreatePresentacionProductoTitle_preProdDescripcion}" />
                         <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdHabilitado}" for="preProdHabilitado" />
                         <p:selectBooleanCheckbox id="preProdHabilitado" value="#{presentacionProductoController.selected.preProdHabilitado}" />
                         <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdEquivalenciaPt}" for="preProdEquivalenciaPt" />
-                        <p:inputText id="preProdEquivalenciaPt" value="#{presentacionProductoController.selected.preProdEquivalenciaPt}" title="#{bundle.CreatePresentacionProductoTitle_preProdEquivalenciaPt}" />
+                        <p:inputText id="preProdEquivalenciaPt" required="true" value="#{presentacionProductoController.selected.preProdEquivalenciaPt}" title="#{bundle.CreatePresentacionProductoTitle_preProdEquivalenciaPt}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{presentacionProductoController.create}" value="#{bundle.Save}" update="display,:PresentacionProductoListForm:datalist,:growl" oncomplete="handleSubmit(args,'PresentacionProductoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PresentacionProductoCreateDialog.hide()"/>

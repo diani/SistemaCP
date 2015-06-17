@@ -13,9 +13,9 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{actividadController.selected != null}">
                         <p:outputLabel value="#{bundle.EditActividadLabel_actCodigo}" for="actCodigo" />
-                        <p:inputText id="actCodigo" value="#{actividadController.selected.actCodigo}" title="#{bundle.EditActividadTitle_actCodigo}" required="true" requiredMessage="#{bundle.EditActividadRequiredMessage_actCodigo}"/>
+                        <p:inputText id="actCodigo" value="#{actividadController.selected.actCodigo}" disabled="true" title="#{bundle.EditActividadTitle_actCodigo}" required="true" requiredMessage="#{bundle.EditActividadRequiredMessage_actCodigo}"/>
                         <p:outputLabel value="#{bundle.EditActividadLabel_actDescripcion}" for="actDescripcion" />
-                        <p:inputText id="actDescripcion" value="#{actividadController.selected.actDescripcion}" title="#{bundle.EditActividadTitle_actDescripcion}" />
+                        <p:inputText id="actDescripcion"  required="true" value="#{actividadController.selected.actDescripcion}" title="#{bundle.EditActividadTitle_actDescripcion}" />
                         <p:outputLabel value="#{bundle.EditActividadLabel_actHabilitado}" for="actHabilitado" />
                         <p:selectBooleanCheckbox id="actHabilitado" value="#{actividadController.selected.actHabilitado}" />
                     </p:panelGrid>

@@ -12,10 +12,8 @@
             <h:form id="ActividadCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{actividadController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateActividadLabel_actCodigo}" for="actCodigo" />
-                        <p:inputText id="actCodigo" value="#{actividadController.selected.actCodigo}" title="#{bundle.CreateActividadTitle_actCodigo}" required="true" requiredMessage="#{bundle.CreateActividadRequiredMessage_actCodigo}"/>
                         <p:outputLabel value="#{bundle.CreateActividadLabel_actDescripcion}" for="actDescripcion" />
-                        <p:inputText id="actDescripcion" value="#{actividadController.selected.actDescripcion}" title="#{bundle.CreateActividadTitle_actDescripcion}" />
+                        <p:inputText id="actDescripcion" required="true" value="#{actividadController.selected.actDescripcion}" title="#{bundle.CreateActividadTitle_actDescripcion}" />
                         <p:outputLabel value="#{bundle.CreateActividadLabel_actHabilitado}" for="actHabilitado" />
                         <p:selectBooleanCheckbox id="actHabilitado" value="#{actividadController.selected.actHabilitado}" />
                     </p:panelGrid>

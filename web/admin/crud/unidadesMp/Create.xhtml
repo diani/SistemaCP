@@ -12,14 +12,12 @@
             <h:form id="UnidadesMpCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{unidadesMpController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpCodigo}" for="uniMpCodigo" />
-                        <p:inputText id="uniMpCodigo" value="#{unidadesMpController.selected.uniMpCodigo}" title="#{bundle.CreateUnidadesMpTitle_uniMpCodigo}" required="true" requiredMessage="#{bundle.CreateUnidadesMpRequiredMessage_uniMpCodigo}"/>
                         <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpDescripcion}" for="uniMpDescripcion" />
-                        <p:inputText id="uniMpDescripcion" value="#{unidadesMpController.selected.uniMpDescripcion}" title="#{bundle.CreateUnidadesMpTitle_uniMpDescripcion}" />
+                        <p:inputText id="uniMpDescripcion" required="true" value="#{unidadesMpController.selected.uniMpDescripcion}" title="#{bundle.CreateUnidadesMpTitle_uniMpDescripcion}" />
+                        <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpEquivalenciaMp}" for="uniMpEquivalenciaMp" />
+                        <p:inputText id="uniMpEquivalenciaMp" required="true" value="#{unidadesMpController.selected.uniMpEquivalenciaMp}" title="#{bundle.CreateUnidadesMpTitle_uniMpEquivalenciaMp}" />
                         <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpHabilitado}" for="uniMpHabilitado" />
                         <p:selectBooleanCheckbox id="uniMpHabilitado" value="#{unidadesMpController.selected.uniMpHabilitado}" />
-                        <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpEquivalenciaMp}" for="uniMpEquivalenciaMp" />
-                        <p:inputText id="uniMpEquivalenciaMp" value="#{unidadesMpController.selected.uniMpEquivalenciaMp}" title="#{bundle.CreateUnidadesMpTitle_uniMpEquivalenciaMp}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{unidadesMpController.create}" value="#{bundle.Save}" update="display,:UnidadesMpListForm:datalist,:growl" oncomplete="handleSubmit(args,'UnidadesMpCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UnidadesMpCreateDialog.hide()"/>

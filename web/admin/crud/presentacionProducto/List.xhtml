@@ -17,45 +17,57 @@
             <h:form id="PresentacionProductoListForm">
                 <p:panel header="#{bundle.ListPresentacionProductoTitle}">
                     <p:dataTable id="datalist" value="#{presentacionProductoController.items}" var="item"
-                                 selectionMode="single" selection="#{presentacionProductoController.selected}"
                                  paginator="true"
                                  rowKey="#{item.preProdCodigo}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column>
+                        <p:column filterBy="#{item.preProdCodigo}" sortBy="#{item.preProdCodigo}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.preProdCodigo}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item.preProdDescripcion}" sortBy="#{item.preProdDescripcion}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdDescripcion}"/>
                             </f:facet>
                             <h:outputText value="#{item.preProdDescripcion}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item.preProdHabilitado}" style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdHabilitado}"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item.preProdHabilitado}" disabled="true"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item.preProdEquivalenciaPt}" sortBy="#{item.preProdEquivalenciaPt}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdEquivalenciaPt}"/>
                             </f:facet>
                             <h:outputText value="#{item.preProdEquivalenciaPt}"/>
                         </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Edit}"/>
+                            </f:facet>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PresentacionProductoEditForm" oncomplete="PF('PresentacionProductoEditDialog').show()">
+                                <f:setPropertyActionListener value="#{item}" target="#{presentacionProductoController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Delete}"/>
+                            </f:facet>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" action="#{presentacionProductoController.destroy}" update=":growl,datalist" >
+                                <f:setPropertyActionListener value="#{item}" target="#{presentacionProductoController.selected}" />
+                            </p:commandButton>
+                        </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{presentacionProductoController.prepareCreate}" update=":PresentacionProductoCreateForm" oncomplete="PF('PresentacionProductoCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":PresentacionProductoViewForm" oncomplete="PF('PresentacionProductoViewDialog').show()" disabled="#{empty presentacionProductoController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PresentacionProductoEditForm" oncomplete="PF('PresentacionProductoEditDialog').show()" disabled="#{empty presentacionProductoController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{presentacionProductoController.destroy}" update=":growl,datalist" disabled="#{empty presentacionProductoController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
