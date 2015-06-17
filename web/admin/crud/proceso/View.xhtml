@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProcesoViewDlg" widgetVar="ProcesoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewProcesoTitle}">
+            <h:form id="ProcesoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{procesoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewProcesoLabel_procCodigo}"/>
+                        <h:outputText value="#{procesoController.selected.procCodigo}" title="#{bundle.ViewProcesoTitle_procCodigo}"/>
+                        <h:outputText value="#{bundle.ViewProcesoLabel_procMateriaPrima}"/>
+                        <h:outputText value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.ViewProcesoTitle_procMateriaPrima}"/>
+                        <h:outputText value="#{bundle.ViewProcesoLabel_procProductoTerminado}"/>
+                        <h:outputText value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.ViewProcesoTitle_procProductoTerminado}"/>
+                        <h:outputText value="#{bundle.ViewProcesoLabel_procHabilitadoInterno}"/>
+                        <p:selectBooleanCheckbox value="#{procesoController.selected.procHabilitadoInterno}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewProcesoLabel_prodCodigo}"/>
+                        <h:outputText value="#{procesoController.selected.prodCodigo}" title="#{bundle.ViewProcesoTitle_prodCodigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ProcesoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUsuarioTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="UsuarioListForm">
+                <p:panel header="#{bundle.ListUsuarioTitle}">
+                    <p:dataTable id="datalist" value="#{usuarioController.items}" var="item"
+                                 paginator="true"
+                                 rowKey="#{item.usuId}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+
+                        <p:column filterBy="#{item.usuId}" sortBy="#{item.usuId}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsuarioTitle_usuId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuId}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.usuNombre}" sortBy="#{item.usuNombre}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsuarioTitle_usuNombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuNombre}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.usuApellido}" sortBy="#{item.usuApellido}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsuarioTitle_usuApellido}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuApellido}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.usuUsuario}" sortBy="#{item.usuUsuario}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsuarioTitle_usuUsuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuUsuario}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.rolId.rolDescripcion}" sortBy="#{item.rolId.rolDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsuarioTitle_rolId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rolId.rolDescripcion}"/>
+                        </p:column>
+                        <p:column  sortBy="#{item.rolHabilitado}" style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsuarioTitle_usuHabilitado}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.usuHabilitado}" disabled="true"/>
+                        </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Edit}"/>
+                            </f:facet>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" >
+                                <f:setPropertyActionListener value="#{item}" target="#{usuarioController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Delete}"/>
+                            </f:facet>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" action="#{usuarioController.destroy}" update=":growl,datalist">
+                                <f:setPropertyActionListener value="#{item}" target="#{usuarioController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

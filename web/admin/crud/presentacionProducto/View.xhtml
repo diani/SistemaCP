@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PresentacionProductoViewDlg" widgetVar="PresentacionProductoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPresentacionProductoTitle}">
+            <h:form id="PresentacionProductoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{presentacionProductoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPresentacionProductoLabel_preProdCodigo}"/>
+                        <h:outputText value="#{presentacionProductoController.selected.preProdCodigo}" title="#{bundle.ViewPresentacionProductoTitle_preProdCodigo}"/>
+                        <h:outputText value="#{bundle.ViewPresentacionProductoLabel_preProdDescripcion}"/>
+                        <h:outputText value="#{presentacionProductoController.selected.preProdDescripcion}" title="#{bundle.ViewPresentacionProductoTitle_preProdDescripcion}"/>
+                        <h:outputText value="#{bundle.ViewPresentacionProductoLabel_preProdHabilitado}"/>
+                        <p:selectBooleanCheckbox value="#{presentacionProductoController.selected.preProdHabilitado}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewPresentacionProductoLabel_preProdEquivalenciaPt}"/>
+                        <h:outputText value="#{presentacionProductoController.selected.preProdEquivalenciaPt}" title="#{bundle.ViewPresentacionProductoTitle_preProdEquivalenciaPt}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PresentacionProductoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

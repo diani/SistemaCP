@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PresentacionProductoCreateDlg" widgetVar="PresentacionProductoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePresentacionProductoTitle}">
+            <h:form id="PresentacionProductoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{presentacionProductoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdCodigo}" for="preProdCodigo" />
+                        <p:inputText id="preProdCodigo" value="#{presentacionProductoController.selected.preProdCodigo}" title="#{bundle.CreatePresentacionProductoTitle_preProdCodigo}" required="true" requiredMessage="#{bundle.CreatePresentacionProductoRequiredMessage_preProdCodigo}"/>
+                        <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdDescripcion}" for="preProdDescripcion" />
+                        <p:inputText id="preProdDescripcion" value="#{presentacionProductoController.selected.preProdDescripcion}" title="#{bundle.CreatePresentacionProductoTitle_preProdDescripcion}" />
+                        <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdHabilitado}" for="preProdHabilitado" />
+                        <p:selectBooleanCheckbox id="preProdHabilitado" value="#{presentacionProductoController.selected.preProdHabilitado}" />
+                        <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdEquivalenciaPt}" for="preProdEquivalenciaPt" />
+                        <p:inputText id="preProdEquivalenciaPt" value="#{presentacionProductoController.selected.preProdEquivalenciaPt}" title="#{bundle.CreatePresentacionProductoTitle_preProdEquivalenciaPt}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{presentacionProductoController.create}" value="#{bundle.Save}" update="display,:PresentacionProductoListForm:datalist,:growl" oncomplete="handleSubmit(args,'PresentacionProductoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PresentacionProductoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

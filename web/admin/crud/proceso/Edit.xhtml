@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProcesoEditDlg" widgetVar="ProcesoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditProcesoTitle}">
+            <h:form id="ProcesoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{procesoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" />
+                        <p:inputText id="procCodigo" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" required="true" requiredMessage="#{bundle.EditProcesoRequiredMessage_procCodigo}"/>
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
+                        <p:inputText id="procMateriaPrima" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
+                        <p:inputText id="procProductoTerminado" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procHabilitadoInterno}" for="procHabilitadoInterno" />
+                        <p:selectBooleanCheckbox id="procHabilitadoInterno" value="#{procesoController.selected.procHabilitadoInterno}" />
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
+                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" required="true" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
+                                           var="prodCodigoItem"
+                                           itemValue="#{prodCodigoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{procesoController.update}" value="#{bundle.Save}" update="display,:ProcesoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ProcesoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ProcesoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

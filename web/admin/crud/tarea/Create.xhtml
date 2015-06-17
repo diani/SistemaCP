@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TareaCreateDlg" widgetVar="TareaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTareaTitle}">
+            <h:form id="TareaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tareaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTareaLabel_tarCodigo}" for="tarCodigo" />
+                        <p:inputText id="tarCodigo" value="#{tareaController.selected.tarCodigo}" title="#{bundle.CreateTareaTitle_tarCodigo}" required="true" requiredMessage="#{bundle.CreateTareaRequiredMessage_tarCodigo}"/>
+                        <p:outputLabel value="#{bundle.CreateTareaLabel_tarDescripcion}" for="tarDescripcion" />
+                        <p:inputText id="tarDescripcion" value="#{tareaController.selected.tarDescripcion}" title="#{bundle.CreateTareaTitle_tarDescripcion}" />
+                        <p:outputLabel value="#{bundle.CreateTareaLabel_tarHabilitado}" for="tarHabilitado" />
+                        <p:selectBooleanCheckbox id="tarHabilitado" value="#{tareaController.selected.tarHabilitado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tareaController.create}" value="#{bundle.Save}" update="display,:TareaListForm:datalist,:growl" oncomplete="handleSubmit(args,'TareaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TareaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
