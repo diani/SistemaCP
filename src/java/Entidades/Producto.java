@@ -48,6 +48,9 @@ public class Producto implements Serializable {
     @Size(max = 255)
     @Column(name = "PROD_DESCRIPCION")
     private String prodDescripcion;
+    @Size(max = 255)
+    @Column(name = "PROD_IMAGEN")
+    private String prodImagen;
     @Column(name = "PROD_HABILITADO")
     private Boolean prodHabilitado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodCodigo")
@@ -86,6 +89,14 @@ public class Producto implements Serializable {
         this.prodDescripcion = prodDescripcion;
     }
 
+    public String getProdImagen() {
+        return prodImagen;
+    }
+
+    public void setProdImagen(String prodImagen) {
+        this.prodImagen = prodImagen;
+    }
+    
     public Boolean getProdHabilitado() {
         return prodHabilitado;
     }

@@ -3,6 +3,11 @@ package Controladores;
 import Entidades.Producto;
 import Controladores.util.JsfUtil;
 import Controladores.util.JsfUtil.PersistAction;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +22,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+import javax.faces.application.FacesMessage;
+import javax.servlet.ServletContext;
 
 @ManagedBean(name = "productoController")
 @SessionScoped
@@ -26,6 +35,15 @@ public class ProductoController implements Serializable {
     private Controladores.ProductoFacade ejbFacade;
     private List<Producto> items = null;
     private Producto selected;
+    private UploadedFile file;
+    
+     public UploadedFile getFile() {
+        return file;
+    }
+ 
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
 
     public ProductoController() {
     }
@@ -72,7 +90,33 @@ public class ProductoController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-
+    
+   public void uploadImage() {
+        if(file != null) {
+            try{
+                String newFileName = "C:\\Users\\diani\\Documents\\NetBeansProjects\\SistemaCP\\web\\resources\\imagenes\\productos\\" + file.getFileName();;  
+                FileOutputStream fos = new FileOutputStream(newFileName);
+                InputStream is = file.getInputstream();
+                int BUFFER_SIZE = 8192;
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int a;
+                while(true){
+                    a = is.read(buffer);
+                    if(a < 0) break;
+                    fos.write(buffer, 0, a);
+                    fos.flush();
+                }
+                fos.close();
+                is.close();
+                update();
+            }catch(IOException e){
+                System.out.print(e);
+            }
+            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+	
     public List<Producto> getItems() {
         if (items == null) {
             items = getFacade().findAll();
@@ -85,6 +129,8 @@ public class ProductoController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
+                    if(file != null)
+                        selected.setProdImagen("/resources/imagenes/productos/"+file.getFileName());
                     getFacade().edit(selected);
                 } else {
                     selected.setProdHabilitado(new Boolean(false));

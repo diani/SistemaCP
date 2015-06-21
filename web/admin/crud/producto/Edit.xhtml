@@ -9,7 +9,7 @@
     <ui:composition>
 
         <p:dialog id="ProductoEditDlg" widgetVar="ProductoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditProductoTitle}">
-            <h:form id="ProductoEditForm">
+            <h:form id="ProductoEditForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{productoController.selected != null}">
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodCodigo}" for="prodCodigo" />
@@ -18,11 +18,14 @@
                         <p:inputText id="prodCodigoAux" required="true" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.EditProductoTitle_prodCodigoAux}" />
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodDescripcion}" for="prodDescripcion" />
                         <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.EditProductoTitle_prodDescripcion}" />
+                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagen}" for="prodImagen" />
+                        <p:fileUpload id="prodImagen" value="#{productoController.file}" mode="simple" update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodHabilitado}" for="prodHabilitado" />
                         <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{productoController.update}" value="#{bundle.Save}" update="display,:ProductoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ProductoEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ProductoEditDialog.hide()"/>
+                    <p:commandButton value="guardarImagen" action="#{productoController.uploadImage()}" ajax="false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

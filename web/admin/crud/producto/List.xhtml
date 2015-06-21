@@ -23,8 +23,8 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="createButton editButton deleteButton imagenButton"/>
+                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton imagenButton"/>
 
                         <p:column filterBy="#{item.prodCodigo}" sortBy="#{item.prodCodigo}">
                             <f:facet name="header">
@@ -66,12 +66,26 @@
                                 <f:setPropertyActionListener value="#{item}" target="#{productoController.selected}" />
                             </p:commandButton>
                         </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.foto}"/>
+                            </f:facet>
+                            <p:commandButton id="imagenButton" value="#{bundle.foto}" disabled="#{item.prodImagen == null}" update=":ProductoImagenForm" oncomplete="PF('ProductoImagenDialog').show()">
+                                <f:setPropertyActionListener value="#{item}" target="#{productoController.selected}" />
+                            </p:commandButton>
+                        </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{productoController.prepareCreate}" update=":ProductoCreateForm" oncomplete="PF('ProductoCreateDialog').show()"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"  value="#{bundle.Create}" actionListener="#{productoController.prepareCreate}" update=":ProductoCreateForm" oncomplete="PF('ProductoCreateDialog').show()"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
             </h:form>
+            
+            <p:dialog id="ProductoImagenDlg" widgetVar="ProductoImagenDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditProductoTitle}">
+                <h:form id="ProductoImagenForm" enctype="multipart/form-data">
+                    <img width="350px" height="350px" src="#{facesContext.externalContext.requestContextPath}#{productoController.selected.prodImagen}" />
+                </h:form>
+            </p:dialog>
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
