@@ -21,9 +21,7 @@
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodHabilitado}" for="prodHabilitado" />
                         <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton action="#{productoController.create}" value="#{bundle.Save}" update="display,:ProductoListForm:datalist,:growl" oncomplete="handleSubmit(args,'ProductoCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ProductoCreateDialog.hide()" /> 
-                    <p:commandButton value="guardarImagen" action="#{productoController.uploadImage()}" ajax="false"/>
+                    <p:commandButton value="#{bundle.Save}" action="#{productoController.uploadImage('create')}" ajax="false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

@@ -91,8 +91,8 @@ public class ProductoController implements Serializable {
         }
     }
     
-   public void uploadImage() {
-        if(file != null) {
+   public void uploadImage(String accion) {
+        if(file != null && file.getSize() != 0L) {
             try{
                 String newFileName = "C:\\Users\\diani\\Documents\\NetBeansProjects\\SistemaCP\\web\\resources\\imagenes\\productos\\" + file.getFileName();;  
                 FileOutputStream fos = new FileOutputStream(newFileName);
@@ -108,13 +108,16 @@ public class ProductoController implements Serializable {
                 }
                 fos.close();
                 is.close();
-                update();
             }catch(IOException e){
-                System.out.print(e);
+                FacesMessage message = new FacesMessage("La imagen", file.getFileName() + " No ha sido guardada");
+                FacesContext.getCurrentInstance().addMessage(null, message);
             }
-            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
         }
+               if(accion.equals("create")){
+                create();
+            }else{
+                update();    
+            }
     }
 	
     public List<Producto> getItems() {
@@ -129,7 +132,7 @@ public class ProductoController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    if(file != null)
+                    if(file != null && file.getSize() != 0)
                         selected.setProdImagen("/resources/imagenes/productos/"+file.getFileName());
                     getFacade().edit(selected);
                 } else {

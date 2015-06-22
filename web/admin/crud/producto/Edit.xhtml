@@ -20,15 +20,19 @@
                         <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.EditProductoTitle_prodDescripcion}" />
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagen}" for="prodImagen" />
                         <p:fileUpload id="prodImagen" value="#{productoController.file}" mode="simple" update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagenVer}" />
+                        <p:commandButton id="imagenButton" value="#{bundle.foto}" disabled="#{productoController.selected.prodImagen == null}" update=":ProductoImagenForm" oncomplete="PF('ProductoImagenDialog').show()"/>
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodHabilitado}" for="prodHabilitado" />
                         <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{productoController.update}" value="#{bundle.Save}" update="display,:ProductoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ProductoEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ProductoEditDialog.hide()"/>
-                    <p:commandButton value="guardarImagen" action="#{productoController.uploadImage()}" ajax="false"/>
+                    <p:commandButton value="#{bundle.Save}" action="#{productoController.uploadImage('edit')}" ajax="false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
+        <p:dialog id="ProductoImagenDlg" widgetVar="ProductoImagenDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ImagenProductoTitle}">
+            <h:form id="ProductoImagenForm" enctype="multipart/form-data">
+                <img width="350px" height="350px" src="#{facesContext.externalContext.requestContextPath}#{productoController.selected.prodImagen}" />
+            </h:form>
+        </p:dialog>
     </ui:composition>
 </html>
