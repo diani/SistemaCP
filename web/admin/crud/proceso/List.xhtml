@@ -26,32 +26,32 @@
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column filterBy="#{item.procCodigo}" sortBy="#{item.procCodigo}">
+                        <p:column filterBy="#{item.procCodigo}" sortBy="#{item.procCodigo}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.procCodigo}"/>
                         </p:column>
-                        <p:column filterBy="#{item.prodCodigo}" sortBy="#{item.prodCodigo}">
+                        <p:column filterBy="#{item.prodCodigo}" sortBy="#{item.prodCodigo}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_prodCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.prodCodigo.prodDescripcion}"/>
                         </p:column>
-                        <p:column filterBy="#{item.procMateriaPrima}" sortBy="#{item.procMateriaPrima}">
+                        <p:column filterBy="#{item.procMateriaPrima}" sortBy="#{item.procMateriaPrima}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procMateriaPrima}"/>
                             </f:facet>
                             <h:outputText value="#{item.procMateriaPrima}"/>
                         </p:column>
-                        <p:column filterBy="#{item.procProductoTerminado}" sortBy="#{item.procProductoTerminado}">
+                        <p:column filterBy="#{item.procProductoTerminado}" sortBy="#{item.procProductoTerminado}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procProductoTerminado}"/>
                             </f:facet>
                             <h:outputText value="#{item.procProductoTerminado}"/>
                         </p:column>
                          
-                        <p:column filterBy="#{item.procHabilitadoInterno}" style="text-align: center">
+                        <p:column style="text-align: center" sortBy="#{item.procHabilitadoInterno}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_procHabilitadoInterno}"/>
                             </f:facet>

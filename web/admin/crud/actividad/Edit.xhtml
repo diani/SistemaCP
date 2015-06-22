@@ -20,7 +20,6 @@
                         <p:selectBooleanCheckbox id="actHabilitado" value="#{actividadController.selected.actHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{actividadController.update}" value="#{bundle.Save}" update="display,:ActividadListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ActividadEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ActividadEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

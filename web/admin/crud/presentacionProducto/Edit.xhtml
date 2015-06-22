@@ -22,7 +22,6 @@
                         <p:inputText id="preProdEquivalenciaPt" required="true" value="#{presentacionProductoController.selected.preProdEquivalenciaPt}" title="#{bundle.EditPresentacionProductoTitle_preProdEquivalenciaPt}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{presentacionProductoController.update}" value="#{bundle.Save}" update="display,:PresentacionProductoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PresentacionProductoEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="PresentacionProductoEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

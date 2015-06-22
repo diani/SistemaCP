@@ -26,25 +26,25 @@
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column filterBy="#{item.uniMpCodigo}" sortBy="#{item.uniMpCodigo}">
+                        <p:column filterBy="#{item.uniMpCodigo}" sortBy="#{item.uniMpCodigo}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUnidadesMpTitle_uniMpCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.uniMpCodigo}"/>
                         </p:column>
-                        <p:column filterBy="#{item.uniMpDescripcion}" sortBy="#{item.uniMpDescripcion}">
+                        <p:column filterBy="#{item.uniMpDescripcion}" sortBy="#{item.uniMpDescripcion}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUnidadesMpTitle_uniMpDescripcion}"/>
                             </f:facet>
                             <h:outputText value="#{item.uniMpDescripcion}"/>
                         </p:column>
-                         <p:column filterBy="#{item.uniMpEquivalenciaMp}" sortBy="#{item.uniMpEquivalenciaMp}">
+                         <p:column filterBy="#{item.uniMpEquivalenciaMp}" sortBy="#{item.uniMpEquivalenciaMp}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUnidadesMpTitle_uniMpEquivalenciaMp}"/>
                             </f:facet>
                             <h:outputText value="#{item.uniMpEquivalenciaMp}"/>
                         </p:column>
-                        <p:column filterBy="#{item.uniMpHabilitado}" style="text-align: center">
+                        <p:column sortBy="#{item.uniMpHabilitado}" style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUnidadesMpTitle_uniMpHabilitado}"/>
                             </f:facet>

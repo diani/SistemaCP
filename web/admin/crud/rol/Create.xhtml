@@ -18,7 +18,6 @@
                         <p:selectBooleanCheckbox id="rolHabilitado" value="#{rolController.selected.rolHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{rolController.create}" value="#{bundle.Save}" update="display,:RolListForm:datalist,:growl" oncomplete="handleSubmit(args,'RolCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="RolCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

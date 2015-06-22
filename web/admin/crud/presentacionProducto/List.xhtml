@@ -26,29 +26,29 @@
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column filterBy="#{item.preProdCodigo}" sortBy="#{item.preProdCodigo}">
+                        <p:column filterBy="#{item.preProdCodigo}" sortBy="#{item.preProdCodigo}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.preProdCodigo}"/>
                         </p:column>
-                        <p:column filterBy="#{item.preProdDescripcion}" sortBy="#{item.preProdDescripcion}">
+                        <p:column filterBy="#{item.preProdDescripcion}" sortBy="#{item.preProdDescripcion}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdDescripcion}"/>
                             </f:facet>
                             <h:outputText value="#{item.preProdDescripcion}"/>
                         </p:column>
-                        <p:column filterBy="#{item.preProdHabilitado}" style="text-align: center">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdHabilitado}"/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.preProdHabilitado}" disabled="true"/>
-                        </p:column>
-                        <p:column filterBy="#{item.preProdEquivalenciaPt}" sortBy="#{item.preProdEquivalenciaPt}">
+                        <p:column filterBy="#{item.preProdEquivalenciaPt}" sortBy="#{item.preProdEquivalenciaPt}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdEquivalenciaPt}"/>
                             </f:facet>
                             <h:outputText value="#{item.preProdEquivalenciaPt}"/>
+                        </p:column>
+                        <p:column style="text-align: center" sortBy="#{item.preProdHabilitado}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPresentacionProductoTitle_preProdHabilitado}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.preProdHabilitado}" disabled="true"/>
                         </p:column>
                         <p:column style="text-align: center">
                             <f:facet name="header">

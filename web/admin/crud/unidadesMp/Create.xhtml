@@ -20,7 +20,6 @@
                         <p:selectBooleanCheckbox id="uniMpHabilitado" value="#{unidadesMpController.selected.uniMpHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{unidadesMpController.create}" value="#{bundle.Save}" update="display,:UnidadesMpListForm:datalist,:growl" oncomplete="handleSubmit(args,'UnidadesMpCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="UnidadesMpCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

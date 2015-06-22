@@ -18,7 +18,6 @@
                         <p:selectBooleanCheckbox id="tarHabilitado" value="#{tareaController.selected.tarHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tareaController.create}" value="#{bundle.Save}" update="display,:TareaListForm:datalist,:growl" oncomplete="handleSubmit(args,'TareaCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="TareaCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

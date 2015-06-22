@@ -27,7 +27,6 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{procesoController.create}" value="#{bundle.Save}" update="display,:ProcesoListForm:datalist,:growl" oncomplete="handleSubmit(args,'ProcesoCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ProcesoCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

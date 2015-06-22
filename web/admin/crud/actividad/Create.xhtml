@@ -18,7 +18,6 @@
                         <p:selectBooleanCheckbox id="actHabilitado" value="#{actividadController.selected.actHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{actividadController.create}" value="#{bundle.Save}" update="display,:ActividadListForm:datalist,:growl" oncomplete="handleSubmit(args,'ActividadCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ActividadCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

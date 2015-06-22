@@ -30,7 +30,6 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{procesoController.update}" value="#{bundle.Save}" update="display,:ProcesoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ProcesoEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ProcesoEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

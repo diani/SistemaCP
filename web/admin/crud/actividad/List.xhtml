@@ -26,19 +26,19 @@
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column filterBy="#{item.actCodigo}" sortBy="#{item.actCodigo}">
+                        <p:column filterBy="#{item.actCodigo}" sortBy="#{item.actCodigo}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListActividadTitle_actCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.actCodigo}"/>
                         </p:column>
-                        <p:column filterBy="#{item.actDescripcion}" sortBy="#{item.actDescripcion}">
+                        <p:column filterBy="#{item.actDescripcion}" sortBy="#{item.actDescripcion}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListActividadTitle_actDescripcion}"/>
                             </f:facet>
                             <h:outputText value="#{item.actDescripcion}"/>
                         </p:column>
-                        <p:column filterBy="#{item.actHabilitado}" style="text-align: center">
+                        <p:column style="text-align: center" sortBy="#{item.actHabilitado}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListActividadTitle_actHabilitado}"/>
                             </f:facet>

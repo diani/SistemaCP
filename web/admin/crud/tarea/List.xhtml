@@ -26,19 +26,19 @@
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column filterBy="#{item.tarCodigo}" sortBy="#{item.tarCodigo}">
+                        <p:column filterBy="#{item.tarCodigo}" sortBy="#{item.tarCodigo}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTareaTitle_tarCodigo}"/>
                             </f:facet>
                             <h:outputText value="#{item.tarCodigo}"/>
                         </p:column>
-                        <p:column filterBy="#{item.tarDescripcion}" sortBy="#{item.tarDescripcion}">
+                        <p:column filterBy="#{item.tarDescripcion}" sortBy="#{item.tarDescripcion}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTareaTitle_tarDescripcion}"/>
                             </f:facet>
                             <h:outputText value="#{item.tarDescripcion}"/>
                         </p:column>
-                        <p:column filterBy="#{item.tarHabilitado}" style="text-align: center">
+                        <p:column style="text-align: center" sortBy="#{item.tarHabilitado}">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTareaTitle_tarHabilitado}"/>
                             </f:facet>
