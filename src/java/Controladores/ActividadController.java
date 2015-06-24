@@ -117,7 +117,7 @@ public class ActividadController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Actividad.class)
+    @FacesConverter("ActividadControllerConverter")
     public static class ActividadControllerConverter implements Converter {
 
         @Override

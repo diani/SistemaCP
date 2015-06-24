@@ -21,7 +21,7 @@
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!procesoController.crear}"/>
                         <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}"/>
                         <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
-                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" required="true" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
+                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="prodCodigoItem"
@@ -33,16 +33,85 @@
                         <br/>
                     <p:panelGrid id="tabla2" columns="6">
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
-                        <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
+                        <p:inputText id="procMateriaPrima" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
-                        <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
+                        <p:inputText id="procProductoTerminado" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procHabilitadoInterno}" for="procHabilitadoInterno" />
                         <p:selectBooleanCheckbox id="procHabilitadoInterno" value="#{procesoController.selected.procHabilitadoInterno}" />
                     </p:panelGrid>
+                        
+                        
+                        <p:dataTable id="datalistPA" value="#{procesoController.selected.procesoPorActividadList}" var="pa"
+                                 paginator="true"
+                                 rowKey="#{pa.procActCodigo}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rowIndexVar="rowpa"
+                                 editable="true" 
+                                 editMode="cell" 
+                                 widgetVar="PAObjecto"
+                                 >
+                        <p:ajax event="cellEdit" listener="#{procesoController.onCellEdit}" update=":growl" />
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nro"/>
+                            </f:facet>
+                            #{rowpa+1}
+                        </p:column>
+                        <p:column filterBy="#{pa.actCodigo.actDescripcion}" sortBy="#{pa.actCodigo.actDescripcion}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="Actividad"/>
+                            </f:facet>
+                            <h:outputText value="#{pa.actCodigo.actDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Orden" filterBy="#{pa.procActOrden}" sortBy="#{pa.procActOrden}">
+                               <p:cellEditor>
+                                   <f:facet name="output"><h:outputText value="#{pa.procActOrden}" /></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{pa.procActOrden}" style="width:96%"/></f:facet>
+                               </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Tiempo" sortBy="#{pa.procActTiempo}">
+                               <p:cellEditor>
+                                   <f:facet name="output"><h:outputText value="#{pa.procActTiempo}" /></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{pa.procActTiempo}" style="width:96%"/></f:facet>
+                               </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Nro Personas" sortBy="#{pa.procActNumPersonas}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{pa.procActNumPersonas}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{pa.procActNumPersonas}" style="width:96%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+ 
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{procesoController.abrirActividades}" update="ActividadForm:PojoPickList"/>
+                        </f:facet>
+                    </p:dataTable>
                     </div>
                 </p:panel>
             </h:form>
+            <p:dialog id="ActividadDlg" widgetVar="ActividadDialog" modal="true" resizable="false" appendTo="@(body)" header="Actividad">
+                <h:form id="ActividadForm">
+                    <p:pickList id="PojoPickList" value="#{procesoController.actividades}" var="actividad" effect="bounce"
+                                itemValue="#{actividad}" itemLabel="#{actividad.actDescripcion}" showSourceControls="true" showTargetControls="true" showCheckbox="true"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="ActividadControllerConverter">
 
+                        <f:facet name="sourceCaption">Actividades Disponibles</f:facet>
+                        <f:facet name="targetCaption">Actividades Seleccionadas</f:facet>
+
+                        <p:column style="width:75%;">
+                            <h:outputText value="#{actividad.actDescripcion}" />
+                        </p:column>
+                    </p:pickList>
+                    <div align="center">
+                        <p:commandButton id="guardarActButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{procesoController.enviarActividades()}" update="CrearProcesoForm:datalistPA"/>
+                    </div>
+                </h:form>
+            </p:dialog>
          
         </ui:define>
     </ui:composition>

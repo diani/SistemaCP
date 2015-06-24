@@ -7,12 +7,17 @@ package Controladores;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 
 /**
  *
  * @author diani
  */
 public abstract class AbstractFacade<T> {
+    @PersistenceContext
+    private EntityManager entityManager;
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -58,6 +63,26 @@ public abstract class AbstractFacade<T> {
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
+    }
+    
+    public List<T> findByParameters(String query, Object... args)
+			throws Exception {
+        try {
+            final Query q = this.entityManager.createQuery(query);
+
+            if (args != null) {
+                    int position = 1;
+                    for (Object obj : args) {
+                            q.setParameter(position++, obj);
+                    }
+            }
+            q.setMaxResults(100);
+            @SuppressWarnings("unchecked")
+            final List<T> result = q.getResultList();
+            return result;
+        } catch (final Exception e) {
+                throw new Exception(e);
+        }
     }
     
 }

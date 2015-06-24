@@ -5,8 +5,7 @@
  */
 package Controladores;
 
-import Entidades.Proceso;
-import java.util.List;
+import Entidades.ProcesoPorActividad;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,8 +15,8 @@ import javax.persistence.PersistenceContext;
  * @author diani
  */
 @Stateless
-public class ProcesoFacade extends AbstractFacade<Proceso> {
-    @PersistenceContext(unitName = "SistemaCPPU")
+public class ProcesoPorActividadFacade extends AbstractFacade<ProcesoPorActividad> {
+     @PersistenceContext(unitName = "SistemaCPPU")
     private EntityManager em;
 
     @Override
@@ -25,16 +24,7 @@ public class ProcesoFacade extends AbstractFacade<Proceso> {
         return em;
     }
 
-    public ProcesoFacade() {
-        super(Proceso.class);
+    public ProcesoPorActividadFacade() {
+        super(ProcesoPorActividad.class);
     }
-    
-    public List<Proceso> buscarTodosPorHabiltiado(Boolean habilitado) {
-        try {
-                return findByParameters("from Proceso p where p.procHabilitadoInterno = ?1", habilitado);
-        } catch (Exception e) {
-                return null;
-        }
-    }
-
 }

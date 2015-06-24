@@ -32,7 +32,7 @@
                             </f:facet>
                             <h:outputText value="#{item.procCodigo}"/>
                         </p:column>
-                        <p:column filterBy="#{item.prodCodigo}" sortBy="#{item.prodCodigo}" filterMatchMode="contains">
+                        <p:column filterBy="#{item.prodCodigo.prodDescripcion}" sortBy="#{item.prodCodigo.prodDescripcion}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProcesoTitle_prodCodigo}"/>
                             </f:facet>

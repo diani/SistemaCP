@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.Actividad;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,4 +29,11 @@ public class ActividadFacade extends AbstractFacade<Actividad> {
         super(Actividad.class);
     }
     
+    public List<Actividad> actividadeshabilitadas(Boolean habilitado){
+        try {
+                return findByParameters("from Actividad ac where ac.actHabilitado = ?1", habilitado);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }

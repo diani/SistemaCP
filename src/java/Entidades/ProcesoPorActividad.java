@@ -46,8 +46,7 @@ public class ProcesoPorActividad implements Serializable {
     @Column(name = "PROC_ACT_CODIGO")
     private Integer procActCodigo;
     @Column(name = "PROC_ACT_TIEMPO")
-    @Temporal(TemporalType.TIME)
-    private Date procActTiempo;
+    private Float procActTiempo;
     @Column(name = "PROC_ACT_NUM_PERSONAS")
     private Integer procActNumPersonas;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procesoPorActividad")
@@ -58,6 +57,24 @@ public class ProcesoPorActividad implements Serializable {
     @JoinColumn(name = "PROC_CODIGO", referencedColumnName = "PROC_CODIGO")
     @ManyToOne(optional = false)
     private Proceso procCodigo;
+    @Column(name = "PROC_ACT_ORDEN")
+    private Integer procActOrden;
+
+    public Float getProcActTiempo() {
+        return procActTiempo;
+    }
+
+    public void setProcActTiempo(Float procActTiempo) {
+        this.procActTiempo = procActTiempo;
+    }
+
+    public Integer getProcActOrden() {
+        return procActOrden;
+    }
+
+    public void setProcActOrden(Integer procActOrden) {
+        this.procActOrden = procActOrden;
+    }
 
     public ProcesoPorActividad() {
     }
@@ -72,14 +89,6 @@ public class ProcesoPorActividad implements Serializable {
 
     public void setProcActCodigo(Integer procActCodigo) {
         this.procActCodigo = procActCodigo;
-    }
-
-    public Date getProcActTiempo() {
-        return procActTiempo;
-    }
-
-    public void setProcActTiempo(Date procActTiempo) {
-        this.procActTiempo = procActTiempo;
     }
 
     public Integer getProcActNumPersonas() {
