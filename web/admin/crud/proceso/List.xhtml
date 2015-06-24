@@ -61,7 +61,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ProcesoEditForm" oncomplete="PF('ProcesoEditDialog').show()">
+                           <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" action="#{procesoController.editarProceso}" >
                                 <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
                             </p:commandButton>
                         </p:column>
@@ -74,7 +74,7 @@
                             </p:commandButton>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{procesoController.prepareCreate}" update=":ProcesoCreateForm" oncomplete="PF('ProcesoCreateDialog').show()"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{procesoController.crearProceso}" />
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

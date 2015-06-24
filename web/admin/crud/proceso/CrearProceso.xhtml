@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CrearProcesoTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="CrearProcesoForm">
+                <p:panel header="#{bundle.CrearProcesoTitle}">
+                    <div align="center">
+                    <p:panelGrid id="tabla1" columns="4" >
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!procesoController.crear}"/>
+                        <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}"/>
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
+                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" required="true" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
+                                           var="prodCodigoItem"
+                                           itemValue="#{prodCodigoItem}"
+                                           itemLabel="#{prodCodigoItem.prodDescripcion}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>   
+                        <br/>
+                        <br/>
+                    <p:panelGrid id="tabla2" columns="6">
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
+                        <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
+                        <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
+                        <p:outputLabel value="#{bundle.EditProcesoLabel_procHabilitadoInterno}" for="procHabilitadoInterno" />
+                        <p:selectBooleanCheckbox id="procHabilitadoInterno" value="#{procesoController.selected.procHabilitadoInterno}" />
+                    </p:panelGrid>
+                    </div>
+                </p:panel>
+            </h:form>
+
+         
+        </ui:define>
+    </ui:composition>
+
+</html>

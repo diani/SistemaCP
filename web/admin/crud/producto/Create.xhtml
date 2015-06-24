@@ -13,9 +13,9 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{productoController.selected != null}">
                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodCodigoAux}" for="prodCodigoAux" />
-                        <p:inputText id="prodCodigoAux" required="true" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.CreateProductoTitle_prodCodigoAux}" />
+                       <p:inputText id="prodCodigoAux" required="true" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.CreateProductoTitle_prodCodigoAux}" requiredMessage="#{bundle.MensajeCodAux}"/>
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodDescripcion}" for="prodDescripcion" />
-                        <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.CreateProductoTitle_prodDescripcion}" />
+                        <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.CreateProductoTitle_prodDescripcion}" requiredMessage="#{bundle.MensajeProducto}"/>
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagen}" for="prodImagen" />
                         <p:fileUpload id="prodImagen" value="#{productoController.file}"  mode="simple"  update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodHabilitado}" for="prodHabilitado" />

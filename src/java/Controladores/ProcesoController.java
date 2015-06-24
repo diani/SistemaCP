@@ -26,6 +26,9 @@ public class ProcesoController implements Serializable {
     private Controladores.ProcesoFacade ejbFacade;
     private List<Proceso> items = null;
     private Proceso selected;
+    private Boolean crear;
+
+ 
 
     public ProcesoController() {
     }
@@ -52,6 +55,17 @@ public class ProcesoController implements Serializable {
         selected = new Proceso();
         initializeEmbeddableKey();
         return selected;
+    }
+    
+    public String editarProceso(){
+        crear = false;
+        return "/admin/crud/proceso/CrearProceso.xhtml";
+    }
+    
+    public String crearProceso(){
+        selected =  new Proceso();
+        crear = true;
+        return "/admin/crud/proceso/CrearProceso.xhtml";
     }
 
     public void create() {
@@ -115,6 +129,14 @@ public class ProcesoController implements Serializable {
 
     public List<Proceso> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+    
+    public Boolean getCrear() {
+        return crear;
+    }
+
+    public void setCrear(Boolean crear) {
+        this.crear = crear;
     }
 
     @FacesConverter(forClass = Proceso.class)
