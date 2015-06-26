@@ -50,10 +50,10 @@ public class ProcesoController implements Serializable {
     private Controladores.ActividadPorTareaFacade ejbActTarFacade;
     
     private List<Proceso> items = null;
-    private Proceso selected;
+    private Proceso selected; //proceso seleccionado
     private Boolean crear;
-    private ProcesoPorActividad selectedPA;
-    private ActividadPorTarea selectedAT;
+    private ProcesoPorActividad selectedPA; // proceso por atividad seleccionado
+    private ActividadPorTarea selectedAT; // actividad por tarea seleccionado
     private List<Actividad> actizq = new ArrayList<Actividad>();
     private List<Actividad> actder = new ArrayList<Actividad>();
     private DualListModel<Actividad> actividades = new DualListModel<Actividad>(actizq,actder);
@@ -67,16 +67,21 @@ public class ProcesoController implements Serializable {
     }
     
     public void abrirArbol(){
+        selected = getFacade().find(selected.getProcCodigo());
+        selected.setProcesoPorActividadList(ejbProcActFacade.buscarListaDeProcesosActivdadPorProceso(selected));
+        for(ProcesoPorActividad proActAux : selected.getProcesoPorActividadList()){
+            proActAux.setActividadPorTareaListTransient(ejbActTarFacade.buscarListaDeActividadesPorTareaPorProcesoPorActividad(proActAux));
+        }
         if(selected.getProdCodigo() != null){
             arbolProceso = new DefaultTreeNode(selected.getProdCodigo().getProdDescripcion(), null);
             if(selected.getProcesoPorActividadList() != null && !selected.getProcesoPorActividadList().isEmpty()){
                 TreeNode[] actividadesHijo = new TreeNode[selected.getProcesoPorActividadList().size()];
                 for (int i = 0; i < actividadesHijo.length; i++) {
                     actividadesHijo[i]=new DefaultTreeNode(selected.getProcesoPorActividadList().get(i).getActCodigo().getActDescripcion(), arbolProceso);
-                    if(selected.getProcesoPorActividadList().get(i).getActividadPorTareaList() != null && !selected.getProcesoPorActividadList().get(i).getActividadPorTareaList().isEmpty()){
-                       TreeNode[] tareasHijo = new TreeNode[selected.getProcesoPorActividadList().get(i).getActividadPorTareaList().size()];
+                    if(selected.getProcesoPorActividadList().get(i).getActividadPorTareaListTransient()!= null && !selected.getProcesoPorActividadList().get(i).getActividadPorTareaListTransient().isEmpty()){
+                       TreeNode[] tareasHijo = new TreeNode[selected.getProcesoPorActividadList().get(i).getActividadPorTareaListTransient().size()];
                        for (int y = 0; y < tareasHijo.length; y++) {   
-                           tareasHijo[y]=new DefaultTreeNode(selected.getProcesoPorActividadList().get(i).getActividadPorTareaList().get(y).getTarea().getTarDescripcion(), actividadesHijo[i]);
+                           tareasHijo[y]=new DefaultTreeNode(selected.getProcesoPorActividadList().get(i).getActividadPorTareaListTransient().get(y).getTarea().getTarDescripcion(), actividadesHijo[i]);
                        }
                     }
                 }
@@ -111,6 +116,11 @@ public class ProcesoController implements Serializable {
     }
     
     public String editarProceso(){
+        selected = getFacade().find(selected.getProcCodigo());
+        selected.setProcesoPorActividadList(ejbProcActFacade.buscarListaDeProcesosActivdadPorProceso(selected));
+        for(ProcesoPorActividad proActAux : selected.getProcesoPorActividadList()){
+            proActAux.setActividadPorTareaListTransient(ejbActTarFacade.buscarListaDeActividadesPorTareaPorProcesoPorActividad(proActAux));
+        }
         crear = false;
         productos = ejbProdFacade.lstProductosHabilitados(true);
         return "/admin/crud/proceso/CrearProceso.xhtml";
@@ -128,15 +138,6 @@ public class ProcesoController implements Serializable {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProcesoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
-        }
-        for(ProcesoPorActividad proAct : selected.getProcesoPorActividadList()){
-            if(proAct.getActividadPorTareaListTransient() != null && !proAct.getActividadPorTareaListTransient().isEmpty()){
-                for(ActividadPorTarea actTar : proAct.getActividadPorTareaListTransient()){
-                    proAct = ejbProcActFacade.buscarPorProcesoyActividad(selected, proAct.getActCodigo());
-                    actTar.getActividadPorTareaPK().setProcActCodigo(proAct.getProcActCodigo());
-                    ejbActTarFacade.merge(actTar);
-                }
-            }
         }
         selected = new Proceso();
         selectedPA = new ProcesoPorActividad();
@@ -177,10 +178,48 @@ public class ProcesoController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
+                    List<ProcesoPorActividad> lstActividadesDelProcesoTemporal = null;
+                    
+                    //quito la lista de procesos por Actividad de mi proceso seleccionado
+                    if(selected.getProcesoPorActividadList() != null && !selected.getProcesoPorActividadList().isEmpty()){
+                        lstActividadesDelProcesoTemporal = selected.getProcesoPorActividadList();
+                        selected.setProcesoPorActividadList(null);
+                    }
+                    
+                    //guardo mi proceso sin listas
                     if (selected.getProcCodigo() == null) {
-                        selected = getFacade().persist(selected);
+                        selected = getFacade().persist(selected); //cuando no existe en la base (crear)
                     }else{
-                        selected = getFacade().merge(selected);
+                        selected = getFacade().merge(selected); // cuando ya existe en la base (editar)
+                    }
+                    
+                    
+                    //guardo la lista de procesos por actividad
+                    if(lstActividadesDelProcesoTemporal != null && !lstActividadesDelProcesoTemporal.isEmpty()){
+                        for(ProcesoPorActividad procActiAux : lstActividadesDelProcesoTemporal){
+                            procActiAux.setActividadPorTareaList(null);
+                            if(procActiAux.getProcActCodigo() == null){
+                                ejbProcActFacade.persist(procActiAux);
+                            }else{
+                                ejbProcActFacade.merge(procActiAux);
+                            }
+                            
+                            //guardar cada elemento de Activad por tarea pertenciente al ProActiAux 
+                            if(procActiAux.getActividadPorTareaListTransient() != null && !procActiAux.getActividadPorTareaListTransient().isEmpty()){
+                                for(ActividadPorTarea actTar : procActiAux.getActividadPorTareaListTransient()){
+                                    Boolean guardar = true;
+                                    if(actTar.getActividadPorTareaPK().getProcActCodigo() != 0){
+                                        guardar = false;
+                                    }
+                                    if(guardar){
+                                        actTar.getActividadPorTareaPK().setProcActCodigo(procActiAux.getProcActCodigo());
+                                        ejbActTarFacade.persist(actTar);
+                                    }else{
+                                        ejbActTarFacade.merge(actTar);
+                                    }
+                                }
+                            }
+                        }
                     }
                     
                 } else {
@@ -311,6 +350,13 @@ public class ProcesoController implements Serializable {
             selected.getProcesoPorActividadList().remove(selectedPA);
         }else{
             selected.getProcesoPorActividadList().remove(selectedPA);
+            if(selectedPA.getActividadPorTareaListTransient() != null && !selectedPA.getActividadPorTareaListTransient().isEmpty()){
+               for(ActividadPorTarea actTarAux : selectedPA.getActividadPorTareaListTransient()){
+                   if(actTarAux.getActividadPorTareaPK().getProcActCodigo() != 0){
+                       ejbActTarFacade.remove(actTarAux);
+                   }
+               } 
+            }
             ejbProcActFacade.remove(selectedPA);
         }
     }

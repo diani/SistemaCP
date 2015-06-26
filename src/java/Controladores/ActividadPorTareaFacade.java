@@ -6,6 +6,8 @@
 package Controladores;
 
 import Entidades.ActividadPorTarea;
+import Entidades.ProcesoPorActividad;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,5 +27,13 @@ public class ActividadPorTareaFacade extends AbstractFacade<ActividadPorTarea>{
 
     public ActividadPorTareaFacade() {
         super(ActividadPorTarea.class);
+    }
+    
+    public List<ActividadPorTarea> buscarListaDeActividadesPorTareaPorProcesoPorActividad (ProcesoPorActividad procesoPorActividad){
+        try {
+                return findByParameters("from ActividadPorTarea at where at.procesoPorActividad.procActCodigo = ?1", procesoPorActividad.getProcActCodigo());
+        } catch (Exception e) {
+                return null;
+        }
     }
 }

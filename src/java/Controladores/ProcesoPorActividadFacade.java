@@ -38,4 +38,12 @@ public class ProcesoPorActividadFacade extends AbstractFacade<ProcesoPorActivida
                 return null;
         }
     }
+    
+    public List<ProcesoPorActividad> buscarListaDeProcesosActivdadPorProceso (Proceso proceso){
+        try {
+                return findByParameters("from ProcesoPorActividad p where p.procCodigo.procCodigo = ?1", proceso.getProcCodigo());
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }
