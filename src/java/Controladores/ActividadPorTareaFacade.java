@@ -31,7 +31,7 @@ public class ActividadPorTareaFacade extends AbstractFacade<ActividadPorTarea>{
     
     public List<ActividadPorTarea> buscarListaDeActividadesPorTareaPorProcesoPorActividad (ProcesoPorActividad procesoPorActividad){
         try {
-                return findByParameters("from ActividadPorTarea at where at.procesoPorActividad.procActCodigo = ?1", procesoPorActividad.getProcActCodigo());
+                return findByParameters("from ActividadPorTarea at where at.procesoPorActividad.procActCodigo = ?1 order by at.actTarOrden asc", procesoPorActividad.getProcActCodigo());
         } catch (Exception e) {
                 return null;
         }
