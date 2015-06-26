@@ -27,13 +27,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ActividadPorTarea.findAll", query = "SELECT a FROM ActividadPorTarea a"),
     @NamedQuery(name = "ActividadPorTarea.findByProcActCodigo", query = "SELECT a FROM ActividadPorTarea a WHERE a.actividadPorTareaPK.procActCodigo = :procActCodigo"),
     @NamedQuery(name = "ActividadPorTarea.findByTarCodigo", query = "SELECT a FROM ActividadPorTarea a WHERE a.actividadPorTareaPK.tarCodigo = :tarCodigo"),
-    @NamedQuery(name = "ActividadPorTarea.findByActTarHabilitado", query = "SELECT a FROM ActividadPorTarea a WHERE a.actTarHabilitado = :actTarHabilitado")})
+    @NamedQuery(name = "ActividadPorTarea.findByActTarOden", query = "SELECT a FROM ActividadPorTarea a WHERE a.actTarOrden = :actTarOrden")})
 public class ActividadPorTarea implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ActividadPorTareaPK actividadPorTareaPK;
-    @Column(name = "ACT_TAR_HABILITADO")
-    private Boolean actTarHabilitado;
+    @Column(name = "ACT_TAR_ORDEN")
+    private int actTarOrden;
     @JoinColumn(name = "PROC_ACT_CODIGO", referencedColumnName = "PROC_ACT_CODIGO", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ProcesoPorActividad procesoPorActividad;
@@ -60,12 +60,12 @@ public class ActividadPorTarea implements Serializable {
         this.actividadPorTareaPK = actividadPorTareaPK;
     }
 
-    public Boolean getActTarHabilitado() {
-        return actTarHabilitado;
+    public int getActTarOrden() {
+        return actTarOrden;
     }
 
-    public void setActTarHabilitado(Boolean actTarHabilitado) {
-        this.actTarHabilitado = actTarHabilitado;
+    public void setActTarOrden(int actTarOrden) {
+        this.actTarOrden = actTarOrden;
     }
 
     public ProcesoPorActividad getProcesoPorActividad() {

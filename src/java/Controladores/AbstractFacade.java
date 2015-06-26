@@ -33,6 +33,17 @@ public abstract class AbstractFacade<T> {
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }
+    
+    public T persist(T entity) {
+        getEntityManager().persist(entity);
+        return entity;
+    }
+    
+    public T merge(T entity) {
+        getEntityManager().merge(entity);
+        return entity;
+    }
+    
 
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));

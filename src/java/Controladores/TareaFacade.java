@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.Tarea;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,4 +29,11 @@ public class TareaFacade extends AbstractFacade<Tarea> {
         super(Tarea.class);
     }
     
+      public List<Tarea> tareashabilitadas(Boolean habilitado){
+        try {
+                return findByParameters("from Tarea ta where ta.tarHabilitado = ?1", habilitado);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }

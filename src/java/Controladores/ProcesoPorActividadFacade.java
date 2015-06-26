@@ -5,7 +5,10 @@
  */
 package Controladores;
 
+import Entidades.Actividad;
+import Entidades.Proceso;
 import Entidades.ProcesoPorActividad;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,5 +29,13 @@ public class ProcesoPorActividadFacade extends AbstractFacade<ProcesoPorActivida
 
     public ProcesoPorActividadFacade() {
         super(ProcesoPorActividad.class);
+    }
+    
+    public ProcesoPorActividad buscarPorProcesoyActividad (Proceso proceso, Actividad actividad){
+        try {
+                return findByParameters("from ProcesoPorActividad p where p.procCodigo.procCodigo = ?1 and p.actCodigo.actCodigo = ?2", proceso.getProcCodigo(), actividad.getActCodigo()).get(0);
+        } catch (Exception e) {
+                return null;
+        }
     }
 }

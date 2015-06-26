@@ -117,7 +117,7 @@ public class TareaController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Tarea.class)
+    @FacesConverter("TareaControllerConverter")
     public static class TareaControllerConverter implements Converter {
 
         @Override

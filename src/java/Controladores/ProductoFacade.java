@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.Producto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,4 +29,12 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         super(Producto.class);
     }
     
+    public List<Producto> lstProductosHabilitados(Boolean habilitado)
+    {
+        try {
+                return findByParameters("from Producto p where p.prodHabilitado = ?1", habilitado);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }

@@ -15,32 +15,42 @@
 
         <ui:define name="body">
             <h:form id="CrearProcesoForm">
-                <p:panel header="#{bundle.CrearProcesoTitle}">
-                    <div align="center">
-                    <p:panelGrid id="tabla1" columns="4" >
-                        <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!procesoController.crear}"/>
-                        <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}"/>
-                        <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
-                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
-                                           var="prodCodigoItem"
-                                           itemValue="#{prodCodigoItem}"
-                                           itemLabel="#{prodCodigoItem.prodDescripcion}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>   
-                        <br/>
-                        <br/>
-                    <p:panelGrid id="tabla2" columns="6">
-                        <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
-                        <p:inputText id="procMateriaPrima" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
-                        <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
-                        <p:inputText id="procProductoTerminado" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
-                        <p:outputLabel value="#{bundle.EditProcesoLabel_procHabilitadoInterno}" for="procHabilitadoInterno" />
-                        <p:selectBooleanCheckbox id="procHabilitadoInterno" value="#{procesoController.selected.procHabilitadoInterno}" />
+                <p:panel>
+                    <f:facet name="header">
+                        <h:outputText value="Proceso"/>
+                    </f:facet>
+                    <p:panelGrid id="tabla" columns="2" style="width: 100%; border: none;">
+                    <p:panel>
+                            <p:panelGrid id="tabla1" columns="4" >
+                                <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!procesoController.crear}"/>
+                                <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}"/>
+                                <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
+                                <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{procesoController.productos}"
+                                                   var="prodCodigoItem"
+                                                   itemValue="#{prodCodigoItem}"
+                                                   itemLabel="#{prodCodigoItem.prodDescripcion}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>   
+                                <br/>
+                            <p:panelGrid id="tabla2" columns="6">
+                                <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
+                                <p:inputText id="procMateriaPrima" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
+                                <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
+                                <p:inputText id="procProductoTerminado" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
+                                <p:outputLabel value="#{bundle.EditProcesoLabel_procHabilitadoInterno}" for="procHabilitadoInterno" />
+                                <p:selectBooleanCheckbox id="procHabilitadoInterno" value="#{procesoController.selected.procHabilitadoInterno}" />
+                            </p:panelGrid>
+                    </p:panel>
+                    <p:panel>
+                            <p:commandButton id="guardarProcButton" icon="ui-icon-plus" value="Guardar Proceso" action="#{procesoController.create()}" />
+                    </p:panel>
                     </p:panelGrid>
-                        
-                        
+                        <br/>
+                        <br/>
+                    <div align="center">
+                    <p:panel header="Actividades">   
                         <p:dataTable id="datalistPA" value="#{procesoController.selected.procesoPorActividadList}" var="pa"
                                  paginator="true"
                                  rowKey="#{pa.procActCodigo}"
@@ -52,6 +62,10 @@
                                  widgetVar="PAObjecto"
                                  >
                         <p:ajax event="cellEdit" listener="#{procesoController.onCellEdit}" update=":growl" />
+                        
+                        <p:column style="width:16px">
+                            <p:rowToggler />
+                        </p:column>
 
                         <p:column>
                             <f:facet name="header">
@@ -59,6 +73,7 @@
                             </f:facet>
                             #{rowpa+1}
                         </p:column>
+                        
                         <p:column filterBy="#{pa.actCodigo.actDescripcion}" sortBy="#{pa.actCodigo.actDescripcion}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="Actividad"/>
@@ -86,14 +101,69 @@
                                 <f:facet name="input"><p:inputText value="#{pa.procActNumPersonas}" style="width:96%" label="Year"/></f:facet>
                             </p:cellEditor>
                         </p:column>
- 
+                        
+                        <p:column style="text-align: center">
+                            <p:commandButton id="elimActsButton"   icon="ui-icon-plus" value="Eliminar Actividad" action="#{procesoController.eliminarProcAct}" update="CrearProcesoForm:datalistPA">
+                                <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Actividad?" icon="ui-icon-alert" />
+                                <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                        <p:column style="text-align: center">
+                            <p:commandButton id="tareasButton"   icon="ui-icon-plus" value="añadir Tareas" action="#{procesoController.abrirTareas()}" update="TareaForm:PojoPickListTarea">
+                                <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
+                            </p:commandButton>
+                        </p:column>
+                        
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{procesoController.abrirActividades}" update="ActividadForm:PojoPickList"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus" value="añadir Actividades" actionListener="#{procesoController.abrirActividades}" update="ActividadForm:PojoPickList"/>
                         </f:facet>
+                        
+                        <p:rowExpansion>
+                            <div align="center"> 
+                                <p:dataTable id="datalistAT" var="actTar" value="#{pa.actividadPorTareaListTransient}" rowIndexVar="rowAT" rendered="#{pa.actividadPorTareaListTransient != null and pa.actividadPorTareaListTransient.size()!=0}" style="width: 75%;" editable="true" editMode="cell" widgetVar="PAObjectoAT">
+                                    
+                                    <p:ajax event="cellEdit" listener="#{procesoController.onCellEdit}" update=":growl" />
+                                    
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Nro"/>
+                                            </f:facet>
+                                            #{rowAT+1}
+                                        </p:column>
+
+                                        <p:column filterBy="#{actTar.tarea.tarDescripcion}" sortBy="#{actTar.tarea.tarDescripcion}" filterMatchMode="contains">
+                                            <f:facet name="header">
+                                                <h:outputText value="Actividad"/>
+                                            </f:facet>
+                                            <h:outputText value="#{actTar.tarea.tarDescripcion}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Orden" filterBy="#{actTar.actTarOrden}" sortBy="#{actTar.actTarOrden}">
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{actTar.actTarOrden}" /></f:facet>
+                                                <f:facet name="input"><p:inputText value="#{actTar.actTarOrden}" style="width:96%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+
+                                        <p:column style="text-align: center">
+                                    <p:commandButton id="elimtareasButton"   icon="ui-icon-plus" value="Eliminar Tarea" action="#{procesoController.eliminarActTar}" update="CrearProcesoForm:datalistPA">
+                                        <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Tarea?" icon="ui-icon-alert" />
+                                        <f:setPropertyActionListener value="#{actTar}" target="#{procesoController.selectedAT}" />
+                                        <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
+                                    </p:commandButton>
+                                </p:column>
+                                    
+                                </p:dataTable>
+                                <h:outputText value="No hay Tareas asignadas a esta Actividad" rendered="#{pa.actividadPorTareaListTransient == null or pa.actividadPorTareaListTransient.size() == 0}" />
+                            </div>
+                        </p:rowExpansion>
                     </p:dataTable>
+                    </p:panel>
                     </div>
                 </p:panel>
             </h:form>
+            
             <p:dialog id="ActividadDlg" widgetVar="ActividadDialog" modal="true" resizable="false" appendTo="@(body)" header="Actividad">
                 <h:form id="ActividadForm">
                     <p:pickList id="PojoPickList" value="#{procesoController.actividades}" var="actividad" effect="bounce"
@@ -112,8 +182,35 @@
                     </div>
                 </h:form>
             </p:dialog>
-         
+            
+            <p:dialog id="TareaDlg" widgetVar="TareaDialog" modal="true" resizable="false" appendTo="@(body)" header="Tarea">
+                <h:form id="TareaForm">
+                    <p:pickList id="PojoPickListTarea" value="#{procesoController.tareas}" var="tarea" effect="bounce"
+                                itemValue="#{tarea}" itemLabel="#{tarea.tarDescripcion}" showSourceControls="true" showTargetControls="true" showCheckbox="true"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="TareaControllerConverter">
+
+                        <f:facet name="sourceCaption">Tareas Disponibles</f:facet>
+                        <f:facet name="targetCaption">Tareas Seleccionadas</f:facet>
+
+                        <p:column style="width:75%;">
+                            <h:outputText value="#{tarea.tarDescripcion}" />
+                        </p:column>
+                    </p:pickList>
+                    <div align="center">
+                        <p:commandButton id="guardarTarButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{procesoController.enviarTareas()}" update="CrearProcesoForm:datalistPA"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+            
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <h:form>
+                    <div align="center">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </div>
+                </h:form>
+            </p:confirmDialog>
+            
         </ui:define>
     </ui:composition>
-
 </html>

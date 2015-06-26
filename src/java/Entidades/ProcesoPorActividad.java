@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -59,7 +60,9 @@ public class ProcesoPorActividad implements Serializable {
     private Proceso procCodigo;
     @Column(name = "PROC_ACT_ORDEN")
     private Integer procActOrden;
+    private transient List<ActividadPorTarea> actividadPorTareaListTransient;
 
+    @Id
     public Float getProcActTiempo() {
         return procActTiempo;
     }
@@ -123,6 +126,21 @@ public class ProcesoPorActividad implements Serializable {
     public void setProcCodigo(Proceso procCodigo) {
         this.procCodigo = procCodigo;
     }
+
+    @Transient
+    public List<ActividadPorTarea> getActividadPorTareaListTransient() {
+        if(actividadPorTareaList != null && !actividadPorTareaList.isEmpty())
+        {
+            actividadPorTareaListTransient = actividadPorTareaList;
+        }
+        return actividadPorTareaListTransient;
+    }
+
+    public void setActividadPorTareaListTransient(List<ActividadPorTarea> actividadPorTareaListTransient) {
+        this.actividadPorTareaListTransient = actividadPorTareaListTransient;
+    }
+    
+    
 
     @Override
     public int hashCode() {

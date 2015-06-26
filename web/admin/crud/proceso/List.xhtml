@@ -67,6 +67,14 @@
                         </p:column>
                         <p:column style="text-align: center">
                             <f:facet name="header">
+                                <h:outputText value="Ver"/>
+                            </f:facet>
+                            <p:commandButton id="verButton"   icon="ui-icon-pencil" value="ver" action="#{procesoController.abrirArbol()}" update="arbolProceso">
+                                <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.Delete}"/>
                             </f:facet>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" action="#{procesoController.destroy}" update=":growl,datalist">
@@ -79,7 +87,13 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
-
+            <p:dialog id="arbolDialog" widgetVar="arbolDialog" modal="true" resizable="false" appendTo="@(body)" header="Arbol de proceso">
+                <p:tree id="arbolProceso" value="#{procesoController.arbolProceso}" var="node" orientation="horizontal">
+                    <p:treeNode>
+                        <h:outputText value="#{node}" />
+                    </p:treeNode>
+                </p:tree>
+            </p:dialog>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>

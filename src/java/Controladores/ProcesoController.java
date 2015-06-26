@@ -4,7 +4,11 @@ import Entidades.Proceso;
 import Controladores.util.JsfUtil;
 import Controladores.util.JsfUtil.PersistAction;
 import Entidades.Actividad;
+import Entidades.ActividadPorTarea;
+import Entidades.ActividadPorTareaPK;
 import Entidades.ProcesoPorActividad;
+import Entidades.Producto;
+import Entidades.Tarea;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,7 +28,9 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.TreeNode;
 
 @ManagedBean(name = "procesoController")
 @SessionScoped
@@ -34,16 +40,50 @@ public class ProcesoController implements Serializable {
     private Controladores.ProcesoFacade ejbFacade;
     @EJB
     private Controladores.ActividadFacade ejbActFacade;
+    @EJB
+    private Controladores.ProcesoPorActividadFacade ejbProcActFacade;
+    @EJB
+    private Controladores.ProductoFacade ejbProdFacade;
+    @EJB
+    private Controladores.TareaFacade ejbTarFacade;
+    @EJB
+    private Controladores.ActividadPorTareaFacade ejbActTarFacade;
+    
     private List<Proceso> items = null;
     private Proceso selected;
     private Boolean crear;
     private ProcesoPorActividad selectedPA;
+    private ActividadPorTarea selectedAT;
     private List<Actividad> actizq = new ArrayList<Actividad>();
     private List<Actividad> actder = new ArrayList<Actividad>();
     private DualListModel<Actividad> actividades = new DualListModel<Actividad>(actizq,actder);
-    
+    private List<Producto> productos = null;
+    private List<Tarea> tarizq = new ArrayList<Tarea>();
+    private List<Tarea> tarder = new ArrayList<Tarea>();
+    private DualListModel<Tarea> tareas = new DualListModel<Tarea>(tarizq,tarder);
+    private TreeNode arbolProceso;
     
     public ProcesoController() {
+    }
+    
+    public void abrirArbol(){
+        if(selected.getProdCodigo() != null){
+            arbolProceso = new DefaultTreeNode(selected.getProdCodigo().getProdDescripcion(), null);
+            if(selected.getProcesoPorActividadList() != null && !selected.getProcesoPorActividadList().isEmpty()){
+                TreeNode[] actividadesHijo = new TreeNode[selected.getProcesoPorActividadList().size()];
+                for (int i = 0; i < actividadesHijo.length; i++) {
+                    actividadesHijo[i]=new DefaultTreeNode(selected.getProcesoPorActividadList().get(i).getActCodigo().getActDescripcion(), arbolProceso);
+                    if(selected.getProcesoPorActividadList().get(i).getActividadPorTareaList() != null && !selected.getProcesoPorActividadList().get(i).getActividadPorTareaList().isEmpty()){
+                       TreeNode[] tareasHijo = new TreeNode[selected.getProcesoPorActividadList().get(i).getActividadPorTareaList().size()];
+                       for (int y = 0; y < tareasHijo.length; y++) {   
+                           tareasHijo[y]=new DefaultTreeNode(selected.getProcesoPorActividadList().get(i).getActividadPorTareaList().get(y).getTarea().getTarDescripcion(), actividadesHijo[i]);
+                       }
+                    }
+                }
+            }
+        }
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('arbolDialog').show();");
     }
 
     public Proceso getSelected() {
@@ -72,21 +112,36 @@ public class ProcesoController implements Serializable {
     
     public String editarProceso(){
         crear = false;
+        productos = ejbProdFacade.lstProductosHabilitados(true);
         return "/admin/crud/proceso/CrearProceso.xhtml";
     }
     
     public String crearProceso(){
         selected =  new Proceso();
         selected.setProcesoPorActividadList(new ArrayList<ProcesoPorActividad>());
+        productos = ejbProdFacade.lstProductosHabilitados(true);
         crear = true;
         return "/admin/crud/proceso/CrearProceso.xhtml";
     }
 
-    public void create() {
+    public String create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProcesoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        for(ProcesoPorActividad proAct : selected.getProcesoPorActividadList()){
+            if(proAct.getActividadPorTareaListTransient() != null && !proAct.getActividadPorTareaListTransient().isEmpty()){
+                for(ActividadPorTarea actTar : proAct.getActividadPorTareaListTransient()){
+                    proAct = ejbProcActFacade.buscarPorProcesoyActividad(selected, proAct.getActCodigo());
+                    actTar.getActividadPorTareaPK().setProcActCodigo(proAct.getProcActCodigo());
+                    ejbActTarFacade.merge(actTar);
+                }
+            }
+        }
+        selected = new Proceso();
+        selectedPA = new ProcesoPorActividad();
+        selectedAT = new ActividadPorTarea();
+        return "/admin/crud/proceso/List.xhtml";
     }
 
     public void update() {
@@ -122,7 +177,12 @@ public class ProcesoController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    if (selected.getProcCodigo() == null) {
+                        selected = getFacade().persist(selected);
+                    }else{
+                        selected = getFacade().merge(selected);
+                    }
+                    
                 } else {
                     selected.setProcHabilitadoInterno(new Boolean(false));
                     getFacade().edit(selected);
@@ -146,6 +206,8 @@ public class ProcesoController implements Serializable {
         }
     }
     
+    //1 carga la lista de izquierda 
+    //si es q ferecha existen cosas traerlas
     public void abrirActividades(){
         actizq = ejbActFacade.actividadeshabilitadas(true);
         actder = new ArrayList<Actividad>();
@@ -162,19 +224,46 @@ public class ProcesoController implements Serializable {
         context.execute("PF('ActividadDialog').show();");
     }
     
+    public void abrirTareas(){
+        if(selectedPA.getActividadPorTareaListTransient() == null){
+            selectedPA.setActividadPorTareaListTransient(new ArrayList<ActividadPorTarea>());
+        }
+        tarizq = ejbTarFacade.tareashabilitadas(true);
+        tarder = new ArrayList<Tarea>();
+        for(ActividadPorTarea var: selectedPA.getActividadPorTareaListTransient()){
+            tarder.add(var.getTarea());
+        }
+        for(Tarea aux: tarder){
+            if(tarizq.contains(aux)){
+                tarizq.remove(aux);
+            }
+        }
+        tareas = new DualListModel<Tarea>(tarizq, tarder);
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('TareaDialog').show();");
+    }
+    
     public void enviarActividades(){
         if(selected.getProcesoPorActividadList() != null && !selected.getProcesoPorActividadList().isEmpty()){
             for(Actividad act: actividades.getTarget()){
-                if(!selected.getProcesoPorActividadList().contains(act)){
+                Boolean contiene = false;
+                for(ProcesoPorActividad proAct :selected.getProcesoPorActividadList()){
+                    if(proAct.getActCodigo().equals(act)){
+                       contiene = true;
+                    }
+                }
+                if(!contiene){
                     ProcesoPorActividad proAct = new ProcesoPorActividad();
                     proAct.setProcCodigo(selected);
                     proAct.setActCodigo(act);
                     selected.getProcesoPorActividadList().add(proAct);
                 }
-            }   
+                    
+            }
         }else{
              for(Actividad act: actividades.getTarget()){
                 ProcesoPorActividad proAct = new ProcesoPorActividad();
+                proAct.setProcCodigo(selected);
                 proAct.setActCodigo(act);
                 selected.getProcesoPorActividadList().add(proAct);
             } 
@@ -183,6 +272,57 @@ public class ProcesoController implements Serializable {
         context.execute("PF('ActividadDialog').hide();");   
     }
 
+    public void enviarTareas(){
+        if(selectedPA.getActividadPorTareaListTransient() != null && !selectedPA.getActividadPorTareaListTransient().isEmpty()){
+            for(Tarea tar: tareas.getTarget()){
+                Boolean contiene = false;
+                for(ActividadPorTarea actTar: selectedPA.getActividadPorTareaListTransient()){
+                    if(actTar.getTarea().equals(tar)){
+                        contiene = true;
+                    }
+                }
+                if(!contiene){
+                    ActividadPorTareaPK actTarPK = new ActividadPorTareaPK();
+                    ActividadPorTarea actTar = new ActividadPorTarea();
+                    actTar.setProcesoPorActividad(selectedPA);
+                    actTar.setTarea(tar);
+                    actTarPK.setTarCodigo(tar.getTarCodigo());
+                    actTar.setActividadPorTareaPK(actTarPK);
+                    selectedPA.getActividadPorTareaListTransient().add(actTar);
+                }
+            }   
+        }else{
+             for(Tarea tar: tareas.getTarget()){
+                ActividadPorTareaPK actTarPK = new ActividadPorTareaPK();
+                ActividadPorTarea actTar = new ActividadPorTarea();
+                actTar.setProcesoPorActividad(selectedPA);
+                actTar.setTarea(tar);
+                actTarPK.setTarCodigo(tar.getTarCodigo());
+                actTar.setActividadPorTareaPK(actTarPK);
+                selectedPA.getActividadPorTareaListTransient().add(actTar);
+            } 
+        }
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('TareaDialog').hide();");   
+    }
+    
+    public void eliminarProcAct(){
+        if(selectedPA.getProcActCodigo() == null){
+            selected.getProcesoPorActividadList().remove(selectedPA);
+        }else{
+            selected.getProcesoPorActividadList().remove(selectedPA);
+            ejbProcActFacade.remove(selectedPA);
+        }
+    }
+    public void eliminarActTar(){
+        if(selectedAT.getActividadPorTareaPK() == null){
+            selectedPA.getActividadPorTareaListTransient().remove(selectedAT);
+        }else{
+            selectedPA.getActividadPorTareaListTransient().remove(selectedAT);
+            ejbActTarFacade.remove(selectedAT);
+        }
+    }
+    
     public List<Proceso> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
@@ -230,6 +370,55 @@ public class ProcesoController implements Serializable {
     public void setActder(List<Actividad> actder) {
         this.actder = actder;
     }
+    
+      public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+    
+    public List<Tarea> getTarizq() {
+        return tarizq;
+    }
+
+    public void setTarizq(List<Tarea> tarizq) {
+        this.tarizq = tarizq;
+    }
+
+    public List<Tarea> getTarder() {
+        return tarder;
+    }
+
+    public void setTarder(List<Tarea> tarder) {
+        this.tarder = tarder;
+    }
+
+    public DualListModel<Tarea> getTareas() {
+        return tareas;
+    }
+
+    public void setTareas(DualListModel<Tarea> tareas) {
+        this.tareas = tareas;
+    }
+
+    public ActividadPorTarea getSelectedAT() {
+        return selectedAT;
+    }
+
+    public void setSelectedAT(ActividadPorTarea selectedAT) {
+        this.selectedAT = selectedAT;
+    }
+
+    public TreeNode getArbolProceso() {
+        return arbolProceso;
+    }
+
+    public void setArbolProceso(TreeNode arbolProceso) {
+        this.arbolProceso = arbolProceso;
+    }
+    
     
     @FacesConverter(forClass = Proceso.class)
     public static class ProcesoControllerConverter implements Converter {
