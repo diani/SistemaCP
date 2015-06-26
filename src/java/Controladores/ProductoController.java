@@ -3,6 +3,7 @@ package Controladores;
 import Entidades.Producto;
 import Controladores.util.JsfUtil;
 import Controladores.util.JsfUtil.PersistAction;
+import Entidades.Proceso;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class ProductoController implements Serializable {
 
     @EJB
     private Controladores.ProductoFacade ejbFacade;
+    @EJB
+    private Controladores.ProcesoFacade ejbProcesoFacade;
     private List<Producto> items = null;
     private Producto selected;
     private UploadedFile file;
@@ -135,9 +138,39 @@ public class ProductoController implements Serializable {
                     if(file != null && file.getSize() != 0)
                         selected.setProdImagen("/resources/imagenes/productos/"+file.getFileName());
                     getFacade().edit(selected);
+                    
+                    //selected es un producto seleccionado
+                    if(!selected.getProdHabilitado()){
+                       List<Proceso> lstProcesoConProducto = ejbProcesoFacade.lstProcesoDeProducto(true, selected);
+                       if(lstProcesoConProducto != null && !lstProcesoConProducto.isEmpty()){
+                           for(Proceso prolst : lstProcesoConProducto){
+                               prolst.setProcHabilitadoInterno(false);
+                               ejbProcesoFacade.merge(prolst);
+                           }
+                       }
+                    }
+                    
                 } else {
                     selected.setProdHabilitado(new Boolean(false));
                     getFacade().edit(selected);
+                     //selected es un producto seleccionado
+                    if(!selected.getProdHabilitado()){
+                       List<Proceso> lstProcesoConProducto = ejbProcesoFacade.lstProcesoDeProducto(true, selected);
+                       if(lstProcesoConProducto != null && !lstProcesoConProducto.isEmpty()){
+                           for(Proceso prolst : lstProcesoConProducto){
+                               prolst.setProcHabilitadoInterno(false);
+                               ejbProcesoFacade.merge(prolst);
+                           }
+                       }
+                    }else{
+                        List<Proceso> lstProcesoConProducto = ejbProcesoFacade.lstProcesoDeProducto(false, selected);
+                       if(lstProcesoConProducto != null && !lstProcesoConProducto.isEmpty()){
+                           for(Proceso prolst : lstProcesoConProducto){
+                               prolst.setProcHabilitadoInterno(true);
+                               ejbProcesoFacade.merge(prolst);
+                           }
+                       }
+                    }
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

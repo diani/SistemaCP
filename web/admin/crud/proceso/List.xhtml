@@ -23,8 +23,8 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="createButton editButton "/>
+                        <p:ajax event="rowUnselect" update="createButton editButton "/>
 
                         <p:column filterBy="#{item.procCodigo}" sortBy="#{item.procCodigo}" filterMatchMode="contains">
                             <f:facet name="header">
@@ -61,23 +61,16 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
-                           <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" action="#{procesoController.editarProceso}" >
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" action="#{procesoController.editarProceso}" rendered="#{item.procHabilitadoInterno}" >
                                 <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
                             </p:commandButton>
+                           <h:outputText value="Activar Fruta" rendered="#{!item.procHabilitadoInterno}" />
                         </p:column>
                         <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Ver"/>
                             </f:facet>
                             <p:commandButton id="verButton"   icon="ui-icon-pencil" value="ver" action="#{procesoController.abrirArbol()}" update="arbolProceso">
-                                <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
-                            </p:commandButton>
-                        </p:column>
-                        <p:column style="text-align: center">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.Delete}"/>
-                            </f:facet>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" action="#{procesoController.destroy}" update=":growl,datalist">
                                 <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
                             </p:commandButton>
                         </p:column>

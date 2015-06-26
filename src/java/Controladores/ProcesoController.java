@@ -188,6 +188,7 @@ public class ProcesoController implements Serializable {
                     
                     //guardo mi proceso sin listas
                     if (selected.getProcCodigo() == null) {
+                        selected.setProcHabilitadoInterno(true);
                         selected = getFacade().persist(selected); //cuando no existe en la base (crear)
                     }else{
                         selected = getFacade().merge(selected); // cuando ya existe en la base (editar)

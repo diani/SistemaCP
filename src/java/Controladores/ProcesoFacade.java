@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.Proceso;
+import Entidades.Producto;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,6 +33,13 @@ public class ProcesoFacade extends AbstractFacade<Proceso> {
     public List<Proceso> buscarTodosPorHabiltiado(Boolean habilitado) {
         try {
                 return findByParameters("from Proceso p where p.procHabilitadoInterno = ?1", habilitado);
+        } catch (Exception e) {
+                return null;
+        }
+    }
+    public List<Proceso> lstProcesoDeProducto(Boolean habilitado, Producto producto){
+        try {
+                return findByParameters("from Proceso p where p.procHabilitadoInterno = ?1 and p.prodCodigo.prodCodigo = ?2", habilitado, producto.getProdCodigo());
         } catch (Exception e) {
                 return null;
         }
