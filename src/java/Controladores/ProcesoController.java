@@ -167,9 +167,7 @@ public class ProcesoController implements Serializable {
     }
 
     public List<Proceso> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 
@@ -467,7 +465,7 @@ public class ProcesoController implements Serializable {
     }
     
     
-    @FacesConverter(forClass = Proceso.class)
+    @FacesConverter("ProcesoControllerConverter")
     public static class ProcesoControllerConverter implements Converter {
 
         @Override

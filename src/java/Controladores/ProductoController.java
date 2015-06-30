@@ -116,7 +116,7 @@ public class ProductoController implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, message);
             }
         }
-               if(accion.equals("create")){
+            if(accion.equals("create")){
                 create();
             }else{
                 update();    
@@ -148,6 +148,14 @@ public class ProductoController implements Serializable {
                                ejbProcesoFacade.merge(prolst);
                            }
                        }
+                    }else{
+                        List<Proceso> lstProcesoConProducto = ejbProcesoFacade.lstProcesoDeProducto(false, selected);
+                        if(lstProcesoConProducto != null && !lstProcesoConProducto.isEmpty()){
+                           for(Proceso prolst : lstProcesoConProducto){
+                               prolst.setProcHabilitadoInterno(true);
+                               ejbProcesoFacade.merge(prolst);
+                           }
+                       }
                     }
                     
                 } else {
@@ -164,7 +172,7 @@ public class ProductoController implements Serializable {
                        }
                     }else{
                         List<Proceso> lstProcesoConProducto = ejbProcesoFacade.lstProcesoDeProducto(false, selected);
-                       if(lstProcesoConProducto != null && !lstProcesoConProducto.isEmpty()){
+                        if(lstProcesoConProducto != null && !lstProcesoConProducto.isEmpty()){
                            for(Proceso prolst : lstProcesoConProducto){
                                prolst.setProcHabilitadoInterno(true);
                                ejbProcesoFacade.merge(prolst);

@@ -181,7 +181,7 @@
                 </h:form>
             </p:dialog>
             
-            <p:dialog id="TareaDlg" widgetVar="TareaDialog" modal="true" resizable="false" appendTo="@(body)" header="Tarea">
+           <p:dialog id="TareaDlg" widgetVar="TareaDialog" modal="true" resizable="false" appendTo="@(body)" header="Tarea">
                 <h:form id="TareaForm">
                     <p:pickList id="PojoPickListTarea" value="#{procesoController.tareas}" var="tarea" effect="bounce"
                                 itemValue="#{tarea}" itemLabel="#{tarea.tarDescripcion}" showSourceControls="true" showTargetControls="true" showCheckbox="true"
@@ -199,6 +199,7 @@
                     </div>
                 </h:form>
             </p:dialog>
+            
             
             <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                 <h:form>

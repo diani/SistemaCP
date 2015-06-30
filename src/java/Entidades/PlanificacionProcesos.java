@@ -51,6 +51,8 @@ public class PlanificacionProcesos implements Serializable {
     @Column(name = "PLA_PROC_FECHA_FIN")
     @Temporal(TemporalType.DATE)
     private Date plaProcFechaFin;
+    @Column(name = "PLA_PROC_HABILITADO")
+    private Boolean plaProcHabilitado;
     @JoinColumn(name = "PROC_CODIGO", referencedColumnName = "PROC_CODIGO")
     @ManyToOne(optional = false)
     private Proceso procCodigo;
@@ -94,6 +96,13 @@ public class PlanificacionProcesos implements Serializable {
 
     public void setProcCodigo(Proceso procCodigo) {
         this.procCodigo = procCodigo;
+    }
+    public Boolean getPlaProcHabilitado() {
+        return plaProcHabilitado;
+    }
+
+    public void setPlaProcHabilitado(Boolean plaProcHabilitado) {
+        this.plaProcHabilitado = plaProcHabilitado;
     }
 
     @XmlTransient

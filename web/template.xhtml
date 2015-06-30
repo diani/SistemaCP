@@ -22,20 +22,23 @@
                     <h:form id="menuForm">
                         <p:menubar>
                             <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
-                            <p:submenu label="#{bundle.Admin}">                   
-                                <p:menuitem value="Usuario" outcome="/admin/crud/usuario/List.xhtml" />
-                                <p:menuitem value="Rol" outcome="/admin/crud/rol/List.xhtml" />                                                         
+                            
+                            <p:submenu label="Administración" icon="ui-icon-gear">
+                                <p:submenu label="#{bundle.Admin}" icon="ui-icon-person">
+                                    <p:menuitem value="Usuario" outcome="/admin/crud/usuario/List.xhtml" />
+                                    <p:menuitem value="Rol" outcome="/admin/crud/rol/List.xhtml" />                                                         
+                                </p:submenu>
+                                <p:submenu label="#{bundle.Unidades}">                              
+                                    <p:menuitem value="Presentacion de Productos" outcome="/admin/crud/presentacionProducto/List.xhtml" />                     
+                                    <p:menuitem value="Unidades de MP" outcome="/admin/crud/unidadesMp/List.xhtml" />
+                                </p:submenu>
+                                <p:submenu label="#{bundle.Negocio}">                              
+                                    <p:menuitem value="Actividad" outcome="/admin/crud/actividad/List.xhtml" />
+                                    <p:menuitem value="Proceso" outcome="/admin/crud/proceso/List.xhtml" />
+                                    <p:menuitem value="Tarea" outcome="/admin/crud/tarea/List.xhtml" />
+                                </p:submenu>
+                                <p:menuitem value="Productos" outcome="/admin/crud/producto/List.xhtml" />
                             </p:submenu>
-                            <p:submenu label="#{bundle.Unidades}">                              
-                                <p:menuitem value="Presentacion de Productos" outcome="/admin/crud/presentacionProducto/List.xhtml" />                     
-                                <p:menuitem value="Unidades de MP" outcome="/admin/crud/unidadesMp/List.xhtml" />
-                            </p:submenu>
-                            <p:submenu label="#{bundle.Negocio}">                              
-                                <p:menuitem value="Actividad" outcome="/admin/crud/actividad/List.xhtml" />
-                                <p:menuitem value="Proceso" outcome="/admin/crud/proceso/List.xhtml" />
-                                <p:menuitem value="Tarea" outcome="/admin/crud/tarea/List.xhtml" />
-                            </p:submenu>
-                            <p:menuitem value="Productos" outcome="/admin/crud/producto/List.xhtml" />
                         </p:menubar>                         
                     </h:form>
                 </div>

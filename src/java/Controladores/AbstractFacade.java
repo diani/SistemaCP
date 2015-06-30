@@ -96,4 +96,15 @@ public abstract class AbstractFacade<T> {
         }
     }
     
+    public List<T> find(String query) throws Exception {
+		try {
+			final Query q = this.entityManager.createQuery(query);
+			q.setMaxResults(100);
+			@SuppressWarnings("unchecked")
+			final List<T> result = q.getResultList();
+			return result;
+		} catch (final Exception e) {
+			throw new Exception(e);
+		}
+	}
 }

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.PlanificacionTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="PlanificacionListForm">
+                <p:panel header="#{bundle.ListPlanificacion}">
+                    <p:dataTable id="datalistPlani" value="#{planificacionController.lstPlaniProc}" var="plan"
+                                 paginator="true"
+                                 rowKey="#{plan.plaProcCodigo}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rowIndexVar="rowplan"
+                                 widgetVar="planiFechas"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton editButton"/>
+                        <p:ajax event="rowUnselect" update="createButton editButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nro"/>
+                            </f:facet>
+                            #{rowplan+1}
+                        </p:column>
+                        
+                        <p:column filterBy="#{plan.procCodigo.prodCodigo.prodDescripcion}" sortBy="#{plan.procCodigo.prodCodigo.prodDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPlanificacionTitle_ProcesoDescripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{plan.procCodigo.prodCodigo.prodDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{plan.plaProcFechaIni}" sortBy="#{plan.plaProcFechaIni}" filterFunction="#{planificacionController.filterByDate}" >
+                            <f:facet name="filter">
+                                <h:inputHidden id="filter" />
+                            </f:facet>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPlanificacionTitle_FechaIni}"/>
+                                <br />
+                                <h:outputText value="Desde: "/>
+                                <p:calendar id="from" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
+                                </p:calendar>
+                                <h:outputText value="Hasta:  "/>
+                                <p:calendar id="to" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
+                                </p:calendar>
+                                <br />
+                            </f:facet>
+                            <h:outputText value="#{plan.plaProcFechaIni}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column filterBy="#{plan.plaProcFechaFin}" sortBy="#{plan.plaProcFechaFin}" filterFunction="#{planificacionController.filterByDate}" >
+                            <f:facet name="filter">
+                                <h:inputHidden id="filter1" />
+                            </f:facet>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPlanificacionTitle_FechaFin}"/>
+                                <br />
+                                <h:outputText value="Desde: "/>
+                                <p:calendar id="from1" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter1')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from1')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to1')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
+                                </p:calendar>
+                                <h:outputText value="Hasta:  "/>
+                                <p:calendar id="to1" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter1')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from1')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to1')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
+                                </p:calendar>
+                                <br />
+                            </f:facet>
+                            <h:outputText value="#{plan.plaProcFechaFin}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column sortBy="#{plan.plaProcHabilitado}" style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPlanificacionTitle_Habilitado}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{plan.plaProcHabilitado}" disabled="true"/>
+                        </p:column>
+                        
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Edit}"/>
+                            </f:facet>
+                            <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PlaniForm" oncomplete="PF('PlaniDialog').show()" >
+                                <f:setPropertyActionListener value="#{plan}" target="#{planificacionController.planiProcSeleccionado}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{planificacionController.crearPlanificacion()}" update=":PlaniForm"/>
+                            <p:commandButton id="UpdateButton" icon="ui-icon-refresh"   value="#{bundle.Actualizar}" oncomplete="location.reload();"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <p:dialog id="PlaniDlg" widgetVar="PlaniDialog" modal="true" resizable="false" appendTo="@(body)" header="Planificación">
+                <h:form id="PlaniForm">
+                   
+                    <p:panelGrid columns="2" >
+                        
+                        <p:outputLabel value="#{bundle.EditPlanificacionLabel_ProcesoDescripcion}" for="procCodigo" />
+                        <p:selectOneMenu id="procCodigo" value="#{planificacionController.planiProcSeleccionado.procCodigo}" required="true" requiredMessage="#{bundle.EditPlanificacionRequiredMessage_ProcesoDescripcion}" converter="ProcesoControllerConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{planificacionController.lstProc}"
+                                           var="ProcItem"
+                                           itemValue="#{ProcItem}"
+                                           itemLabel="#{ProcItem.prodCodigo.prodDescripcion}" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel for="fechaini" value="Fecha Inicio:" />
+                        <p:calendar id="fechaini" value="#{planificacionController.planiProcSeleccionado.plaProcFechaIni}" />
+                        
+                        <p:outputLabel for="fechafin" value="Fecha Fin:" />
+                        <p:calendar id="fechafin" value="#{planificacionController.planiProcSeleccionado.plaProcFechaFin}" />
+                        
+                        <p:outputLabel value="#{bundle.EditPlanificacionLabel_Habilitado}" for="planiHabilitado" />
+                        <p:selectBooleanCheckbox id="planiHabilitado" value="#{planificacionController.planiProcSeleccionado.plaProcHabilitado}" />
+                        
+                        
+                        
+                    </p:panelGrid>
+                    
+                    <div align="center">
+                        <p:commandButton id="guardarPlaniButton" icon="ui-icon-plus" oncomplete="PF('PlaniDialog').hide()" value="Guardar" action="#{planificacionController.guardarPlanificacion()}" update="PlanificacionListForm:datalistPlani, :growl"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+            
+        </ui:define>
+    </ui:composition>
+
+</html>
