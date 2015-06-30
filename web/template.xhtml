@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>
@@ -38,7 +39,17 @@
                                     <p:menuitem value="Tarea" outcome="/admin/crud/tarea/List.xhtml" />
                                 </p:submenu>
                                 <p:menuitem value="Productos" outcome="/admin/crud/producto/List.xhtml" />
+                                <p:menuitem value="Planificación" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
                             </p:submenu>
+                            
+                            <f:facet name="options" rendered="#{loginController.usuactivo != null}">
+                                <p:outputLabel value="Usuario:"/>
+                                <p:outputLabel value="#{loginController.usuactivo.usuUsuario}"/>
+                                <p:spacer width="5px" height="1px"/>
+                                <p:commandButton value="Cerrar sesión" action="#{loginController.cerrarSesion()}"/>
+                                                          
+                            </f:facet>
+                            
                         </p:menubar>                         
                     </h:form>
                 </div>

@@ -28,4 +28,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
+    public Usuario UsuClave(String usu, String clave, Boolean habilitado){
+        try {
+              return findByParameters("from Usuario u where u.usuUsuario= ?1 and u.usuClave= ?2 and u.usuHabilitado= ?3",usu ,clave,habilitado).get(0);
+        } catch (Exception e) {
+                return null;
+        }
+    }
+    
 }
