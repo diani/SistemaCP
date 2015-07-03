@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    
+
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="clock.css"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+        
+         
+        
+        
+    </h:head>
+
+    
+    
+    <h:body>
+        
+
+        <p:notificationBar position="top" effect="slide" styleClass="top" widgetVar="bar">
+            <h:outputText value="" style="font-size:36px;" />
+        </p:notificationBar>
+        <p:layout fullPage="true">
+            
+            <p:layoutUnit position="north" >  
+                <div>
+                    <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/header_temp.png" />
+                </div>
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="south">
+                <div align="center">
+                    Todos los derechos reservados 2
+                </div>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <div>
+                    <div style="width: 67%; float: left;" align="center">
+                        <div class="clock">
+                            <div id="Date"></div>
+                              <ul>
+                                  <li id="hours"></li>
+                                  <li id="point">:</li>
+                                  <li id="min"></li>
+                                  <li id="point">:</li>
+                                  <li id="sec"></li>
+                              </ul>
+                        </div>
+                    </div>
+
+                     <script >
+    $(document).ready(function() {
+    // Create two variable with the names of the months and days in an array
+    var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]; 
+    var dayNames= ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+    // Create a newDate() object
+    var newDate = new Date();
+    // Extract the current date from Date object
+    newDate.setDate(newDate.getDate());
+    // Output the day, date, month and year   
+    $('#Date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
+
+    setInterval( function() {
+            // Create a newDate() object and extract the seconds of the current time on the visitor's
+            var seconds = new Date().getSeconds();
+            // Add a leading zero to seconds value
+            $('#Date').find("#sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+            },1000);
+
+    setInterval( function() {
+            // Create a newDate() object and extract the minutes of the current time on the visitor's
+            var minutes = new Date().getMinutes();
+            // Add a leading zero to the minutes value
+            $("#min").html(( minutes < 10 ? "0" : "" ) + minutes);
+        },1000);
+
+    setInterval( function() {
+            // Create a newDate() object and extract the hours of the current time on the visitor's
+            var hours = new Date().getHours();
+            // Add a leading zero to the hours value
+            $("#hours").html(( hours < 10 ? "0" : "" ) + hours);
+        }, 1000);	
+    });
+    </script>
+                    
+                    <div style="width: 33%; float: left;" align="right">
+                        stas chikito 
+                    </div>
+                </div>
+                <ui:insert name="body"/>
+            </p:layoutUnit>
+            
+            </p:layout>
+    </h:body>
+    
+</html>

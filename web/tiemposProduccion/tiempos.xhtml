@@ -5,7 +5,21 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-                 
+
+    <ui:composition template="/template2.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Tiempos"></h:outputText>
+        </ui:define>
+        
+        <ui:define name="body">
+            <h:form id="TiemposListForm">
                     OPERARIOS
-                    
+            </h:form>
+
+            
+        </ui:define>
+        
+    </ui:composition>
+
 </html>

@@ -8,16 +8,49 @@
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>  
-         <h:form id="frmLogin">
+        
+        
+        <div id="headerLogin" >
+            <div style="background-image: url(../resources/imagenes/layer/arriba.png); height: 15px; width: 100%;">
+            </div>
+            <div style="background-image: url(../resources/imagenes/layer/fondo.png); height: 130px; width: 100%;">
+                <div style="width: 30%; float: left;" align="center">
+                    <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/proesemica.png" />
+                </div>    
+                <div style="width: 70%; float: left;" align="center">
+                    <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/scp.png" style="padding-top: 20px;"/>
+                </div>    
+            </div>
+            <div style="background-image: url(../resources/imagenes/layer/abajo.png); height: 15px; width: 100%;">
+            </div>
+        </div>
+            
+            
+        <div id="izquierda"  style="float: left; height: 459px; width: 51%;  border-radius: 10px 10px 10px 10px; -moz-border-radius: 10px 10px 10px 10px; -webkit-border-radius: 10px 10px 10px 10px; border: 3px solid #000000;" align="center">
+            <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/mono.png" style="  position: relative;  top: 50%;  transform: translateY(-50%);"/>
+        </div>
+            
+        <div id="derecha" style="float: left; height: 459px; width: 48%; border-radius: 10px 10px 10px 10px; -moz-border-radius: 10px 10px  92%10px 10px; -webkit-border-radius: 10px 10px 10px 10px; border: 3px solid #000000;" align="center">
+            <div style="  position: relative;  top: 50%;  transform: translateY(-50%);" >
+            <h:form id="frmLogin">
                     <p:growl id="mensageGeneral" showDetail="true" sticky="false"/>
-                    <h:panelGrid columns="2">
-                        <p:outputLabel value="Usuario" for="txtUsuario"/>
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Usuario:     " for="txtUsuario"/>
                         <p:inputText id="txtUsuario" size="40" value="#{loginController.usuario}"/>
-                        <p:outputLabel value="Contraseña" for="txtContrasenia"/>
+                        <p:spacer height="50 px"></p:spacer>
+                        <p:outputLabel value="Contraseña: " for="txtContrasenia"/>
                         <p:password id="txtContrasenia" size="40" value="#{loginController.contrasenia}"/>
+                        <p:spacer height="50 px"></p:spacer>
                         <h:panelGroup></h:panelGroup>
                         <p:commandButton value="Ingresar" ajax="false" action="#{loginController.login()}"/>
                     </h:panelGrid>
-        </h:form>
+            </h:form>
+            </div>
+        </div>
+      
+        <div >
+            <img id="video1" src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fondo.png" alt=""/> 
+        </div>
+    
     </h:body>
 </html>
