@@ -53,6 +53,8 @@ public class PlanificacionProcesos implements Serializable {
     private Date plaProcFechaFin;
     @Column(name = "PLA_PROC_HABILITADO")
     private Boolean plaProcHabilitado;
+    @Column(name = "PLA_PROC_PLAY")
+    private Boolean plaProcPlay;
     @JoinColumn(name = "PROC_CODIGO", referencedColumnName = "PROC_CODIGO")
     @ManyToOne(optional = false)
     private Proceso procCodigo;
@@ -113,6 +115,16 @@ public class PlanificacionProcesos implements Serializable {
     public void setTiemposProduccionList(List<TiemposProduccion> tiemposProduccionList) {
         this.tiemposProduccionList = tiemposProduccionList;
     }
+
+    public Boolean getPlaProcPlay() {
+        return plaProcPlay;
+    }
+
+    public void setPlaProcPlay(Boolean plaProcPlay) {
+        this.plaProcPlay = plaProcPlay;
+    }
+    
+    
 
     @Override
     public int hashCode() {

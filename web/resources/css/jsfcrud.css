@@ -46,3 +46,7 @@
     width: auto;
     z-index: -10;
 }
+
+.imagenBoton {
+    background-image: url(../resources/imagenes/layer/botonIngresar.png)
+}

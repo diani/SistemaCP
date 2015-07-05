@@ -21,28 +21,27 @@ and open the template in the editor.
 }
 
 .container {
-    width: 960px;
+    width: 350px;
     margin: 0 auto;
     overflow: hidden;
 }
 
 .clock {
-    width: 800px;
+    width: 300px;
     margin: 0 auto;
-    padding: 30px;
-    border: 1px solid #333;
-    color: #fff;
+    
+    color: #000;
 }
 
 #Date {
     font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
-    font-size: 36px;
+    font-size: 18px;
     text-align: center;
     text-shadow: 0 0 5px #00c6ff;
 }
 
 ul {
-    width: 800px;
+    width: 300px;
     margin: 0 auto;
     padding: 0px;
     list-style: none;
@@ -51,7 +50,7 @@ ul {
 
 ul li {
     display: inline;
-    font-size: 10em;
+    font-size: 18px;
     text-align: center;
     font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
     text-shadow: 0 0 5px #00c6ff;

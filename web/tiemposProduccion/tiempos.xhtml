@@ -13,10 +13,51 @@
         </ui:define>
         
         <ui:define name="body">
-            <h:form id="TiemposListForm">
-                    OPERARIOS
-            </h:form>
+            <div style=" width: 100%; float: right;">
+                <h:form id="TiemposListForm">
+                 
+                    <p:dataGrid var="planiproc" value="#{tiemposController.planiproc}" columns="4" layout="grid"
+                        rows="3" paginator="true" id="plaproc"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="4,8,12,16">
 
+                        <f:facet name="header">
+                            Productos por Realizar el Día de Hoy
+                        </f:facet>
+
+                        <p:panel header="#{planiproc.procCodigo.prodCodigo.prodDescripcion}" style="text-align:center">
+                            <p:commandLink update=":ReproductorForm" action="#{tiemposController.reproductor(loginController.usuactivo)}">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <img width="100px" height="100px" src="#{facesContext.externalContext.requestContextPath}#{planiproc.procCodigo.prodCodigo.prodImagen}"/> 
+                                    <br></br>
+                                    Personas Trabajando: <h:outputText value="#{tiemposController.usuariosTrabajando(planiproc)}" />
+                                    
+                                </h:panelGrid>
+                                <f:setPropertyActionListener value="#{planiproc}" target="#{tiemposController.selectedplaproc}" />
+                            </p:commandLink>    
+                        </p:panel>
+
+                    </p:dataGrid>
+                    
+                    
+                </h:form>    
+            </div>
+           
+            <p:dialog id="ReproductorDlg" widgetVar="ReproductorDialog" modal="true" resizable="false" appendTo="@(body)" header="Producto">
+                <h:form id="ReproductorForm" >
+                    <h:panelGrid columns="3" style="width:100%">
+                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.play()}" rendered="#{!tiemposController.selectedplaproc.plaProcPlay}">
+                            <img  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/play.png"/> 
+                        </p:commandLink>
+                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.pause()}" rendered="#{tiemposController.selectedplaproc.plaProcPlay}">
+                            <img  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/pause.png"/> 
+                        </p:commandLink>
+                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.stop()}" rendered="#{tiemposController.selectedplaproc.plaProcPlay}">
+                            <img  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/stop.png"/> 
+                        </p:commandLink>
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
             
         </ui:define>
         

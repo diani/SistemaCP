@@ -15,7 +15,7 @@
                         <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpDescripcion}" for="uniMpDescripcion" />
                         <p:inputText id="uniMpDescripcion" required="true" value="#{unidadesMpController.selected.uniMpDescripcion}" title="#{bundle.CreateUnidadesMpTitle_uniMpDescripcion}" />
                         <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpEquivalenciaMp}" for="uniMpEquivalenciaMp" />
-                        <p:inputText id="uniMpEquivalenciaMp" required="true" value="#{unidadesMpController.selected.uniMpEquivalenciaMp}" title="#{bundle.CreateUnidadesMpTitle_uniMpEquivalenciaMp}" />
+                        <p:inputText id="uniMpEquivalenciaMp" required="true" value="#{unidadesMpController.selected.uniMpEquivalenciaMp}" title="#{bundle.CreateUnidadesMpTitle_uniMpEquivalenciaMp}" onkeypress="return isNumberKey(event)"/>
                         <p:outputLabel value="#{bundle.CreateUnidadesMpLabel_uniMpHabilitado}" for="uniMpHabilitado" />
                         <p:selectBooleanCheckbox id="uniMpHabilitado" value="#{unidadesMpController.selected.uniMpHabilitado}" />
                     </p:panelGrid>

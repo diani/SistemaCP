@@ -19,9 +19,9 @@
         <p:layout fullPage="true">
             <p:layoutUnit position="north" >  
                 <div>
-                    <div style="background-image: url(../resources/imagenes/layer/arriba.png); height: 15px; width: 100%;">
+                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/arriba.png); height: 15px; width: 100%;">
                     </div>
-                    <div style="background-image: url(../resources/imagenes/layer/fondo.png); height: 130px; width: 100%;">
+                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fondo.png); height: 130px; width: 100%;">
                         <div style="width: 30%; float: left;" align="center">
                             <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/proesemica.png" />
                         </div>    
@@ -29,12 +29,12 @@
                             <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/scp.png" style="padding-top: 20px;"/>
                         </div>    
                     </div>
-                    <div style="background-image: url(../resources/imagenes/layer/abajo.png); height: 15px; width: 100%;">
+                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/abajo.png); height: 15px; width: 100%;">
                     </div>
                     
                     <h:form id="menuForm">
                         <p:menubar>
-                            <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                            <p:menuitem value="#{bundle.Home}" outcome="/admin/crud/home.xhtml" icon="ui-icon-home"/>
                             
                             <p:submenu label="Administración" icon="ui-icon-gear">
                                 <p:submenu label="#{bundle.Admin}" icon="ui-icon-person">
@@ -51,9 +51,9 @@
                                     <p:menuitem value="Tarea" outcome="/admin/crud/tarea/List.xhtml" />
                                 </p:submenu>
                                 <p:menuitem value="Productos" outcome="/admin/crud/producto/List.xhtml" />
-                                <p:menuitem value="Planificación" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
                             </p:submenu>
-                            
+                            <p:menuitem value="Planificación" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
+                            <p:menuitem value="Tiempos Producción" outcome="/tiemposProduccion/tiempos.xhtml" />
                             <f:facet name="options" rendered="#{loginController.usuactivo != null}">
                                 <p:outputLabel value="Usuario:"/>
                                 <p:outputLabel value="#{loginController.usuactivo.usuUsuario}"/>
@@ -76,8 +76,8 @@
             <p:layoutUnit position="center">
                 <ui:insert name="body"/>
             </p:layoutUnit>
-
         </p:layout>
+        
         <p:watermark value="Buscar" for="@(th .ui-column-filter)"/>  
     </h:body>
 
