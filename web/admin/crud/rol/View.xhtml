@@ -13,10 +13,15 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{rolController.selected != null}">
                         <h:outputText value="#{bundle.ViewRolLabel_rolId}"/>
+                        
                         <h:outputText value="#{rolController.selected.rolId}" title="#{bundle.ViewRolTitle_rolId}"/>
+                        
                         <h:outputText value="#{bundle.ViewRolLabel_rolDescripcion}"/>
+                        
                         <h:outputText value="#{rolController.selected.rolDescripcion}" title="#{bundle.ViewRolTitle_rolDescripcion}"/>
+                        
                         <h:outputText value="#{bundle.ViewRolLabel_rolHabilitado}"/>
+                        
                         <p:selectBooleanCheckbox value="#{rolController.selected.rolHabilitado}" disabled="true"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="RolViewDialog.hide()"/>
