@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tareaController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateTareaLabel_tarDescripcion}" for="tarDescripcion" />
-                        <p:inputText id="tarDescripcion" required="true" value="#{tareaController.selected.tarDescripcion}" title="#{bundle.CreateTareaTitle_tarDescripcion}" />
+                        <p:inputText id="tarDescripcion" required="true" value="#{tareaController.selected.tarDescripcion}" title="#{bundle.CreateTareaTitle_tarDescripcion}" requiredMessage="#{bundle.MensajeTarea}"/>
                         <p:outputLabel value="#{bundle.CreateTareaLabel_tarHabilitado}" for="tarHabilitado" />
                         <p:selectBooleanCheckbox id="tarHabilitado" value="#{tareaController.selected.tarHabilitado}" />
                     </p:panelGrid>

@@ -13,9 +13,9 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{rolController.selected != null}">
                         <p:outputLabel value="#{bundle.EditRolLabel_rolId}" for="rolId" />
-                        <p:inputText id="rolId" value="#{rolController.selected.rolId}"  disabled="true" title="#{bundle.EditRolTitle_rolId}" required="true" requiredMessage="#{bundle.EditRolRequiredMessage_rolId}"/>
+                        <p:inputText id="rolId" value="#{rolController.selected.rolId}"  disabled="true" title="#{bundle.EditRolTitle_rolId}" />
                         <p:outputLabel value="#{bundle.EditRolLabel_rolDescripcion}" for="rolDescripcion" />
-                        <p:inputText id="rolDescripcion" value="#{rolController.selected.rolDescripcion}" title="#{bundle.EditRolTitle_rolDescripcion}" />
+                        <p:inputText id="rolDescripcion" required="true" value="#{rolController.selected.rolDescripcion}" title="#{bundle.EditRolTitle_rolDescripcion}" requiredMessage="#{bundle.MensajeRol}"/>
                         <p:outputLabel value="#{bundle.EditRolLabel_rolHabilitado}" for="rolHabilitado" />
                         <p:selectBooleanCheckbox id="rolHabilitado" value="#{rolController.selected.rolHabilitado}" />
                     </p:panelGrid>

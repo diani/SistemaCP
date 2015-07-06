@@ -13,13 +13,16 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{procesoController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
-                        <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.CreateProcesoTitle_procMateriaPrima}" />
+                        <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.CreateProcesoTitle_procMateriaPrima}" requiredMessage="#{bundle.MensajeMateriaPrima}" onkeypress="return isNumberKey(event)"/>
+                        
                         <p:outputLabel value="#{bundle.CreateProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
-                        <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.CreateProcesoTitle_procProductoTerminado}" />
+                        <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.CreateProcesoTitle_procProductoTerminado}" requiredMessage="#{bundle.MensajeProductoTerminado}" onkeypress="return isNumberKey(event)"/>
+                        
                         <p:outputLabel value="#{bundle.CreateProcesoLabel_procHabilitadoInterno}" for="procHabilitadoInterno" />
                         <p:selectBooleanCheckbox id="procHabilitadoInterno" value="#{procesoController.selected.procHabilitadoInterno}" />
+                        
                         <p:outputLabel value="#{bundle.CreateProcesoLabel_prodCodigo}" for="prodCodigo" />
-                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" required="true" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
+                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" required="true" requiredMessage="#{bundle.MensajeProducto}">
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="prodCodigoItem"
                                            itemValue="#{prodCodigoItem}"

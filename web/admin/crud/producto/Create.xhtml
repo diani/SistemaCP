@@ -7,24 +7,25 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
         <p:dialog id="ProductoCreateDlg" widgetVar="ProductoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateProductoTitle}">
             <h:form id="ProductoCreateForm"  enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{productoController.selected != null}">
                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodCodigoAux}" for="prodCodigoAux" />
                        <p:inputText id="prodCodigoAux" required="true" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.CreateProductoTitle_prodCodigoAux}" requiredMessage="#{bundle.MensajeCodAux}"/>
-                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodDescripcion}" for="prodDescripcion" />
-                        <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.CreateProductoTitle_prodDescripcion}" requiredMessage="#{bundle.MensajeProducto}"/>
-                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagen}" for="prodImagen" />
-                        <p:fileUpload id="prodImagen" value="#{productoController.file}"  mode="simple"  update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
-                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodHabilitado}" for="prodHabilitado" />
-                        <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
+                       
+                       <p:outputLabel value="#{bundle.CreateProductoLabel_prodDescripcion}" for="prodDescripcion" />
+                       <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.CreateProductoTitle_prodDescripcion}" requiredMessage="#{bundle.MensajeProducto}"/>
+                       
+                       <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagen}" for="prodImagen" />
+                       <p:fileUpload id="prodImagen" value="#{productoController.file}"  mode="simple"  update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                       
+                       <p:outputLabel value="#{bundle.CreateProductoLabel_prodHabilitado}" for="prodHabilitado" />
+                       <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Save}" action="#{productoController.uploadImage('create')}" ajax="false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
     </ui:composition>
 </html>

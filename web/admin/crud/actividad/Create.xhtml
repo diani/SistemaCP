@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{actividadController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateActividadLabel_actDescripcion}" for="actDescripcion" />
-                        <p:inputText id="actDescripcion" required="true" value="#{actividadController.selected.actDescripcion}" title="#{bundle.CreateActividadTitle_actDescripcion}" />
+                        <p:inputText id="actDescripcion" required="true" value="#{actividadController.selected.actDescripcion}" title="#{bundle.CreateActividadTitle_actDescripcion}" requiredMessage="#{bundle.MensajeActividad}" />
                         <p:outputLabel value="#{bundle.CreateActividadLabel_actHabilitado}" for="actHabilitado" />
                         <p:selectBooleanCheckbox id="actHabilitado" value="#{actividadController.selected.actHabilitado}" />
                     </p:panelGrid>

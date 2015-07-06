@@ -23,9 +23,10 @@
                     <p:panel>
                             <p:panelGrid id="tabla1" columns="4" >
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!procesoController.crear}"/>
-                                <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}"/>
+                                <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}" />
+                                
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
-                                <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
+                                <p:selectOneMenu id="prodCodigo" required="true" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.MensajeProducto}">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{procesoController.productos}"
                                                    var="prodCodigoItem"
@@ -36,9 +37,10 @@
                                 <br/>
                             <p:panelGrid id="tabla2" columns="6">
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
-                                <p:inputText id="procMateriaPrima" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
+                                <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" requiredMessage="#{bundle.MensajeMateriaPrima}" onkeypress="return isNumberKey(event)" />
+                                
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
-                                <p:inputText id="procProductoTerminado" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
+                                <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" requiredMessage="#{bundle.MensajeProductoTerminado}" onkeypress="return isNumberKey(event)"/>
                             </p:panelGrid>
                     </p:panel>
                     <p:panel>
@@ -82,21 +84,21 @@
                         <p:column headerText="Orden" filterBy="#{pa.procActOrden}" sortBy="#{pa.procActOrden}">
                                <p:cellEditor>
                                    <f:facet name="output"><h:outputText value="#{pa.procActOrden}" /></f:facet>
-                                   <f:facet name="input"><p:inputText value="#{pa.procActOrden}" style="width:96%"/></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{pa.procActOrden}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
                                </p:cellEditor>
                         </p:column>
 
                         <p:column headerText="Tiempo" sortBy="#{pa.procActTiempo}">
                                <p:cellEditor>
                                    <f:facet name="output"><h:outputText value="#{pa.procActTiempo}" /></f:facet>
-                                   <f:facet name="input"><p:inputText value="#{pa.procActTiempo}" style="width:96%"/></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{pa.procActTiempo}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
                                </p:cellEditor>
                         </p:column>
 
                         <p:column headerText="Nro Personas" sortBy="#{pa.procActNumPersonas}">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{pa.procActNumPersonas}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{pa.procActNumPersonas}" style="width:96%" label="Year"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{pa.procActNumPersonas}" onkeypress="return isNumberKey(event)" style="width:96%" label="Year"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         
@@ -120,7 +122,6 @@
                         <p:rowExpansion>
                             <div align="center"> 
                                 <p:dataTable id="datalistAT" var="actTar" value="#{pa.actividadPorTareaListTransient}" rowIndexVar="rowAT" rendered="#{pa.actividadPorTareaListTransient != null and pa.actividadPorTareaListTransient.size()!=0}" style="width: 75%;" editable="true" editMode="cell" widgetVar="PAObjectoAT">
-                                    
                                     <p:ajax event="cellEdit" listener="#{procesoController.onCellEdit}" update=":growl" />
                                     
                                         <p:column>
@@ -140,7 +141,7 @@
                                         <p:column headerText="Orden" filterBy="#{actTar.actTarOrden}" sortBy="#{actTar.actTarOrden}">
                                             <p:cellEditor>
                                                 <f:facet name="output"><h:outputText value="#{actTar.actTarOrden}" /></f:facet>
-                                                <f:facet name="input"><p:inputText value="#{actTar.actTarOrden}" style="width:96%"/></f:facet>
+                                                <f:facet name="input"><p:inputText value="#{actTar.actTarOrden}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
                                             </p:cellEditor>
                                         </p:column>
 
@@ -162,7 +163,7 @@
                 </p:panel>
             </h:form>
             
-            <p:dialog id="ActividadDlg" widgetVar="ActividadDialog" modal="true" resizable="false" appendTo="@(body)" header="Actividad">
+           <p:dialog id="ActividadDlg" widgetVar="ActividadDialog" modal="true" resizable="false" appendTo="@(body)" header="Actividad">
                 <h:form id="ActividadForm">
                     <p:pickList id="PojoPickList" value="#{procesoController.actividades}" var="actividad" effect="bounce"
                                 itemValue="#{actividad}" itemLabel="#{actividad.actDescripcion}" showSourceControls="true" showTargetControls="true" showCheckbox="true"
@@ -199,9 +200,8 @@
                     </div>
                 </h:form>
             </p:dialog>
-            
-            
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+
+           <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                 <h:form>
                     <div align="center">
                         <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

@@ -13,15 +13,19 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{procesoController.selected != null}">
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" />
-                        <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" required="true" requiredMessage="#{bundle.EditProcesoRequiredMessage_procCodigo}"/>
+                        <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" />
+                        
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
-                        <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" />
+                        <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" requiredMessage="#{bundle.MensajeMateriaPrima}" onkeypress="return isNumberKey(event)"/>
+                        
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
-                        <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" />
+                        <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" requiredMessage="#{bundle.MensajeProductoTerminado}" onkeypress="return isNumberKey(event)"/>
+                        
                         <p:outputLabel value="#{bundle.EditProcesoLabel_procHabilitadoInterno}" for="procHabilitadoInterno" />
                         <p:selectBooleanCheckbox id="procHabilitadoInterno" value="#{procesoController.selected.procHabilitadoInterno}" />
+                        
                         <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
-                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" required="true" requiredMessage="#{bundle.EditProcesoRequiredMessage_prodCodigo}">
+                        <p:selectOneMenu id="prodCodigo" value="#{procesoController.selected.prodCodigo}" required="true" requiredMessage="#{bundle.MensajeProducto}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="prodCodigoItem"

@@ -13,21 +13,28 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_usuId}" for="usuId" />
-                        <p:inputText id="usuId" disabled="true" value="#{usuarioController.selected.usuId}" title="#{bundle.EditUsuarioTitle_usuId}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuId}"/>
+                        <p:inputText id="usuId" disabled="true" value="#{usuarioController.selected.usuId}" title="#{bundle.EditUsuarioTitle_usuId}" />
+                        
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_usuNombre}" for="usuNombre" />
-                        <p:inputText id="usuNombre" required="true" value="#{usuarioController.selected.usuNombre}" title="#{bundle.EditUsuarioTitle_usuNombre}" />
+                        <p:inputText id="usuNombre" required="true" value="#{usuarioController.selected.usuNombre}" title="#{bundle.EditUsuarioTitle_usuNombre}" requiredMessage="#{bundle.MensajeNombre}"/>
+                        
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_usuApellido}" for="usuApellido" />
-                        <p:inputText id="usuApellido" required="true" value="#{usuarioController.selected.usuApellido}" title="#{bundle.EditUsuarioTitle_usuApellido}" />
+                        <p:inputText id="usuApellido" required="true" value="#{usuarioController.selected.usuApellido}" title="#{bundle.EditUsuarioTitle_usuApellido}" requiredMessage="#{bundle.MensajeApellido}"/>
+                        
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_usuUsuario}" for="usuUsuario" />
-                        <p:inputText id="usuUsuario" required="true" value="#{usuarioController.selected.usuUsuario}" title="#{bundle.EditUsuarioTitle_usuUsuario}" />
+                        <p:inputText id="usuUsuario" required="true" value="#{usuarioController.selected.usuUsuario}" title="#{bundle.EditUsuarioTitle_usuUsuario}" requiredMessage="#{bundle.MensajeUsuario}"/>
+                        
                         <h:outputLabel for="usuClave" value="#{bundle.EditUsuarioLabel_usuClave}" />
-                        <p:password id="usuClave" value="#{usuarioController.selected.usuClave}" match="usuClave2" label="Clave" required="true" />
+                        <p:password id="usuClave" value="#{usuarioController.selected.usuClave}" match="usuClave2" label="Clave" required="true" requiredMessage="#{bundle.MensajeClave}"/>
+                        
                         <h:outputLabel for="usuClave2" value="Confirmar clave" />
-                        <p:password id="usuClave2" value="#{usuarioController.selected.usuClave}" label="Clave" required="true" />
+                        <p:password id="usuClave2" value="#{usuarioController.selected.usuClave}" label="Clave" required="true" requiredMessage="#{bundle.MensajeClave2}" />
+                        
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_usuHabilitado}" for="usuHabilitado" />
                         <p:selectBooleanCheckbox id="usuHabilitado" value="#{usuarioController.selected.usuHabilitado}" />
+                        
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_rolId}" for="rolId" />
-                        <p:selectOneMenu id="rolId" value="#{usuarioController.selected.rolId}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_rolId}">
+                        <p:selectOneMenu id="rolId" value="#{usuarioController.selected.rolId}" required="true" requiredMessage="#{bundle.MensajeRol}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{rolController.itemsAvailableSelectOne}"
                                            var="rolIdItem"

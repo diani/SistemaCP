@@ -13,13 +13,17 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{productoController.selected != null}">
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodCodigo}" for="prodCodigo" />
-                        <p:inputText id="prodCodigo" disabled="true" value="#{productoController.selected.prodCodigo}" title="#{bundle.EditProductoTitle_prodCodigo}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_prodCodigo}"/>
+                        <p:inputText id="prodCodigo" disabled="true" value="#{productoController.selected.prodCodigo}" title="#{bundle.EditProductoTitle_prodCodigo}" />
+                        
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodCodigoAux}" for="prodCodigoAux" />
-                        <p:inputText id="prodCodigoAux" required="true" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.EditProductoTitle_prodCodigoAux}" />
+                        <p:inputText id="prodCodigoAux" required="true" value="#{productoController.selected.prodCodigoAux}" title="#{bundle.EditProductoTitle_prodCodigoAux}" requiredMessage="#{bundle.MensajeCodAux}"/>
+                        
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodDescripcion}" for="prodDescripcion" />
-                        <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.EditProductoTitle_prodDescripcion}" />
+                        <p:inputText id="prodDescripcion" required="true" value="#{productoController.selected.prodDescripcion}" title="#{bundle.EditProductoTitle_prodDescripcion}" requiredMessage="#{bundle.MensajeProducto}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagen}" for="prodImagen" />
                         <p:fileUpload id="prodImagen" value="#{productoController.file}" mode="simple" update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                        
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagenVer}" />
                         <p:commandButton id="imagenButton" value="#{bundle.foto}" disabled="#{productoController.selected.prodImagen == null}" update=":ProductoImagenForm" oncomplete="PF('ProductoImagenDialog').show()"/>
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodHabilitado}" for="prodHabilitado" />
