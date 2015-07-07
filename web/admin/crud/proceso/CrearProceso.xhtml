@@ -20,11 +20,10 @@
                         <h:outputText value="Proceso"/>
                     </f:facet>
                     <p:panelGrid id="tabla" columns="2" style="width: 100%; border: none;">
-                    <p:panel>
-                            <p:panelGrid id="tabla1" columns="4" >
+                        <p:panel class="borderLess">
+                            <p:panelGrid id="tabla1" columns="4" class="borderLess">
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!procesoController.crear}"/>
                                 <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}" />
-                                
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
                                 <p:selectOneMenu id="prodCodigo" required="true" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.MensajeProducto}">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
@@ -33,9 +32,8 @@
                                                    itemValue="#{prodCodigoItem}"
                                                    itemLabel="#{prodCodigoItem.prodDescripcion}"/>
                                 </p:selectOneMenu>
-                            </p:panelGrid>   
-                                <br/>
-                            <p:panelGrid id="tabla2" columns="6">
+                                <p:spacer rendered="#{procesoController.crear}"/>
+                                <p:spacer rendered="#{procesoController.crear}"/>
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
                                 <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" requiredMessage="#{bundle.MensajeMateriaPrima}" onkeypress="return isNumberKey(event)" />
                                 
@@ -43,8 +41,8 @@
                                 <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" requiredMessage="#{bundle.MensajeProductoTerminado}" onkeypress="return isNumberKey(event)"/>
                             </p:panelGrid>
                     </p:panel>
-                    <p:panel>
-                            <p:commandButton id="guardarProcButton" icon="ui-icon-plus" value="Guardar Proceso" action="#{procesoController.create()}" />
+                    <p:panel class="borderLess">
+                            <p:commandButton id="guardarProcButton" icon="ui-icon-plus" value="Guardar Proceso" action="#{procesoController.create()}" update="CrearProcesoForm:tabla, growl"/>
                     </p:panel>
                     </p:panelGrid>
                         <br/>
@@ -116,7 +114,7 @@
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus" value="añadir Actividades" actionListener="#{procesoController.abrirActividades}" update="ActividadForm:PojoPickList"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus" value="añadir Actividades" actionListener="#{procesoController.abrirActividades}" update="CrearProcesoForm:tabla, ActividadForm:PojoPickList, growl" />
                         </f:facet>
                         
                         <p:rowExpansion>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Producción Diaria"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ProduDiaListForm">
+                <p:panel header="Producción Diaria">
+                    <p:dataTable id="datalist" value="#{produccionDiariaController.produccionDia}" var="producdia"
+                                 rowKey="#{producdia.prodDiaCodigo}"
+                                 rowIndexVar="cont"
+                                 editable="true" 
+                                 editMode="cell" 
+                                 widgetVar="PDObjecto"
+                                 >
+                        
+                        <p:ajax event="cellEdit" listener="#{produccionDiariaController.onCellEdit}" update=":growl" />
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nro"/>
+                            </f:facet>
+                            #{cont+1}
+                        </p:column>
+                        
+                        <p:column filterBy="#{producdia.prodCodigo.prodDescripcion}" sortBy="#{producdia.prodCodigo.prodDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="Producto"/>
+                            </f:facet>
+                            <h:outputText value="#{producdia.prodCodigo.prodDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{producdia.prodDiaFecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Lote" filterBy="#{producdia.prodDiaLote}" sortBy="#{producdia.prodDiaLote}">
+                               <p:cellEditor>
+                                   <f:facet name="output"><h:outputText value="#{producdia.prodDiaLote}" /></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{producdia.prodDiaLote}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
+                               </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Cantidad MP" filterBy="#{producdia.prodDiaCantMp}" sortBy="#{producdia.prodDiaCantMp}">
+                               <p:cellEditor>
+                                   <f:facet name="output"><h:outputText value="#{producdia.prodDiaCantMp}" /></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{producdia.prodDiaCantMp}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
+                               </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Unidad MP">
+                               <p:cellEditor>
+                                   <f:facet name="output">
+                                       <h:outputText value="#{producdia.uniMpCodigo.uniMpDescripcion}" />
+                                   </f:facet>
+                                   <f:facet name="input">
+                                       <h:selectOneMenu value="#{producdia.uniMpCodigo}" style="width:100%">
+                                           <f:selectItems value="#{produccionDiariaController.unidadesMp}" var="uni" itemLabel="#{uni.uniMpDescripcion}" itemValue="#{uni}" />
+                                       </h:selectOneMenu>
+                                   </f:facet>
+                               </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total Producto Terminado"/>
+                            </f:facet>
+                            <h:outputText value="#{producdia.totalProdT}"/>
+                        </p:column>
+                                
+                       
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus" value="Añadir Productos" actionListener="#{produccionDiariaController.abrirProductos()}" update="UnidadMPForm:PojoPickList, growl" />
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <p:dialog id="UniMPDlg" widgetVar="UnidadMPDialog" modal="true" resizable="false" appendTo="@(body)" header="UnidadMP">
+                <h:form id="UnidadMPForm">
+                    <p:pickList id="PojoPickList" value="#{produccionDiariaController.productosdual}" var="producto" effect="bounce"
+                                itemValue="#{producto}" itemLabel="#{producto.prodDescripcion}" showSourceControls="true" showTargetControls="true" showCheckbox="true"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="ProductoControllerConverter">
+
+                        <f:facet name="sourceCaption">Productos Disponibles</f:facet>
+                        <f:facet name="targetCaption">Productos Seleccionados</f:facet>
+
+                        <p:column style="width:75%;">
+                            <h:outputText value="#{producto.prodDescripcion}" />
+                        </p:column>
+                    </p:pickList>
+                    <div align="center">
+                        <p:commandButton id="guardarProdButton" icon="ui-icon-plus"   value="Añadir" action="#{produccionDiariaController.enviarProductos(loginController.usuactivo)}" update="ProduDiaListForm:datalist"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+           
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

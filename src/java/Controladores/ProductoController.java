@@ -207,7 +207,7 @@ public class ProductoController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Producto.class)
+    @FacesConverter("ProductoControllerConverter")
     public static class ProductoControllerConverter implements Converter {
 
         @Override

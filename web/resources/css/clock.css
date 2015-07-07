@@ -40,7 +40,7 @@ and open the template in the editor.
     text-shadow: 0 0 5px #00c6ff;
 }
 
-ul {
+.ulclock {
     width: 300px;
     margin: 0 auto;
     padding: 0px;
@@ -48,7 +48,7 @@ ul {
     text-align: center;
 }
 
-ul li {
+.ulclock li {
     display: inline;
     font-size: 18px;
     text-align: center;

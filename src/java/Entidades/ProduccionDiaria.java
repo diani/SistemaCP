@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -64,7 +65,11 @@ public class ProduccionDiaria implements Serializable {
     @JoinColumn(name = "UNI_MP_CODIGO", referencedColumnName = "UNI_MP_CODIGO")
     @ManyToOne(optional = false)
     private UnidadesMp uniMpCodigo;
-
+    @JoinColumn(name = "USU_ID", referencedColumnName = "USU_ID")
+    @ManyToOne(optional = false)
+    private Usuario usuId;
+    private transient Float totalProdT;
+    
     public ProduccionDiaria() {
     }
 
@@ -104,6 +109,24 @@ public class ProduccionDiaria implements Serializable {
         this.prodDiaCantMp = prodDiaCantMp;
     }
 
+    public Usuario getUsuId() {
+        return usuId;
+    }
+
+    public void setUsuId(Usuario usuId) {
+        this.usuId = usuId;
+    }
+
+    @Transient
+    public Float getTotalProdT() {
+        return totalProdT;
+    }
+
+    public void setTotalProdT(Float totalProdT) {
+        this.totalProdT = totalProdT;
+    }
+
+    
     @XmlTransient
     public List<ProduccionPorPresentacion> getProduccionPorPresentacionList() {
         return produccionPorPresentacionList;

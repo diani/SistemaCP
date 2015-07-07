@@ -50,3 +50,7 @@
 .imagenBoton {
     background-image: url(../resources/imagenes/layer/botonIngresar.png)
 }
+
+.borderLess, table.borderLess tr td {
+    border-style: hidden !important;		
+}

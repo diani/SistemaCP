@@ -3,6 +3,7 @@ package Controladores;
 import Entidades.Usuario;
 import Controladores.util.JsfUtil;
 import Controladores.util.JsfUtil.PersistAction;
+import Entidades.Rol;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,9 +25,12 @@ public class UsuarioController implements Serializable {
 
     @EJB
     private Controladores.UsuarioFacade ejbFacade;
+    @EJB
+    private Controladores.RolFacade ejbRolFacade;
     private List<Usuario> items = null;
     private Usuario selected;
-
+    private List<Rol> lstrol = null;
+    
     public UsuarioController() {
     }
 
@@ -38,6 +42,17 @@ public class UsuarioController implements Serializable {
         this.selected = selected;
     }
 
+    public List<Rol> getLstrol() {
+        lstrol = ejbRolFacade.roleshabilitadas(true);
+        return lstrol;
+    }
+
+    public void setLstrol(List<Rol> lstrol) {
+        this.lstrol = lstrol;
+    }
+
+    
+    
     protected void setEmbeddableKeys() {
     }
 

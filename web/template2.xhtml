@@ -61,7 +61,8 @@
         <p:layout fullPage="true">
             
             <p:layoutUnit position="north" >  
-                <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/arriba.png); height: 15px; width: 100%;">
+                <div>
+                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/arriba.png); height: 15px; width: 100%;">
                     </div>
                     <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fondo.png); height: 130px; width: 100%;">
                         <div style="width: 30%; float: left;" align="center">
@@ -73,6 +74,40 @@
                     </div>
                     <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/abajo.png); height: 15px; width: 100%;">
                     </div>
+                    
+                    <h:form id="menuForm">
+                        <p:menubar>
+                            <p:menuitem value="#{bundle.Home}" outcome="/admin/crud/home.xhtml" icon="ui-icon-home"/>
+                            
+                            <p:submenu label="Administración" icon="ui-icon-gear" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}">
+                                <p:submenu label="#{bundle.Admin}" icon="ui-icon-person">
+                                    <p:menuitem value="Usuario" outcome="/admin/crud/usuario/List.xhtml" />
+                                    <p:menuitem value="Rol" outcome="/admin/crud/rol/List.xhtml" />                                                         
+                                </p:submenu>
+                                <p:submenu label="#{bundle.Unidades}">                              
+                                    <p:menuitem value="Presentacion de Productos" outcome="/admin/crud/presentacionProducto/List.xhtml" />                     
+                                    <p:menuitem value="Unidades de MP" outcome="/admin/crud/unidadesMp/List.xhtml" />
+                                </p:submenu>
+                                <p:submenu label="#{bundle.Negocio}">                              
+                                    <p:menuitem value="Actividad" outcome="/admin/crud/actividad/List.xhtml" />
+                                    <p:menuitem value="Proceso" outcome="/admin/crud/proceso/List.xhtml" />
+                                    <p:menuitem value="Tarea" outcome="/admin/crud/tarea/List.xhtml" />
+                                </p:submenu>
+                                <p:menuitem value="Productos" outcome="/admin/crud/producto/List.xhtml" />
+                            </p:submenu>
+                            <p:menuitem value="Planificación" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
+                            <p:menuitem value="Tiempos Producción" outcome="/tiemposProduccion/tiempos.xhtml" />
+                            <f:facet name="options" rendered="#{loginController.usuactivo != null}">
+                                <p:outputLabel value="Usuario:"/>
+                                <p:outputLabel value="#{loginController.usuactivo.usuUsuario}"/>
+                                <p:spacer width="5px" height="1px"/>
+                                <p:commandButton value="Cerrar sesión" action="#{loginController.cerrarSesion()}"/>
+                                                          
+                            </f:facet>
+                            
+                        </p:menubar>                         
+                    </h:form>
+                </div>
             </p:layoutUnit>
             
             <p:layoutUnit position="south">
@@ -81,7 +116,7 @@
                     <div style="width: 67%; float: left;" align="center">
                         <div class="clock">
                         <div id="Date"></div>
-                          <ul>
+                        <ul class="ulclock">
                               <li id="hours"></li>
                               <li id="point">:</li>
                               <li id="min"></li>

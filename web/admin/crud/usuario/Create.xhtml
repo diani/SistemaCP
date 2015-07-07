@@ -32,7 +32,8 @@
                         
                         <p:outputLabel value="#{bundle.CreateUsuarioLabel_rolId}" for="rolId" />
                         <p:selectOneMenu id="rolId" value="#{usuarioController.selected.rolId}" required="true" requiredMessage="#{bundle.MensajeRol}">
-                            <f:selectItems value="#{rolController.itemsAvailableSelectOne}"
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.lstrol}"
                                            var="rolIdItem"
                                            itemValue="#{rolIdItem}"
                                            itemLabel="#{rolIdItem.rolDescripcion}"/>

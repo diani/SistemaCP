@@ -36,7 +36,7 @@
             <p:layoutUnit position="center" >  
                 <div style="  position: relative;  top: 50%;  transform: translateY(-50%);" align="center">
                 <div style="padding-top: 32px; background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/login.png); height: 170px; width: 64%;">
-                    <h:form id="frmLogin">
+                    <h:form id="frmLogin"  onkeypress="if (event.keyCode == 13) { document.getElementById('frmLogin:save').click(); return false; }">
                         <p:growl id="mensageGeneral" showDetail="true" sticky="false"/>
                         <h:panelGrid columns="3">
                             <p:outputLabel value="Usuario:     " for="txtUsuario" />
@@ -46,7 +46,7 @@
                             <p:password id="txtContrasenia" size="40" value="#{loginController.contrasenia}"/>
                             <p:spacer height="50 px"></p:spacer>
                             <h:panelGroup></h:panelGroup>        
-                            <h:commandLink action="#{loginController.login()}" > 
+                            <h:commandLink id="save" action="#{loginController.login()}" > 
                                 <h:graphicImage value="/resources/imagenes/layer/botonIngresar.png" alt="login" />
                             </h:commandLink>
                         </h:panelGrid>

@@ -58,7 +58,7 @@ public class LoginController implements Serializable{
                 HttpSession httpSession=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 httpSession.setAttribute("usuario", this.Usuactivo);
                 
-                if(Usuactivo.getRolId().getRolDescripcion().equals("ADMINISTRADOR")){
+                if(Usuactivo.getRolId().getRolDescripcion().equals("ADMINISTRADOR") || Usuactivo.getRolId().getRolDescripcion().equals("JEFE")){
                     return "/admin/crud/home";
                 }else{
                     return "/tiemposProduccion/tiempos";

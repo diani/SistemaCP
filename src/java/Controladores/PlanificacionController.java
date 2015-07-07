@@ -42,18 +42,25 @@ public class PlanificacionController implements Serializable {
     private PlanificacionProcesos planiProcSeleccionado;
 
     public void guardarPlanificacion(){
-        try{
-            if(planiProcSeleccionado.getPlaProcCodigo() == null)
-            {
-                ejbPlaniFacade.persist(planiProcSeleccionado);
-            }else
-                ejbPlaniFacade.merge(planiProcSeleccionado);
-            lstPlaniProc.add(planiProcSeleccionado);
-             JsfUtil.addSuccessMessage("Guardado Correctamente");
-        }catch(Exception ex){
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        if(planiProcSeleccionado !=null && planiProcSeleccionado.getPlaProcFechaFin() != null && planiProcSeleccionado.getPlaProcFechaIni() != null){    
+            try{
+                if(planiProcSeleccionado.getPlaProcCodigo() == null)
+                {
+                    ejbPlaniFacade.persist(planiProcSeleccionado);
+                }else
+                    ejbPlaniFacade.merge(planiProcSeleccionado);
+                lstPlaniProc.add(planiProcSeleccionado);
+                JsfUtil.addSuccessMessage("Guardado Correctamente");
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('PlaniDialog').hide();");
+            }catch(Exception ex){
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }else{
+            JsfUtil.addErrorMessage("Los datos marcados con * son requeridos");
         }
+            
     }
     
     public void crearPlanificacion(){

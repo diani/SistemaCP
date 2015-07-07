@@ -5,8 +5,8 @@
  */
 package Controladores;
 
-import Entidades.Rol;
-import java.util.List;
+import Entidades.ProduccionPorPresentacion;
+import Entidades.Producto;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author diani
  */
 @Stateless
-public class RolFacade extends AbstractFacade<Rol> {
+public class ProduccionPorPresentacionFacade extends AbstractFacade<ProduccionPorPresentacion> {
     @PersistenceContext(unitName = "SistemaCPPU")
     private EntityManager em;
 
@@ -25,15 +25,8 @@ public class RolFacade extends AbstractFacade<Rol> {
         return em;
     }
 
-    public RolFacade() {
-        super(Rol.class);
+    public ProduccionPorPresentacionFacade() {
+        super(ProduccionPorPresentacion.class);
     }
     
-    public List<Rol> roleshabilitadas(Boolean habilitado){
-        try {
-                return findByParameters("from Rol ro where ro.rolHabilitado = ?1", habilitado);
-        } catch (Exception e) {
-                return null;
-        }
-    }
 }

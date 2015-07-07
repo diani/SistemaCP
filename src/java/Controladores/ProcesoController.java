@@ -470,7 +470,7 @@ public class ProcesoController implements Serializable {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
+            if (value == null || value.length() == 0 || value.equals("Seleccionar Uno...")) {
                 return null;
             }
             ProcesoController controller = (ProcesoController) facesContext.getApplication().getELResolver().

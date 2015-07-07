@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.UnidadesMp;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,5 +28,12 @@ public class UnidadesMpFacade extends AbstractFacade<UnidadesMp> {
     public UnidadesMpFacade() {
         super(UnidadesMp.class);
     }
-    
+ 
+    public List<UnidadesMp> uniMPhabilitadas(Boolean habilitado){
+        try {
+                return findByParameters("from UnidadesMp unimp where unimp.uniMpHabilitado = ?1", habilitado);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }

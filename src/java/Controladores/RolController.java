@@ -85,6 +85,7 @@ public class RolController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
+                    selected.setRolDescripcion(selected.getRolDescripcion().toUpperCase());
                     getFacade().edit(selected);
                 } else {
                     selected.setRolHabilitado(new Boolean(false));
