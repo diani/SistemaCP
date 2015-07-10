@@ -117,7 +117,7 @@ public class PresentacionProductoController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = PresentacionProducto.class)
+    @FacesConverter("PresentacionProductoControllerConverter")
     public static class PresentacionProductoControllerConverter implements Converter {
 
         @Override

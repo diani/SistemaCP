@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.PresentacionProducto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,4 +29,11 @@ public class PresentacionProductoFacade extends AbstractFacade<PresentacionProdu
         super(PresentacionProducto.class);
     }
     
+    public List<PresentacionProducto> preseProdHabilitadas(Boolean habilitado){
+        try {
+                return findByParameters("from PresentacionProducto prepro where prepro.preProdHabilitado = ?1", habilitado);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }

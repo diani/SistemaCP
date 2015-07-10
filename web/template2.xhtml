@@ -76,7 +76,7 @@
                     </div>
                     
                     <h:form id="menuForm">
-                        <p:menubar>
+                        <p:menubar rendered="#{loginController.usuactivo.rolId.rolDescripcion!='OPERARIO'}">
                             <p:menuitem value="#{bundle.Home}" outcome="/admin/crud/home.xhtml" icon="ui-icon-home"/>
                             
                             <p:submenu label="Administración" icon="ui-icon-gear" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}">
@@ -97,6 +97,7 @@
                             </p:submenu>
                             <p:menuitem value="Planificación" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
                             <p:menuitem value="Tiempos Producción" outcome="/tiemposProduccion/tiempos.xhtml" />
+                            <p:menuitem value="Producción Diaria" outcome="/produccionDiaria/produccionDiaria.xhtml" />
                             <f:facet name="options" rendered="#{loginController.usuactivo != null}">
                                 <p:outputLabel value="Usuario:"/>
                                 <p:outputLabel value="#{loginController.usuactivo.usuUsuario}"/>

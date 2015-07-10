@@ -144,12 +144,12 @@
                                         </p:column>
 
                                         <p:column style="text-align: center">
-                                    <p:commandButton id="elimtareasButton"   icon="ui-icon-plus" value="Eliminar Tarea" action="#{procesoController.eliminarActTar}" update="CrearProcesoForm:datalistPA">
-                                        <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Tarea?" icon="ui-icon-alert" />
-                                        <f:setPropertyActionListener value="#{actTar}" target="#{procesoController.selectedAT}" />
-                                        <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
-                                    </p:commandButton>
-                                </p:column>
+                                            <p:commandButton id="elimtareasButton"   icon="ui-icon-plus" value="Eliminar Tarea" action="#{procesoController.eliminarActTar}" update="CrearProcesoForm:datalistPA">
+                                                <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Tarea?" icon="ui-icon-alert" />
+                                                <f:setPropertyActionListener value="#{actTar}" target="#{procesoController.selectedAT}" />
+                                                <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
+                                            </p:commandButton>
+                                        </p:column>
                                     
                                 </p:dataTable>
                                 <h:outputText value="No hay Tareas asignadas a esta Actividad" rendered="#{pa.actividadPorTareaListTransient == null or pa.actividadPorTareaListTransient.size() == 0}" />

@@ -117,7 +117,7 @@ public class UnidadesMpController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = UnidadesMp.class)
+    @FacesConverter("UnidadesMpControllerConverter")
     public static class UnidadesMpControllerConverter implements Converter {
 
         @Override

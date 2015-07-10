@@ -123,7 +123,7 @@ public class PresentacionProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.PresentacionProducto[ preProdCodigo=" + preProdCodigo + " ]";
+        return preProdDescripcion;
     }
     
 }

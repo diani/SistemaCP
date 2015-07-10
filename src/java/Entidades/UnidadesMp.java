@@ -123,7 +123,7 @@ public class UnidadesMp implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.UnidadesMp[ uniMpCodigo=" + uniMpCodigo + " ]";
+        return uniMpDescripcion;
     }
     
 }

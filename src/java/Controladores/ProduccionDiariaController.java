@@ -5,9 +5,13 @@
  */
 package Controladores;
 
+import Controladores.util.JsfUtil;
+import Entidades.ActividadPorTarea;
 import Entidades.PresentacionProducto;
+import Entidades.ProcesoPorActividad;
 import Entidades.ProduccionDiaria;
 import Entidades.ProduccionPorPresentacion;
+import Entidades.ProduccionPorPresentacionPK;
 import Entidades.Producto;
 import Entidades.UnidadesMp;
 import Entidades.Usuario;
@@ -15,7 +19,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -61,7 +69,7 @@ public class ProduccionDiariaController implements Serializable {
     private DualListModel<Producto> productosdual = new DualListModel<Producto>(prodizq,prodder);
     
 
-     public void onCellEdit(CellEditEvent event) {
+    public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
         if(newValue != null && !newValue.equals(oldValue)) {
@@ -70,7 +78,7 @@ public class ProduccionDiariaController implements Serializable {
         }
     }
      
-     public void abrirProductos(){
+    public void abrirProductos(){
         prodizq = ejbProductoFacade.lstProductosHabilitados(true);
         prodder = new ArrayList<Producto>();
         for(ProduccionDiaria var: produccionDia){
@@ -86,7 +94,7 @@ public class ProduccionDiariaController implements Serializable {
         context.execute("PF('UnidadMPDialog').show();");
     }
      
-     public void enviarProductos(Usuario usu){
+    public void enviarProductos(Usuario usu){
         if(produccionDia != null && !produccionDia.isEmpty()){
             for(Producto prod: productosdual.getTarget()){
                 Boolean contiene = false;
@@ -116,6 +124,98 @@ public class ProduccionDiariaController implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('UnidadMPDialog').hide();");   
     }
+    
+    public void abrirPresentacionProducto(){
+        presProd = new ArrayList<PresentacionProducto>();
+        presProd = ejbPreProdFacade.preseProdHabilitadas(true);
+        if(selectedProduccionDia.getProduccionPorPresentacionList()== null || selectedProduccionDia.getProduccionPorPresentacionList().isEmpty()){
+            selectedProduccionDia.setProduccionPorPresentacionList(new ArrayList<ProduccionPorPresentacion>());
+            for(PresentacionProducto aux :presProd){
+                ProduccionPorPresentacion var = new ProduccionPorPresentacion();
+                var.setProduccionPorPresentacionPK(new ProduccionPorPresentacionPK());
+                var.setPresentacionProducto(aux);
+                var.setProduccionDiaria(selectedProduccionDia);
+                var.getProduccionPorPresentacionPK().setProdDiaCodigo(aux.getPreProdCodigo());
+                selectedProduccionDia.getProduccionPorPresentacionList().add(var);
+            }
+        }
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('PulpaDialog').show();");
+    }
+    
+    public void eliminarPresProd(){
+        if(selectedProduccionPre.getProduccionPorPresentacionPK().getPreProdCodigo()==0){
+            selectedProduccionDia.getProduccionPorPresentacionList().remove(selectedProduccionPre);
+        }else{
+            selectedProduccionDia.getProduccionPorPresentacionList().remove(selectedProduccionPre);
+            ejbProduccionPreFacade.remove(selectedProduccionPre);
+        }
+    }
+    
+    public void agregarPresProd(){
+        for(PresentacionProducto aux :presProd){
+            Boolean contiene = false;
+            for(ProduccionPorPresentacion proPre:selectedProduccionDia.getProduccionPorPresentacionList()){
+                if(proPre.getPresentacionProducto().getPreProdDescripcion().equals(aux.getPreProdDescripcion())){
+                    contiene = true;
+                }
+            }
+            if(!contiene){
+                ProduccionPorPresentacion var = new ProduccionPorPresentacion();
+                var.setProduccionPorPresentacionPK(new ProduccionPorPresentacionPK());
+                var.setPresentacionProducto(aux);
+                var.setProduccionDiaria(selectedProduccionDia);
+                var.getProduccionPorPresentacionPK().setProdDiaCodigo(aux.getPreProdCodigo());
+                selectedProduccionDia.getProduccionPorPresentacionList().add(var);    
+                break;
+            }
+        }
+    }
+    
+    public void sumarTotales(){
+        Float total =0F;
+        for(ProduccionPorPresentacion proPre:selectedProduccionDia.getProduccionPorPresentacionList()){
+            total += (proPre.getProdPorPresCantPt()!= null ? proPre.getProdPorPresCantPt() : 0F)*proPre.getPresentacionProducto().getPreProdEquivalenciaPt();
+            
+        }
+        selectedProduccionDia.setTotalProdT(total);
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('PulpaDialog').hide();");
+    }
+    
+    public void guardarProdDiaria(Usuario usu){
+        try{
+            for(ProduccionDiaria prd: produccionDia ){
+                prd.setUsuId(usu);
+                produccionPre = new ArrayList<ProduccionPorPresentacion>();
+                produccionPre = prd.getProduccionPorPresentacionList();
+                prd.setProduccionPorPresentacionList(null);
+                if(prd.getProdDiaCodigo() == null){
+                    ejbProduccionDiaFacade.persist(prd);
+                }else
+                    ejbProduccionDiaFacade.merge(prd);
+                if(produccionPre != null && !produccionPre.isEmpty()){
+                    for(ProduccionPorPresentacion prpre :produccionPre){
+                        if(prpre.getProduccionPorPresentacionPK().getProdDiaCodigo()==0 || prpre.getProduccionPorPresentacionPK().getPreProdCodigo()==0){
+                            prpre.setProduccionDiaria(prd);
+                            prpre.getProduccionPorPresentacionPK().setProdDiaCodigo(prd.getProdDiaCodigo());
+                            prpre.getProduccionPorPresentacionPK().setPreProdCodigo(prpre.getPresentacionProducto().getPreProdCodigo());
+                            ejbProduccionPreFacade.persist(prpre);
+                        }else{
+                            ejbProduccionPreFacade.merge(prpre);
+                        }
+                    }
+                }
+            }
+            JsfUtil.addSuccessMessage("Guardado Satisfactoriamente");
+        }
+        catch(Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+    }
+    
+    
     
     public List<Usuario> getUsuarios() {
         return usuarios;
@@ -236,7 +336,5 @@ public class ProduccionDiariaController implements Serializable {
 
     public void setProductosdual(DualListModel<Producto> productosdual) {
         this.productosdual = productosdual;
-    }
-    
-    
+    }   
 }
