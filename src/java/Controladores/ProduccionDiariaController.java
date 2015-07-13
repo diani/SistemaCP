@@ -10,6 +10,7 @@ import Entidades.ActividadPorTarea;
 import Entidades.PresentacionProducto;
 import Entidades.ProcesoPorActividad;
 import Entidades.ProduccionDiaria;
+import Entidades.ProduccionDiariaEstructura;
 import Entidades.ProduccionPorPresentacion;
 import Entidades.ProduccionPorPresentacionPK;
 import Entidades.Producto;
@@ -67,7 +68,8 @@ public class ProduccionDiariaController implements Serializable {
     private List<Producto> prodizq = new ArrayList<Producto>();
     private List<Producto> prodder = new ArrayList<Producto>();
     private DualListModel<Producto> productosdual = new DualListModel<Producto>(prodizq,prodder);
-    
+    private List<ProduccionDiariaEstructura> lstproddia = new ArrayList<ProduccionDiariaEstructura>();
+    private ProduccionDiariaEstructura selectedProdDiaEst;
 
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
@@ -76,6 +78,23 @@ public class ProduccionDiariaController implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda Cambiada", "Antigua: " + (oldValue != null ? oldValue : "-") + ", Nueva:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+    
+    public String nuevaProduccionDiaria(){
+        produccionDia = new ArrayList<ProduccionDiaria>();
+        return "/produccionDiaria/produccionDiaria.xhtml";
+    }
+    
+    public String verProduccionDiaria(){
+        produccionDia = new ArrayList<ProduccionDiaria>();
+        produccionDia = selectedProdDiaEst.getLstProdDia();
+        for(ProduccionDiaria tot :produccionDia){
+            for(ProduccionPorPresentacion cantTot :tot.getProduccionPorPresentacionList()){
+                tot.setTotalProdT((tot.getTotalProdT() != null ? tot.getTotalProdT():0F)+(cantTot.getProdPorPresCantPt()!= null ? cantTot.getProdPorPresCantPt() : 0F)*cantTot.getPresentacionProducto().getPreProdEquivalenciaPt());
+            }
+        }
+        return "/produccionDiaria/produccionDiaria.xhtml";
+        
     }
      
     public void abrirProductos(){
@@ -214,8 +233,27 @@ public class ProduccionDiariaController implements Serializable {
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
     }
-    
-    
+
+    public ProduccionDiariaEstructura getSelectedProdDiaEst() {
+        return selectedProdDiaEst;
+    }
+
+    public void setSelectedProdDiaEst(ProduccionDiariaEstructura selectedProdDiaEst) {
+        this.selectedProdDiaEst = selectedProdDiaEst;
+    }
+
+    public List<ProduccionDiariaEstructura> getLstproddia() {
+        lstproddia=ejbProduccionDiaFacade.buscarFechaUsu();
+        for(ProduccionDiariaEstructura aux:lstproddia){
+            aux.setLstProdDia(ejbProduccionDiaFacade.buscarPorFechaUsuario(aux.getProdDiaEstFecha(), aux.getCodigoUsuario()));
+            aux.setCantidadFruta("" +aux.getLstProdDia().size());
+        }
+        return lstproddia;
+    }
+
+    public void setLstproddia(List<ProduccionDiariaEstructura> lstproddia) {
+        this.lstproddia = lstproddia;
+    }
     
     public List<Usuario> getUsuarios() {
         return usuarios;

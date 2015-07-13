@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Producción Diaria"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ProdDiListForm">
+                <p:panel header="Producción Diaria">
+                    <p:dataTable id="datalist" value="#{produccionDiariaController.lstproddia}" var="lstproddia"
+                                 paginator="true"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rowIndexVar="cont"
+                                 >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nro"/>
+                            </f:facet>
+                            #{cont+1}
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{lstproddia.prodDiaEstFecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column filterBy="#{lstproddia.nombresCompletos}" sortBy="#{lstproddia.nombresCompletos}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="Responsable"/>
+                            </f:facet>
+                            <h:outputText value="#{lstproddia.nombresCompletos}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{lstproddia.cantidadFruta}" >
+                            <f:facet name="header">
+                                <h:outputText value="Número de Frutas"/>
+                            </f:facet>
+                            <h:outputText value="#{lstproddia.cantidadFruta}"/>
+                        </p:column>
+                        
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.View}"/>
+                            </f:facet>
+                            <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" action="#{produccionDiariaController.verProduccionDiaria()}">
+                                <f:setPropertyActionListener value="#{lstproddia}" target="#{produccionDiariaController.selectedProdDiaEst}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{produccionDiariaController.nuevaProduccionDiaria}" />    
+                        </f:facet>
+                       
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>
