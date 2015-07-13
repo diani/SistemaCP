@@ -5,6 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+    
+    
 
     <ui:composition template="/template.xhtml">
 
@@ -15,11 +17,12 @@
         <ui:define name="body">
             <h:form id="ProdDiListForm">
                 <p:panel header="Producción Diaria">
-                    <p:dataTable id="datalist" value="#{produccionDiariaController.lstproddia}" var="lstproddia"
+                    <p:dataTable id="datalist" value="#{produccionDiariaController.lstproddia}" var="listproddia"
                                  paginator="true"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  rowIndexVar="cont"
+                                 widgetVar="prodDiaFechas"
                                  >
 
                         <p:column>
@@ -29,27 +32,41 @@
                             #{cont+1}
                         </p:column>
                         
-                        <p:column>
+                        <p:column filterBy="#{listproddia.prodDiaEstFecha}" sortBy="#{listproddia.prodDiaEstFecha}" filterFunction="#{produccionDiariaController.filterByDate}" >
+                            <f:facet name="filter">
+                                <h:inputHidden id="filter" />
+                            </f:facet>
                             <f:facet name="header">
                                 <h:outputText value="Fecha"/>
+                                <br />
+                                <h:outputText value="Desde: "/>
+                                <p:calendar id="from" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
+                                </p:calendar>
+                                <br/>
+                                <h:outputText value="Hasta:  "/>
+                                <p:calendar id="to" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
+                                </p:calendar>
+                                <br />
                             </f:facet>
-                            <h:outputText value="#{lstproddia.prodDiaEstFecha}" >
+                                <h:outputText value="#{listproddia.prodDiaEstFecha}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
                         
-                        <p:column filterBy="#{lstproddia.nombresCompletos}" sortBy="#{lstproddia.nombresCompletos}" filterMatchMode="contains">
+                        <p:column filterBy="#{listproddia.nombresCompletos}" sortBy="#{listproddia.nombresCompletos}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="Responsable"/>
                             </f:facet>
-                            <h:outputText value="#{lstproddia.nombresCompletos}"/>
+                            <h:outputText value="#{listproddia.nombresCompletos}"/>
                         </p:column>
                         
-                        <p:column sortBy="#{lstproddia.cantidadFruta}" >
+                        <p:column sortBy="#{listproddia.cantidadFruta}" >
                             <f:facet name="header">
                                 <h:outputText value="Número de Frutas"/>
                             </f:facet>
-                            <h:outputText value="#{lstproddia.cantidadFruta}"/>
+                            <h:outputText value="#{listproddia.cantidadFruta}"/>
                         </p:column>
                         
                         <p:column style="text-align: center">
@@ -57,12 +74,13 @@
                                 <h:outputText value="#{bundle.View}"/>
                             </f:facet>
                             <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" action="#{produccionDiariaController.verProduccionDiaria()}">
-                                <f:setPropertyActionListener value="#{lstproddia}" target="#{produccionDiariaController.selectedProdDiaEst}" />
+                                <f:setPropertyActionListener value="#{listproddia}" target="#{produccionDiariaController.selectedProdDiaEst}" />
                             </p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{produccionDiariaController.nuevaProduccionDiaria}" />    
+                            <p:commandButton id="UpdateButton" icon="ui-icon-refresh"   value="#{bundle.Actualizar}" oncomplete="location.reload();"/>
                         </f:facet>
                        
                     </p:dataTable>

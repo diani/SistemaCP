@@ -5,6 +5,7 @@
  */
 package Entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author diani
  */
-public class ProduccionDiariaEstructura {
+public class ProduccionDiariaEstructura implements Serializable{
  
     private Date prodDiaEstFecha;
     private String nombresCompletos;
@@ -66,9 +67,5 @@ public class ProduccionDiariaEstructura {
     public void setCantidadFruta(String cantidadFruta) {
         this.cantidadFruta = cantidadFruta;
     }
-    
-    
-    
-    
     
 }

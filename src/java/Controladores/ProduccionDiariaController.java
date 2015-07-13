@@ -17,9 +17,13 @@ import Entidades.Producto;
 import Entidades.UnidadesMp;
 import Entidades.Usuario;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,6 +75,44 @@ public class ProduccionDiariaController implements Serializable {
     private List<ProduccionDiariaEstructura> lstproddia = new ArrayList<ProduccionDiariaEstructura>();
     private ProduccionDiariaEstructura selectedProdDiaEst;
 
+    public boolean filterByDate(Object value, Object filter, Locale locale) {
+
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+        if (value == null) {
+            return false;
+        }
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date filterDate = (Date) value;
+        Date dateFrom;
+        Date dateTo;
+        try {
+            String fromPart = filterText.substring(0, filterText.indexOf("-"));
+            String toPart = filterText.substring(filterText.indexOf("-") + 1);
+            dateFrom = fromPart.isEmpty() ? null : df.parse(fromPart);
+            dateTo = toPart.isEmpty() ? null : df.parse(toPart);
+            dateFrom=sumarRestarDiasFecha(dateFrom, -1);
+            dateTo=sumarRestarDiasFecha(dateTo, 1);
+        } catch (ParseException pe) {
+            return false;
+        }
+
+        return (dateFrom == null || filterDate.after(dateFrom)) && (dateTo == null || filterDate.before(dateTo));
+    }
+    
+    public Date sumarRestarDiasFecha(Date fecha, int dias){
+ 
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(fecha); // Configuramos la fecha que se recibe
+      calendar.add(Calendar.DAY_OF_YEAR, dias);  // numero de días a añadir, o restar en caso de días<0
+ 
+      return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos 
+    }
+    
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
