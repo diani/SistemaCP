@@ -25,11 +25,12 @@
                         <p:fileUpload id="prodImagen" value="#{productoController.file}" mode="simple" update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                         
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagenVer}" />
-                        <p:commandButton id="imagenButton" value="#{bundle.foto}" disabled="#{productoController.selected.prodImagen == null}" update=":ProductoImagenForm" oncomplete="PF('ProductoImagenDialog').show()"/>
+                        <p:commandButton id="imagenButton" icon="fa fa-picture-o" value="#{bundle.foto}" disabled="#{productoController.selected.prodImagen == null}" update=":ProductoImagenForm" oncomplete="PF('ProductoImagenDialog').show()"/>
+                        
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodHabilitado}" for="prodHabilitado" />
                         <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Save}" action="#{productoController.uploadImage('edit')}" ajax="false"/>
+                    <p:commandButton value="#{bundle.Save}" icon="fa fa-save" action="#{productoController.uploadImage('edit')}" ajax="false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

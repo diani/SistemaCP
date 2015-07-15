@@ -21,7 +21,7 @@
                         <p:outputLabel value="#{bundle.EditTareaLabel_tarHabilitado}" for="tarHabilitado" />
                         <p:selectBooleanCheckbox id="tarHabilitado" value="#{tareaController.selected.tarHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tareaController.update}" value="#{bundle.Save}" update="display,:TareaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TareaEditDialog');"/>
+                    <p:commandButton actionListener="#{tareaController.update}" icon="fa fa-save" value="#{bundle.Save}" update="display,:TareaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TareaEditDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

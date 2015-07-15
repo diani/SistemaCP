@@ -61,7 +61,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" action="#{procesoController.editarProceso}" rendered="#{item.procHabilitadoInterno}" >
+                            <p:commandButton id="editButton"   icon="fa fa-pencil" value="#{bundle.Edit}" action="#{procesoController.editarProceso}" rendered="#{item.procHabilitadoInterno}" >
                                 <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
                             </p:commandButton>
                            <h:outputText value="Activar Fruta" rendered="#{!item.procHabilitadoInterno}" />
@@ -70,12 +70,12 @@
                             <f:facet name="header">
                                 <h:outputText value="Ver"/>
                             </f:facet>
-                            <p:commandButton id="verButton"   icon="ui-icon-pencil" value="ver" action="#{procesoController.abrirArbol()}" update="arbolProceso">
+                            <p:commandButton id="verButton" icon="fa fa-sitemap" value="ver" action="#{procesoController.abrirArbol()}" update="arbolProceso">
                                 <f:setPropertyActionListener value="#{item}" target="#{procesoController.selected}" />
                             </p:commandButton>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{procesoController.crearProceso}" />
+                            <p:commandButton id="createButton" icon="fa fa-plus"   value="#{bundle.Create}" action="#{procesoController.crearProceso}" />
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

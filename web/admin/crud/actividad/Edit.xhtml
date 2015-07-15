@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.EditActividadLabel_actHabilitado}" for="actHabilitado" />
                         <p:selectBooleanCheckbox id="actHabilitado" value="#{actividadController.selected.actHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{actividadController.update}" value="#{bundle.Save}" update="display,:ActividadListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ActividadEditDialog');"/>
+                    <p:commandButton icon="fa fa-save" actionListener="#{actividadController.update}" value="#{bundle.Save}" update="display,:ActividadListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ActividadEditDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

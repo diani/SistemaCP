@@ -42,7 +42,7 @@ public class PlanificacionController implements Serializable {
     private PlanificacionProcesos planiProcSeleccionado;
 
     public void guardarPlanificacion(){
-        if(planiProcSeleccionado !=null && planiProcSeleccionado.getPlaProcFechaFin() != null && planiProcSeleccionado.getPlaProcFechaIni() != null){    
+        if(planiProcSeleccionado.getProcCodigo().getProcCodigo() !=null && planiProcSeleccionado.getPlaProcFechaFin() != null && planiProcSeleccionado.getPlaProcFechaIni() != null){    
             try{
                 if(planiProcSeleccionado.getPlaProcCodigo() == null)
                 {

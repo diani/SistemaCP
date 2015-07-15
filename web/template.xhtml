@@ -9,13 +9,12 @@
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputStylesheet library="awesome" name="css/font-awesome.css"/>
         <h:outputScript library="js" name="jsfcrud.js"/>
     </h:head>
 
     <h:body>
-
         <p:growl id="growl" life="3000" showDetail="true"/>
-
         <p:layout fullPage="true">
             <p:layoutUnit position="north" >  
                 <div>
@@ -34,35 +33,32 @@
                     
                     <h:form id="menuForm">
                         <p:menubar>
-                            <p:menuitem value="#{bundle.Home}" outcome="/admin/crud/home.xhtml" icon="ui-icon-home"/>
-                            
-                            <p:submenu label="Administración" icon="ui-icon-gear" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}">
-                                <p:submenu label="#{bundle.Admin}" icon="ui-icon-person">
+                            <p:menuitem value="#{bundle.Home}" icon="fa fa-home" outcome="/admin/crud/home.xhtml"/>
+                            <p:submenu label="Administración" icon="fa fa-cogs" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}">
+                                <p:submenu label="#{bundle.Admin}" icon="fa fa-user">
                                     <p:menuitem value="Usuario" outcome="/admin/crud/usuario/List.xhtml" />
                                     <p:menuitem value="Rol" outcome="/admin/crud/rol/List.xhtml" />                                                         
                                 </p:submenu>
-                                <p:submenu label="#{bundle.Unidades}">                              
+                                <p:submenu label="#{bundle.Unidades}" icon="fa fa-magic">                              
                                     <p:menuitem value="Presentacion de Productos" outcome="/admin/crud/presentacionProducto/List.xhtml" />                     
                                     <p:menuitem value="Unidades de MP" outcome="/admin/crud/unidadesMp/List.xhtml" />
                                 </p:submenu>
-                                <p:submenu label="#{bundle.Negocio}">                              
+                                <p:submenu label="#{bundle.Negocio}" icon="fa fa-suitcase">                              
                                     <p:menuitem value="Actividad" outcome="/admin/crud/actividad/List.xhtml" />
-                                    <p:menuitem value="Proceso" outcome="/admin/crud/proceso/List.xhtml" />
                                     <p:menuitem value="Tarea" outcome="/admin/crud/tarea/List.xhtml" />
                                 </p:submenu>
-                                <p:menuitem value="Productos" outcome="/admin/crud/producto/List.xhtml" />
+                                <p:menuitem value="Proceso" icon="fa fa-puzzle-piece" outcome="/admin/crud/proceso/List.xhtml" />
+                                <p:menuitem value="Productos" icon="fa fa-lemon-o" outcome="/admin/crud/producto/List.xhtml" />
                             </p:submenu>
-                            <p:menuitem value="Planificación" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
-                            <p:menuitem value="Tiempos Producción" outcome="/tiemposProduccion/tiempos.xhtml" />
-                            <p:menuitem value="Producción Diaria" outcome="/produccionDiaria/principalProduccionDiaria.xhtml" />
+                            <p:menuitem value="Planificación" icon="fa fa-calendar" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
+                            <p:menuitem value="Tiempos Producción" icon="fa fa-clock-o" outcome="/tiemposProduccion/tiempos.xhtml" />
+                            <p:menuitem value="Producción Diaria" icon="fa fa-group" outcome="/produccionDiaria/principalProduccionDiaria.xhtml" />
                             <f:facet name="options" rendered="#{loginController.usuactivo != null}">
                                 <p:outputLabel value="Usuario:"/>
                                 <p:outputLabel value="#{loginController.usuactivo.usuUsuario}"/>
                                 <p:spacer width="5px" height="1px"/>
-                                <p:commandButton value="Cerrar sesión" action="#{loginController.cerrarSesion()}"/>
-                                                          
+                                <p:commandButton value="Cerrar sesión" icon="fa fa-power-off" action="#{loginController.cerrarSesion()}"/>                     
                             </f:facet>
-                            
                         </p:menubar>                         
                     </h:form>
                 </div>
@@ -78,7 +74,6 @@
                 <ui:insert name="body"/>
             </p:layoutUnit>
         </p:layout>
-        
         <p:watermark value="Buscar" for="@(th .ui-column-filter)"/>  
     </h:body>
 

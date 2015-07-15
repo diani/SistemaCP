@@ -47,7 +47,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
-                            <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":RolEditForm" oncomplete="PF('RolEditDialog').show()" >
+                            <p:commandButton id="editButton" icon="fa fa-pencil" value="#{bundle.Edit}" update=":RolEditForm" oncomplete="PF('RolEditDialog').show()" >
                                 <f:setPropertyActionListener value="#{item}" target="#{rolController.selected}" />
                             </p:commandButton>
                         </p:column>
@@ -55,12 +55,12 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Delete}"/>
                             </f:facet>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" action="#{rolController.destroy}" update=":growl,datalist">
+                            <p:commandButton id="deleteButton" icon="fa fa-trash-o"  value="#{bundle.Delete}" action="#{rolController.destroy}" update=":growl,datalist">
                                 <f:setPropertyActionListener value="#{item}" target="#{rolController.selected}" />
                             </p:commandButton>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{rolController.prepareCreate}" update=":RolCreateForm" oncomplete="PF('RolCreateDialog').show()"/>
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="#{bundle.Create}" actionListener="#{rolController.prepareCreate}" update=":RolCreateForm" oncomplete="PF('RolCreateDialog').show()"/>
                             
                         </f:facet>
                     </p:dataTable>

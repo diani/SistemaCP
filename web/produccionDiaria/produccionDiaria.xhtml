@@ -16,7 +16,9 @@
             <h:form id="ProduDiaListForm">
                 <p:panel header="Producción Diaria">
                     <div style="width: 100%; height: 40px;" align="center">
-                        <p:commandButton id="guardarProdButton"   icon="ui-icon-plus" value="Guardar Producción Diaria" actionListener="#{produccionDiariaController.guardarProdDiaria(loginController.usuactivo)}" update="PulpaForm:datalistp, :growl"/>
+                        <p:commandButton id="guardarProdButton" icon="fa fa-save" value="Guardar Producción Diaria" actionListener="#{produccionDiariaController.guardarProdDiaria(loginController.usuactivo)}" update="PulpaForm:datalistp, :growl"/>
+                        <p:spacer width="15px"/>
+                        <p:button id="atrasButton" icon="fa fa-reply"  value="Atrás" outcome="/produccionDiaria/principalProduccionDiaria.xhtml"/>
                     </div>
                     <p:dataTable id="datalist" value="#{produccionDiariaController.produccionDia}" var="producdia"
                                  rowKey="#{producdia.prodDiaCodigo}"
@@ -87,13 +89,13 @@
                         </p:column>
                                 
                        <p:column style="text-align: center">
-                           <p:commandButton id="PresentacionProdsButton"   icon="ui-icon-plus" value="Añadir Presentación Producto" action="#{produccionDiariaController.abrirPresentacionProducto()}" update="PulpaForm:datalistp">
+                           <p:commandButton id="PresentacionProdsButton" icon="fa fa-plus" value="Agregar Presentación Producto" action="#{produccionDiariaController.abrirPresentacionProducto()}" update="PulpaForm:datalistp">
                                <f:setPropertyActionListener value="#{producdia}" target="#{produccionDiariaController.selectedProduccionDia}" />
                             </p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus" value="Añadir Productos" action="#{produccionDiariaController.abrirProductos()}" update="UnidadMPForm:PojoPickList, :growl" />
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="Agregar Productos" action="#{produccionDiariaController.abrirProductos()}" update="UnidadMPForm:PojoPickList, :growl" />
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
@@ -114,7 +116,7 @@
                         </p:column>
                     </p:pickList>
                     <div align="center">
-                        <p:commandButton id="guardarProdButton" icon="ui-icon-plus"   value="Añadir" action="#{produccionDiariaController.enviarProductos(loginController.usuactivo)}" update="ProduDiaListForm:datalist"/>
+                        <p:commandButton id="guardarProdButton" icon="fa fa-plus" value="AGREGAR" action="#{produccionDiariaController.enviarProductos(loginController.usuactivo)}" update="ProduDiaListForm:datalist"/>
                     </div>
                 </h:form>
             </p:dialog>
@@ -124,7 +126,7 @@
                 <h:form id="PulpaForm">
                     <p:panel header="Pesentaciones">
                         <div style="width: 100%; height: 40px;" align="center">
-                            <p:commandButton id="agregarPresentacionButton"   icon="ui-icon-plus" value="Agregar Presentación" actionListener="#{produccionDiariaController.agregarPresProd()}" update="PulpaForm:datalistp"/>
+                            <p:commandButton id="agregarPresentacionButton" icon="fa fa-plus" value="Agregar Presentación" actionListener="#{produccionDiariaController.agregarPresProd()}" update="PulpaForm:datalistp, :growl"/>
                         </div>
                     <p:dataTable id="datalistp" value="#{produccionDiariaController.selectedProduccionDia.produccionPorPresentacionList}" var="produccionPre"
                                  rowIndexVar="cont1"
@@ -164,14 +166,14 @@
                         </p:column>
                         
                         <p:column style="text-align: center">
-                            <p:commandButton id="elimProduccionPorPresentacionButton"   icon="ui-icon-plus" value="Eliminar Presentación" action="#{produccionDiariaController.eliminarPresProd()}" update="PulpaForm:datalistp">
+                            <p:commandButton id="elimProduccionPorPresentacionButton" icon="fa fa-trash-o" value="Eliminar Presentación" action="#{produccionDiariaController.eliminarPresProd()}" update="PulpaForm:datalistp">
                                 <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Presentación" icon="ui-icon-alert" />
                                 <f:setPropertyActionListener value="#{produccionPre}" target="#{produccionDiariaController.selectedProduccionPre}" />
                             </p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="sumarTotales"   icon="ui-icon-plus" value="Guardar" action="#{produccionDiariaController.sumarTotales()}" update="ProduDiaListForm:datalist"/>
+                            <p:commandButton id="sumarTotales" icon="fa fa-save" value="Guardar" action="#{produccionDiariaController.sumarTotales()}" update="ProduDiaListForm:datalist"/>
                         </f:facet>
                     </p:dataTable>
                     </p:panel>

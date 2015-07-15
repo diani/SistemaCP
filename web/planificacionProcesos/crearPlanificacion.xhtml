@@ -97,14 +97,14 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
-                            <p:commandButton id="editButton" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PlaniForm" oncomplete="PF('PlaniDialog').show()" >
+                            <p:commandButton id="editButton" icon="fa fa-pencil" value="#{bundle.Edit}" update=":PlaniForm" oncomplete="PF('PlaniDialog').show()" >
                                 <f:setPropertyActionListener value="#{plan}" target="#{planificacionController.planiProcSeleccionado}" />
                             </p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{planificacionController.crearPlanificacion()}" update=":PlaniForm"/>
-                            <p:commandButton id="UpdateButton" icon="ui-icon-refresh"   value="#{bundle.Actualizar}" oncomplete="location.reload();"/>
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="#{bundle.Create}" actionListener="#{planificacionController.crearPlanificacion()}" update=":PlaniForm"/>
+                            <p:commandButton id="UpdateButton" icon="fa fa-refresh"   value="#{bundle.Actualizar}" oncomplete="location.reload();"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
@@ -124,17 +124,17 @@
                         </p:selectOneMenu>
                         
                         <p:outputLabel for="fechaini" value="Fecha Inicio:" />
-                        <p:calendar id="fechaini" readonly="true" value="#{planificacionController.planiProcSeleccionado.plaProcFechaIni}" required="true" requiredMessage="#{bundle.MensajeFechaInicio}"/>
+                        <p:calendar id="fechaini"  value="#{planificacionController.planiProcSeleccionado.plaProcFechaIni}" required="true" requiredMessage="#{bundle.MensajeFechaInicio}"/>
                         
                         <p:outputLabel for="fechafin" value="Fecha Fin:" />
-                        <p:calendar id="fechafin" readonly="true" value="#{planificacionController.planiProcSeleccionado.plaProcFechaFin}" required="true" requiredMessage="#{bundle.MensajeFechaFinal}"/>
+                        <p:calendar id="fechafin"  value="#{planificacionController.planiProcSeleccionado.plaProcFechaFin}" required="true" requiredMessage="#{bundle.MensajeFechaFinal}"/>
                         
                         <p:outputLabel value="#{bundle.EditPlanificacionLabel_Habilitado}" for="planiHabilitado" />
                         <p:selectBooleanCheckbox id="planiHabilitado" value="#{planificacionController.planiProcSeleccionado.plaProcHabilitado}" />
                     </p:panelGrid>
                    </h:panelGroup>
                     <div align="center">
-                        <p:commandButton id="guardarPlaniButton" icon="ui-icon-plus"  value="Guardar" actionListener="#{planificacionController.guardarPlanificacion()}" update="display,PlanificacionListForm:datalistPlani, :growl"/>
+                        <p:commandButton id="guardarPlaniButton" icon="fa fa-save" value="Guardar" action="#{planificacionController.guardarPlanificacion()}" update="PlanificacionListForm:datalistPlani, :growl"/>
                     </div>
                 </h:form>
             </p:dialog>

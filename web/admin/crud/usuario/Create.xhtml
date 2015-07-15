@@ -39,7 +39,7 @@
                                            itemLabel="#{rolIdItem.rolDescripcion}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioCreateDialog');"/>
+                    <p:commandButton actionListener="#{usuarioController.create}" icon="fa fa-save" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioCreateDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

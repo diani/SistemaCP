@@ -23,7 +23,7 @@
                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodHabilitado}" for="prodHabilitado" />
                        <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Save}" action="#{productoController.uploadImage('create')}" ajax="false"/>
+                    <p:commandButton value="#{bundle.Save}" icon="fa fa-save" action="#{productoController.uploadImage('create')}" ajax="false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

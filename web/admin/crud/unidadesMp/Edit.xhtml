@@ -24,7 +24,7 @@
                         <p:outputLabel value="#{bundle.EditUnidadesMpLabel_uniMpHabilitado}" for="uniMpHabilitado" />
                         <p:selectBooleanCheckbox id="uniMpHabilitado" value="#{unidadesMpController.selected.uniMpHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{unidadesMpController.update}" value="#{bundle.Save}" update="display,:UnidadesMpListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UnidadesMpEditDialog');"/>
+                    <p:commandButton actionListener="#{unidadesMpController.update}" icon="fa fa-save" value="#{bundle.Save}" update="display,:UnidadesMpListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UnidadesMpEditDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

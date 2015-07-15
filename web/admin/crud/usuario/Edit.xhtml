@@ -42,7 +42,7 @@
                                            itemLabel="#{rolIdItem.rolDescripcion}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuarioEditDialog');"/>
+                    <p:commandButton actionListener="#{usuarioController.update}" icon="fa fa-save" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuarioEditDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

@@ -123,13 +123,28 @@ public class ProcesoController implements Serializable {
         }
         crear = false;
         productos = ejbProdFacade.lstProductosHabilitados(true);
+        for(Proceso pro: items){
+            if(productos.contains(pro.getProdCodigo()) && !selected.getProdCodigo().equals(pro.getProdCodigo())){
+                productos.remove(pro.getProdCodigo());
+            }
+        }
         return "/admin/crud/proceso/CrearProceso.xhtml";
+    }
+    
+    public String atras(){
+        return "/admin/crud/proceso/List.xhtml";
     }
     
     public String crearProceso(){
         selected =  new Proceso();
         selected.setProcesoPorActividadList(new ArrayList<ProcesoPorActividad>());
         productos = ejbProdFacade.lstProductosHabilitados(true);
+        for(Proceso pro: items){
+            if(productos.contains(pro.getProdCodigo())){
+                productos.remove(pro.getProdCodigo());
+            }
+        }
+                
         crear = true;
         return "/admin/crud/proceso/CrearProceso.xhtml";
     }

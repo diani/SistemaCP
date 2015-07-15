@@ -21,7 +21,7 @@
                         <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdEquivalenciaPt}" for="preProdEquivalenciaPt" />
                         <p:inputText id="preProdEquivalenciaPt" required="true" value="#{presentacionProductoController.selected.preProdEquivalenciaPt}" title="#{bundle.CreatePresentacionProductoTitle_preProdEquivalenciaPt}" requiredMessage="#{bundle.MensajeEquivalenciaPT}" onkeypress="return isNumberKey(event)"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{presentacionProductoController.create}" value="#{bundle.Save}" update="display,:PresentacionProductoListForm:datalist,:growl" oncomplete="handleSubmit(args,'PresentacionProductoCreateDialog');"/>
+                    <p:commandButton icon="fa fa-save" actionListener="#{presentacionProductoController.create}" value="#{bundle.Save}" update="display,:PresentacionProductoListForm:datalist,:growl" oncomplete="handleSubmit(args,'PresentacionProductoCreateDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

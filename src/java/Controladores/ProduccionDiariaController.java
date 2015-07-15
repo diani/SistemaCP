@@ -231,6 +231,7 @@ public class ProduccionDiariaController implements Serializable {
                 break;
             }
         }
+        JsfUtil.addErrorMessage("Ya no existen presentaciones disponibles");
     }
     
     public void sumarTotales(){

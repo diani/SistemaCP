@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.EditRolLabel_rolHabilitado}" for="rolHabilitado" />
                         <p:selectBooleanCheckbox id="rolHabilitado" value="#{rolController.selected.rolHabilitado}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{rolController.update}" value="#{bundle.Save}" update="display,:RolListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RolEditDialog');"/>
+                    <p:commandButton actionListener="#{rolController.update}" icon="fa fa-save" value="#{bundle.Save}" update="display,:RolListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RolEditDialog');"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

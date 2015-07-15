@@ -25,7 +25,7 @@
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!procesoController.crear}"/>
                                 <p:inputText id="procCodigo" disabled="true" value="#{procesoController.selected.procCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!procesoController.crear}" />
                                 <p:outputLabel value="#{bundle.EditProcesoLabel_prodCodigo}" for="prodCodigo" />
-                                <p:selectOneMenu id="prodCodigo" required="true" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.MensajeProducto}">
+                                <p:selectOneMenu id="prodCodigo" required="true" value="#{procesoController.selected.prodCodigo}" requiredMessage="#{bundle.MensajeProducto}" converter="ProductoControllerConverter">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{procesoController.productos}"
                                                    var="prodCodigoItem"
@@ -42,7 +42,9 @@
                             </p:panelGrid>
                     </p:panel>
                     <p:panel class="borderLess">
-                            <p:commandButton id="guardarProcButton" icon="ui-icon-plus" value="Guardar Proceso" action="#{procesoController.create()}" update="CrearProcesoForm:tabla, growl"/>
+                        <p:commandButton id="guardarProcButton" icon="fa fa-save" value="Guardar Proceso" action="#{procesoController.create()}" update="CrearProcesoForm:tabla, growl"/>
+                        <p:spacer width="15px"/>
+                        <p:button id="atrasButton" icon="fa fa-reply"  value="Atrás" outcome="/admin/crud/proceso/List.xhtml"/>
                     </p:panel>
                     </p:panelGrid>
                         <br/>
@@ -101,20 +103,20 @@
                         </p:column>
                         
                         <p:column style="text-align: center">
-                            <p:commandButton id="elimActsButton"   icon="ui-icon-plus" value="Eliminar Actividad" action="#{procesoController.eliminarProcAct}" update="CrearProcesoForm:datalistPA">
+                            <p:commandButton id="elimActsButton" icon="fa fa-trash-o" value="Eliminar Actividad" action="#{procesoController.eliminarProcAct}" update="CrearProcesoForm:datalistPA">
                                 <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Actividad?" icon="ui-icon-alert" />
                                 <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
                             </p:commandButton>
                         </p:column>
                         
                         <p:column style="text-align: center">
-                            <p:commandButton id="tareasButton"   icon="ui-icon-plus" value="añadir Tareas" action="#{procesoController.abrirTareas()}" update="TareaForm:PojoPickListTarea">
+                            <p:commandButton id="tareasButton" icon="fa fa-plus" value="añadir Tareas" action="#{procesoController.abrirTareas()}" update="TareaForm:PojoPickListTarea">
                                 <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
                             </p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus" value="añadir Actividades" actionListener="#{procesoController.abrirActividades}" update="CrearProcesoForm:tabla, ActividadForm:PojoPickList, growl" />
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="añadir Actividades" actionListener="#{procesoController.abrirActividades}" update="CrearProcesoForm:tabla, ActividadForm:PojoPickList, growl" />
                         </f:facet>
                         
                         <p:rowExpansion>
@@ -144,7 +146,7 @@
                                         </p:column>
 
                                         <p:column style="text-align: center">
-                                            <p:commandButton id="elimtareasButton"   icon="ui-icon-plus" value="Eliminar Tarea" action="#{procesoController.eliminarActTar}" update="CrearProcesoForm:datalistPA">
+                                            <p:commandButton id="elimtareasButton" icon="fa fa-trash-o" value="Eliminar Tarea" action="#{procesoController.eliminarActTar}" update="CrearProcesoForm:datalistPA">
                                                 <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Tarea?" icon="ui-icon-alert" />
                                                 <f:setPropertyActionListener value="#{actTar}" target="#{procesoController.selectedAT}" />
                                                 <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
@@ -175,7 +177,7 @@
                         </p:column>
                     </p:pickList>
                     <div align="center">
-                        <p:commandButton id="guardarActButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{procesoController.enviarActividades()}" update="CrearProcesoForm:datalistPA"/>
+                        <p:commandButton id="guardarActButton" icon="fa fa-save" value="#{bundle.Create}" action="#{procesoController.enviarActividades()}" update="CrearProcesoForm:datalistPA"/>
                     </div>
                 </h:form>
             </p:dialog>
@@ -194,7 +196,7 @@
                         </p:column>
                     </p:pickList>
                     <div align="center">
-                        <p:commandButton id="guardarTarButton" icon="ui-icon-plus"   value="#{bundle.Create}" action="#{procesoController.enviarTareas()}" update="CrearProcesoForm:datalistPA"/>
+                        <p:commandButton id="guardarTarButton" icon="fa fa-save" value="#{bundle.Create}" action="#{procesoController.enviarTareas()}" update="CrearProcesoForm:datalistPA"/>
                     </div>
                 </h:form>
             </p:dialog>

@@ -48,7 +48,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TareaEditForm" oncomplete="PF('TareaEditDialog').show()" >
+                            <p:commandButton id="editButton" icon="fa fa-pencil" value="#{bundle.Edit}" update=":TareaEditForm" oncomplete="PF('TareaEditDialog').show()" >
                                 <f:setPropertyActionListener value="#{item}" target="#{tareaController.selected}" />
                             </p:commandButton>
                         </p:column>
@@ -56,12 +56,12 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.Delete}"/>
                             </f:facet>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" action="#{tareaController.destroy}" update=":growl,datalist">
+                            <p:commandButton id="deleteButton" icon="fa fa-trash-o" value="#{bundle.Delete}" action="#{tareaController.destroy}" update=":growl,datalist">
                                 <f:setPropertyActionListener value="#{item}" target="#{tareaController.selected}" />
                             </p:commandButton>
                         </p:column>
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tareaController.prepareCreate}" update=":TareaCreateForm" oncomplete="PF('TareaCreateDialog').show()"/>
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="#{bundle.Create}" actionListener="#{tareaController.prepareCreate}" update=":TareaCreateForm" oncomplete="PF('TareaCreateDialog').show()"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
