@@ -15,11 +15,12 @@
         <ui:define name="body">
             <h:form id="ProduDiaListForm">
                 <p:panel header="Producción Diaria">
-                    <div style="width: 100%; height: 40px;" align="center">
-                        <p:commandButton id="guardarProdButton" icon="fa fa-save" value="Guardar Producción Diaria" actionListener="#{produccionDiariaController.guardarProdDiaria(loginController.usuactivo)}" update="PulpaForm:datalistp, :growl"/>
+                    <div style="width: 100%; height: 80px;" align="center">
+                        <p:commandButton id="guardarProdButton" styleClass="teste" icon="fa fa-save fa-1x" value="Guardar Producción Diaria" actionListener="#{produccionDiariaController.guardarProdDiaria(loginController.usuactivo)}" update="PulpaForm:datalistp, :growl"/>
                         <p:spacer width="15px"/>
                         <p:button id="atrasButton" icon="fa fa-reply"  value="Atrás" outcome="/produccionDiaria/principalProduccionDiaria.xhtml"/>
                     </div>
+                    
                     <p:dataTable id="datalist" value="#{produccionDiariaController.produccionDia}" var="producdia"
                                  rowKey="#{producdia.prodDiaCodigo}"
                                  rowIndexVar="cont"

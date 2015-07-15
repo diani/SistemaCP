@@ -38,6 +38,7 @@ public class TiemposController implements Serializable {
     
     private PlanificacionProcesos selectedplaproc;
     private TiemposProduccion selectedtiempos = new TiemposProduccion();
+    private Boolean playBandera;
 
     public int usuariosTrabajando(PlanificacionProcesos plpr){
         List<TiemposProduccion> tipro = ejbTiemposFacade.tiempoPorPlanificacion(plpr);
@@ -56,6 +57,16 @@ public class TiemposController implements Serializable {
         selectedtiempos=new TiemposProduccion();
         selectedtiempos.setPlaProcCodigo(selectedplaproc);
         selectedtiempos.setUsuId(usuarioActivo);
+        TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuario(selectedplaproc, usuarioActivo);
+        if(tiempos == null){
+            playBandera = true;
+        }else{
+            if(tiempos.getTieProdHoraIni() != null){
+                playBandera = false;
+            }else{
+                playBandera = true;
+            }
+        }
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('ReproductorDialog').show();");
     }
@@ -63,7 +74,17 @@ public class TiemposController implements Serializable {
     public void play(){
         selectedtiempos.setTieProdHoraIni(new Date());
         ejbTiemposFacade.persist(selectedtiempos);
-        selectedplaproc.setPlaProcPlay(true);
+        TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuario(selectedplaproc, selectedtiempos.getUsuId());
+        if(tiempos == null){
+            playBandera = true;
+        }else{
+            if(tiempos.getTieProdHoraIni() != null){
+                playBandera = false;
+            }else{
+                playBandera = true;
+            }
+        }
+//        selectedplaproc.setPlaProcPlay(true);
         ejbPlaniProcFacade.merge(selectedplaproc);
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('ReproductorDialog').hide();");
@@ -71,7 +92,17 @@ public class TiemposController implements Serializable {
     public void pause(){
         selectedtiempos.setTieProdHoraFin(new Date());
         ejbTiemposFacade.persist(selectedtiempos);
-        selectedplaproc.setPlaProcPlay(false);
+        TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuario(selectedplaproc, selectedtiempos.getUsuId());
+        if(tiempos == null){
+            playBandera = true;
+        }else{
+            if(tiempos.getTieProdHoraIni() != null){
+                playBandera = false;
+            }else{
+                playBandera = true;
+            }
+        }
+//        selectedplaproc.setPlaProcPlay(false);
         ejbPlaniProcFacade.merge(selectedplaproc);
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('ReproductorDialog').hide();");
@@ -81,7 +112,7 @@ public class TiemposController implements Serializable {
         selectedtiempos.setTieProdHoraFin(new Date());
         ejbTiemposFacade.persist(selectedtiempos);
         selectedplaproc.setPlaProcHabilitado(false);
-        selectedplaproc.setPlaProcPlay(false);
+//        selectedplaproc.setPlaProcPlay(false);
         ejbPlaniProcFacade.merge(selectedplaproc);
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('ReproductorDialog').hide();");
@@ -111,4 +142,16 @@ public class TiemposController implements Serializable {
     public void setSelectedtiempos(TiemposProduccion selectedtiempos) {
         this.selectedtiempos = selectedtiempos;
     }
+
+    public Boolean getPlayBandera() {
+        return playBandera;
+    }
+
+    public void setPlayBandera(Boolean playBandera) {
+        this.playBandera = playBandera;
+    }
+
+   
+    
+    
 }

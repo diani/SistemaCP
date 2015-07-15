@@ -46,13 +46,13 @@
             <p:dialog id="ReproductorDlg" widgetVar="ReproductorDialog" modal="true" resizable="false" appendTo="@(body)" header="Producto">
                 <h:form id="ReproductorForm" >
                     <h:panelGrid columns="3" style="width:100%">
-                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.play()}" rendered="#{!tiemposController.selectedplaproc.plaProcPlay}">
+                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.play()}" rendered="#{tiemposController.playBandera}">
                             <img  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/play.png"/> 
                         </p:commandLink>
-                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.pause()}" rendered="#{tiemposController.selectedplaproc.plaProcPlay}">
+                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.pause()}" rendered="#{!tiemposController.playBandera}">
                             <img  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/pause.png"/> 
                         </p:commandLink>
-                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.stop()}" rendered="#{tiemposController.selectedplaproc.plaProcPlay}">
+                        <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.stop()}" rendered="#{!tiemposController.playBandera}">
                             <img  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/stop.png"/> 
                         </p:commandLink>
                     </h:panelGrid>

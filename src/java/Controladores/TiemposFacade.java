@@ -7,6 +7,7 @@ package Controladores;
 
 import Entidades.PlanificacionProcesos;
 import Entidades.TiemposProduccion;
+import Entidades.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,6 +38,13 @@ public class TiemposFacade extends AbstractFacade<TiemposProduccion> {
         } catch (Exception e) {
                 return null;
         }
-    }
+    }    
     
+    public TiemposProduccion ultimoTiempoPorUsuario(PlanificacionProcesos planiProc,Usuario usuario){
+        try {
+                return findByParameters("from TiemposProduccion tp where tp.plaProcCodigo.plaProcCodigo = ?1 and tp.usuId.usuId = ?2 order by tp.tieProdCodigo desc", planiProc.getPlaProcCodigo(), usuario.getUsuId()).get(0);
+        } catch (Exception e) {
+                return null;
+        }
+    }  
 }

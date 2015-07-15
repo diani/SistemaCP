@@ -15,7 +15,11 @@
 
         <ui:define name="body">
             
-            BIENVENIDO
+            <h:form>
+                <p:poll interval="3" update="votes" />
+                <p:chart  id="votes" type="pie" model="#{graficasController.livePieModel}" style="width:400px;height:300px"/>
+                
+            </h:form>
            
         </ui:define>
     </ui:composition>

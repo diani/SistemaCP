@@ -54,3 +54,12 @@
 .borderLess, table.borderLess tr td {
     border-style: hidden !important;		
 }
+
+.teste {  
+    width:180px !important; //largura  
+    height: 200px !important; //tamanho  
+}  
+
+.fa-1x {
+    font-size: 17px;
+}
