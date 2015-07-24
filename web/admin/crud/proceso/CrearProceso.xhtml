@@ -110,13 +110,13 @@
                         </p:column>
                         
                         <p:column style="text-align: center">
-                            <p:commandButton id="tareasButton" icon="fa fa-plus" value="añadir Tareas" action="#{procesoController.abrirTareas()}" update="TareaForm:PojoPickListTarea">
+                            <p:commandButton id="tareasButton" icon="fa fa-plus" value="Añadir Tareas" action="#{procesoController.abrirTareas()}" update="TareaForm:PojoPickListTarea">
                                 <f:setPropertyActionListener value="#{pa}" target="#{procesoController.selectedPA}" />
                             </p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="fa fa-plus" value="añadir Actividades" actionListener="#{procesoController.abrirActividades}" update="CrearProcesoForm:tabla, ActividadForm:PojoPickList, growl" />
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="Añadir Actividades" actionListener="#{procesoController.abrirActividades}" update="CrearProcesoForm:tabla, ActividadForm:PojoPickList, growl" />
                         </f:facet>
                         
                         <p:rowExpansion>

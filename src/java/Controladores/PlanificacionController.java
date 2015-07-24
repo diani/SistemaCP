@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import static org.jboss.weld.logging.BeanLogger.LOG;
@@ -61,6 +62,38 @@ public class PlanificacionController implements Serializable {
             JsfUtil.addErrorMessage("Los datos marcados con * son requeridos");
         }
             
+    }
+    
+    public void destroy() {
+        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("RolDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            planiProcSeleccionado = null; // Remove selection
+            lstPlaniProc = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+    
+    private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
+        if (planiProcSeleccionado != null) {
+            try {
+                planiProcSeleccionado.setPlaProcHabilitado(new Boolean(false));
+                ejbPlaniFacade.edit(planiProcSeleccionado);
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
     }
     
     public void crearPlanificacion(){

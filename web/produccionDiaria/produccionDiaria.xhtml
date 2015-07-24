@@ -102,7 +102,6 @@
                 </p:panel>
             </h:form>
 <!--        Escoger la fruta diaria -->
-
             <p:dialog id="UniMPDlg" widgetVar="UnidadMPDialog" modal="true" resizable="false" appendTo="@(body)" header="Frutas">
                 <h:form id="UnidadMPForm">
                     <p:pickList id="PojoPickList" value="#{produccionDiariaController.productosdual}" var="producto" effect="bounce"
@@ -123,12 +122,9 @@
             </p:dialog>
 
 <!--        Llenar presenttaciones de pulpa-->
-            <p:dialog id="PulpaDlg" widgetVar="PulpaDialog" modal="true" resizable="false" appendTo="@(body)" header="Presentación de Pulpas">
+            <p:dialog id="PulpaDlg" widgetVar="PulpaDialog" modal="true" resizable="false" appendTo="@(body)" header="Presentación de Pulpas" width="584px">
                 <h:form id="PulpaForm">
                     <p:panel header="Pesentaciones">
-                        <div style="width: 100%; height: 40px;" align="center">
-                            <p:commandButton id="agregarPresentacionButton" icon="fa fa-plus" value="Agregar Presentación" actionListener="#{produccionDiariaController.agregarPresProd()}" update="PulpaForm:datalistp, :growl"/>
-                        </div>
                     <p:dataTable id="datalistp" value="#{produccionDiariaController.selectedProduccionDia.produccionPorPresentacionList}" var="produccionPre"
                                  rowIndexVar="cont1"
                                  editable="true" 
@@ -164,13 +160,6 @@
                                    <f:facet name="output"><h:outputText value="#{produccionPre.prodPorPresCantPt}" /></f:facet>
                                    <f:facet name="input"><p:inputText value="#{produccionPre.prodPorPresCantPt}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
                                </p:cellEditor>
-                        </p:column>
-                        
-                        <p:column style="text-align: center">
-                            <p:commandButton id="elimProduccionPorPresentacionButton" icon="fa fa-trash-o" value="Eliminar Presentación" action="#{produccionDiariaController.eliminarPresProd()}" update="PulpaForm:datalistp">
-                                <p:confirm header="Alerta" message="¿Desea eliminar la siguiente Presentación" icon="ui-icon-alert" />
-                                <f:setPropertyActionListener value="#{produccionPre}" target="#{produccionDiariaController.selectedProduccionPre}" />
-                            </p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">

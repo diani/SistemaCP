@@ -42,17 +42,18 @@
                             <h:outputText value="#{plan.procCodigo.prodCodigo.prodDescripcion}" />
                         </p:column>
                         
-                        <p:column filterBy="#{plan.plaProcFechaIni}" sortBy="#{plan.plaProcFechaIni}" filterFunction="#{planificacionController.filterByDate}" >
+                        <p:column filterBy="#{plan.plaProcFechaIni}" sortBy="#{plan.plaProcFechaIni}" filterFunction="#{planificacionController.filterByDate}" style="width: 172px;">
                             <f:facet name="filter">
                                 <h:inputHidden id="filter" />
                             </f:facet>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPlanificacionTitle_FechaIni}"/>
-                                <br />
+                                <br/>
                                 <h:outputText value="Desde: "/>
-                                <p:calendar id="from" pattern="dd/MM/yyyy">
+                                <p:calendar id="from" pattern="dd/MM/yyyy" style="width: 25px; ">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
                                 </p:calendar>
+                                <br/>
                                 <h:outputText value="Hasta:  "/>
                                 <p:calendar id="to" pattern="dd/MM/yyyy">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
@@ -64,7 +65,7 @@
                             </h:outputText>
                         </p:column>
                         
-                        <p:column filterBy="#{plan.plaProcFechaFin}" sortBy="#{plan.plaProcFechaFin}" filterFunction="#{planificacionController.filterByDate}" >
+                        <p:column filterBy="#{plan.plaProcFechaFin}" sortBy="#{plan.plaProcFechaFin}" filterFunction="#{planificacionController.filterByDate}" style="width: 172px;">
                             <f:facet name="filter">
                                 <h:inputHidden id="filter1" />
                             </f:facet>
@@ -99,6 +100,15 @@
                             </f:facet>
                             <p:commandButton id="editButton" icon="fa fa-pencil" value="#{bundle.Edit}" update=":PlaniForm" oncomplete="PF('PlaniDialog').show()" >
                                 <f:setPropertyActionListener value="#{plan}" target="#{planificacionController.planiProcSeleccionado}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                         <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Delete}"/>
+                            </f:facet>
+                             <p:commandButton id="deleteButton" icon="fa fa-trash-o"  value="#{bundle.Delete}" action="#{planificacionController.destroy()}" update=":growl,datalistPlani">
+                                 <f:setPropertyActionListener value="#{plan}" target="#{planificacionController.planiProcSeleccionado}" />
                             </p:commandButton>
                         </p:column>
                         
