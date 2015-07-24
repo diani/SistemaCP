@@ -15,11 +15,11 @@
                         <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdDescripcion}" for="preProdDescripcion" />
                         <p:inputText id="preProdDescripcion" required="true" value="#{presentacionProductoController.selected.preProdDescripcion}" title="#{bundle.CreatePresentacionProductoTitle_preProdDescripcion}" requiredMessage="#{bundle.MensajePresentacionProducto}" />
                         
-                        <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdHabilitado}" for="preProdHabilitado" />
-                        <p:selectBooleanCheckbox id="preProdHabilitado" value="#{presentacionProductoController.selected.preProdHabilitado}" />
-                        
                         <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdEquivalenciaPt}" for="preProdEquivalenciaPt" />
                         <p:inputText id="preProdEquivalenciaPt" required="true" value="#{presentacionProductoController.selected.preProdEquivalenciaPt}" title="#{bundle.CreatePresentacionProductoTitle_preProdEquivalenciaPt}" requiredMessage="#{bundle.MensajeEquivalenciaPT}" onkeypress="return isNumberKey(event)"/>
+                        
+                        <p:outputLabel value="#{bundle.CreatePresentacionProductoLabel_preProdHabilitado}" for="preProdHabilitado" />
+                        <p:selectBooleanCheckbox id="preProdHabilitado" value="#{presentacionProductoController.selected.preProdHabilitado}" />
                     </p:panelGrid>
                     <p:commandButton icon="fa fa-save" actionListener="#{presentacionProductoController.create}" value="#{bundle.Save}" update="display,:PresentacionProductoListForm:datalist,:growl" oncomplete="handleSubmit(args,'PresentacionProductoCreateDialog');"/>
                 </h:panelGroup>
