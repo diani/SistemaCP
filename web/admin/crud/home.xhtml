@@ -16,11 +16,22 @@
         <ui:define name="body">
             
             <h:form>
-                <p:poll interval="3" update="votes" />
-                <p:chart  id="votes" type="pie" model="#{graficasController.livePieModel}" style="width:400px;height:300px"/>
-                
+                <p:notificationBar id="notification" position="top" effect="slide" styleClass="top" widgetVar="bar" autoDisplay="#{graficasController.texto != null}" style="z-index: 20; opacity: 0.9;" >
+                    <h:outputText value="#{graficasController.texto}" escape="false" style="font-size:36px;" />
+                </p:notificationBar>
+                <div align="center" style="width: 49%; float: left">
+                    <p:poll interval="3" update="procesos" />
+                    <p:chart id="procesos" type="pie" model="#{graficasController.livePieModel}" style="width:400px;height:300px;color: white;">
+                        <p:ajax event="itemSelect" listener="#{graficasController.itemSelect}"  update="notification" oncomplete="setTimeout(function(){PF('bar').hide()},4000);"/>
+                    </p:chart>
+                </div>
+                <div align="center" style="width: 49%; float: right;">                          
+                    <p:poll interval="3" update="usuarios" />
+                    <p:chart  id="usuarios" type="pie" model="#{graficasController.livePieModelUsuarios}" style="width:400px;height:300px;color: white;">
+                        <p:ajax event="itemSelect" listener="#{graficasController.itemSelectUsuarios}" update="notification" oncomplete="setTimeout(function(){PF('bar').hide()},4000);" />
+                    </p:chart>
+                </div>
             </h:form>
-           
         </ui:define>
     </ui:composition>
 

@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,6 +32,14 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public Usuario UsuClave(String usu, String clave, Boolean habilitado){
         try {
               return findByParameters("from Usuario u where u.usuUsuario= ?1 and u.usuClave= ?2 and u.usuHabilitado= ?3",usu ,clave,habilitado).get(0);
+        } catch (Exception e) {
+                return null;
+        }
+    }
+    
+    public List<Usuario> findByHabilitado(Boolean habilitado){
+        try {
+              return findByParameters("from Usuario u where u.usuHabilitado= ?1",habilitado);
         } catch (Exception e) {
                 return null;
         }

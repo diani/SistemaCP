@@ -43,8 +43,11 @@
                 </h:form>    
             </div>
            
-            <p:dialog id="ReproductorDlg" widgetVar="ReproductorDialog" modal="true" resizable="false" appendTo="@(body)" header="Producto">
+            <p:dialog id="ReproductorDlg" widgetVar="ReproductorDialog"  modal="true" resizable="false" appendTo="@(body)" header="Producto" >
                 <h:form id="ReproductorForm" >
+                    <div align="center" style="color: red;">
+                        <h:outputText value="#{tiemposController.selectedplaproc.personasTrabajando  > 0 and tiemposController.playBandera ? 'Pausado' : ''}"/>
+                    </div>
                     <h:panelGrid columns="3" style="width:100%">
                         <p:commandLink update=":TiemposListForm:plaproc" action="#{tiemposController.play()}" rendered="#{tiemposController.playBandera}">
                             <img  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/play.png"/> 

@@ -14,7 +14,6 @@
         <h:outputStylesheet library="css" name="clock.css"/>
         <h:outputScript library="js" name="jsfcrud.js"/>
         <h:outputStylesheet library="awesome" name="css/font-awesome.css"/>
-        <h:outputScript library="js" name="http://code.jquery.com/jquery-1.6.4.min.js"/>
   
         <script type="text/javascript">
         $(document).ready(function() {
@@ -56,9 +55,10 @@
     </h:head>
 
     <h:body>
-        <p:notificationBar position="top" effect="slide" styleClass="top" widgetVar="bar">
+        <p:notificationBar id="bar" position="top" effect="slide" styleClass="top" widgetVar="bar" autoDisplay="#{graficasController.texto != null}">
             <h:outputText value="" style="font-size:36px;" />
         </p:notificationBar>
+        <p:growl id="growl" life="3000" showDetail="true"/>
         <p:layout fullPage="true">
             
             <p:layoutUnit position="north" >  
@@ -136,8 +136,6 @@
             </p:layoutUnit>
 
             <p:layoutUnit position="center">
-                
-                
                 <ui:insert name="body"/>
             </p:layoutUnit>
         

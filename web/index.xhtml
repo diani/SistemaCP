@@ -7,11 +7,8 @@
         <title>Facelet Title</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
-    
     <h:body>  
-        
         <p:layout fullPage="true">
-        
             <p:layoutUnit position="north" >         
                 <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/arriba.png); height: 15px; width: 100%;">
                 </div>
@@ -39,10 +36,10 @@
                     <h:form id="frmLogin"  onkeypress="if (event.keyCode == 13) { document.getElementById('frmLogin:save').click(); return false; }">
                         <p:growl id="mensageGeneral" showDetail="true" sticky="false"/>
                         <h:panelGrid columns="3">
-                            <p:outputLabel value="Usuario:     " for="txtUsuario" />
+                            <p:outputLabel value="Usuario:     " for="txtUsuario" style="color: black;"/>
                             <p:inputText id="txtUsuario" size="40" value="#{loginController.usuario}"/>
                             <p:spacer height="50 px"></p:spacer>
-                            <p:outputLabel value="Contraseña: " for="txtContrasenia"/>
+                            <p:outputLabel value="Contraseña: " for="txtContrasenia" style="color: black;"/>
                             <p:password id="txtContrasenia" size="40" value="#{loginController.contrasenia}"/>
                             <p:spacer height="50 px"></p:spacer>
                             <h:panelGroup></h:panelGroup>        
@@ -54,13 +51,10 @@
                 </div>
                 </div>
             </p:layoutUnit>
-      
-            <div >
-            <img id="video1" src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fondo.png" alt=""/> 
-        </div>
-    
-        </p:layout>
             
+            <div>
+                <img id="video1" src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fondo.png" alt=""/> 
+            </div>
+        </p:layout>
     </h:body>
-    
 </html>

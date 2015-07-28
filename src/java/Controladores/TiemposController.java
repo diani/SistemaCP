@@ -9,7 +9,6 @@ import BeanSession.LoginController;
 import Entidades.PlanificacionProcesos;
 import Entidades.TiemposProduccion;
 import Entidades.Usuario;
-import com.sun.org.apache.xpath.internal.axes.SelfIteratorNoPredicate;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,12 +49,14 @@ public class TiemposController implements Serializable {
                 }
             }
         }
-        return us.size();
+        plpr.setPersonasTrabajando(us.size());
+        return plpr.getPersonasTrabajando();
     }
     
     public void reproductor(Usuario usuarioActivo){
         selectedtiempos=new TiemposProduccion();
         selectedtiempos.setPlaProcCodigo(selectedplaproc);
+        selectedplaproc.setPersonasTrabajando(this.usuariosTrabajando(selectedplaproc));
         selectedtiempos.setUsuId(usuarioActivo);
         TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuario(selectedplaproc, usuarioActivo);
         if(tiempos == null){
