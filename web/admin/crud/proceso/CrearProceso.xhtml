@@ -34,11 +34,6 @@
                                 </p:selectOneMenu>
                                 <p:spacer rendered="#{procesoController.crear}"/>
                                 <p:spacer rendered="#{procesoController.crear}"/>
-                                <p:outputLabel value="#{bundle.EditProcesoLabel_procMateriaPrima}" for="procMateriaPrima" />
-                                <p:inputText id="procMateriaPrima" required="true" value="#{procesoController.selected.procMateriaPrima}" title="#{bundle.EditProcesoTitle_procMateriaPrima}" requiredMessage="#{bundle.MensajeMateriaPrima}" onkeypress="return isNumberKey(event)" />
-                                
-                                <p:outputLabel value="#{bundle.EditProcesoLabel_procProductoTerminado}" for="procProductoTerminado" />
-                                <p:inputText id="procProductoTerminado" required="true" value="#{procesoController.selected.procProductoTerminado}" title="#{bundle.EditProcesoTitle_procProductoTerminado}" requiredMessage="#{bundle.MensajeProductoTerminado}" onkeypress="return isNumberKey(event)"/>
                             </p:panelGrid>
                     </p:panel>
                     <p:panel class="borderLess">
@@ -86,20 +81,6 @@
                                    <f:facet name="output"><h:outputText value="#{pa.procActOrden}" /></f:facet>
                                    <f:facet name="input"><p:inputText value="#{pa.procActOrden}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
                                </p:cellEditor>
-                        </p:column>
-
-                        <p:column headerText="Tiempo" sortBy="#{pa.procActTiempo}">
-                               <p:cellEditor>
-                                   <f:facet name="output"><h:outputText value="#{pa.procActTiempo}" /></f:facet>
-                                   <f:facet name="input"><p:inputText value="#{pa.procActTiempo}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
-                               </p:cellEditor>
-                        </p:column>
-
-                        <p:column headerText="Nro Personas" sortBy="#{pa.procActNumPersonas}">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{pa.procActNumPersonas}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{pa.procActNumPersonas}" onkeypress="return isNumberKey(event)" style="width:96%" label="Year"/></f:facet>
-                            </p:cellEditor>
                         </p:column>
                         
                         <p:column style="text-align: center">

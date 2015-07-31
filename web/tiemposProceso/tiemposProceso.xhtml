@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CrearTiempoProcesoTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="CrearProcesoForm">
+                <p:panel>
+                    <f:facet name="header">
+                        <h:outputText value="Tiempos Proceso"/>
+                    </f:facet>
+                    <p:panelGrid id="tabla" columns="2" style="width: 100%; border: none;">
+                        <p:panel class="borderLess">
+                            <p:panelGrid id="tabla1" columns="4" class="borderLess">
+                                <p:outputLabel value="#{bundle.EditProcesoLabel_procCodigo}" for="procCodigo" rendered="#{!tiemposProcesoController.crear}"/>
+                                <p:inputText id="procCodigo" disabled="true" value="#{tiemposProcesoController.selected.tieProcCodigo}" title="#{bundle.EditProcesoTitle_procCodigo}" rendered="#{!tiemposProcesoController.crear}" />
+                                
+                                <p:outputLabel value="Proceso: " for="prodCodigo" />
+                                <p:selectOneMenu id="prodCodigo" required="true" value="#{tiemposProcesoController.selected.procCodigo}" requiredMessage="#{bundle.MensajeTieProceso}" converter="ProcesoControllerConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{tiemposProcesoController.lstproceso}"
+                                                   var="prodCodigoItem"
+                                                   itemValue="#{prodCodigoItem}"
+                                                   itemLabel="#{prodCodigoItem.prodCodigo.prodDescripcion}"/>
+                                    <p:ajax event="change" listener="#{tiemposProcesoController.cargarActividades}" update="datalistPA, growl"/>
+                                </p:selectOneMenu>
+                                <p:spacer rendered="#{tiemposProcesoController.crear}"/>
+                                <p:spacer rendered="#{tiemposProcesoController.crear}"/>
+                                
+                                <p:outputLabel for="fecha" value="Fecha:" />
+                                <p:calendar id="fecha"  value="#{tiemposProcesoController.selected.tieProcFecha}" required="true" requiredMessage="#{bundle.MensajeFecha}"/>
+                        
+                                
+                            </p:panelGrid>
+                    </p:panel>
+                    <p:panel class="borderLess">
+                        <p:commandButton id="guardarProcButton" icon="fa fa-save" value="Guardar Tiempos Proceso" action="#{tiemposProcesoController.create()}" update="CrearProcesoForm:tabla, growl"/>
+                        <p:spacer width="15px"/>
+                        <p:button id="atrasButton" icon="fa fa-reply"  value="Atrás" outcome="/admin/crud/proceso/List.xhtml"/>
+                    </p:panel>
+                    </p:panelGrid>
+                        <br/>
+                        <br/>
+                    <div align="center">
+                    <p:panel header="Actividades">   
+                        <p:dataTable id="datalistPA" value="#{tiemposProcesoController.selected.tiemposPorActividadList}" var="pa"
+                                 paginator="true"
+                                 rowKey="#{pa.tieActCodigo}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rowIndexVar="rowpa"
+                                 editable="true" 
+                                 editMode="cell" 
+                                 widgetVar="PAObjecto"
+                                 >
+                        <p:ajax event="cellEdit" listener="#{tiemposProcesoController.onCellEdit}" update=":growl" />
+                        
+                      
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nro"/>
+                            </f:facet>
+                            #{rowpa+1}
+                        </p:column>
+                        
+                        <p:column filterBy="#{pa.procActCodigo.actCodigo.actDescripcion}" sortBy="#{pa.procActCodigo.actCodigo.actDescripcion}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="Actividad"/>
+                            </f:facet>
+                            <h:outputText value="#{pa.procActCodigo.actCodigo.actDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Cantidad" filterBy="#{pa.tieActCantidad}" sortBy="#{pa.tieActCantidad}">
+                               <p:cellEditor>
+                                   <f:facet name="output"><h:outputText value="#{pa.tieActCantidad}" /></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{pa.tieActCantidad}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
+                               </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Tiempo" sortBy="#{pa.tieActTiempo}">
+                               <p:cellEditor>
+                                   <f:facet name="output"><h:outputText value="#{pa.tieActTiempo}" /></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{pa.tieActTiempo}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
+                               </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Nro Personas" sortBy="#{pa.tieActNumPersonas}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{pa.tieActNumPersonas}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{pa.tieActNumPersonas}" onkeypress="return isNumberKey(event)" style="width:96%" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                    </p:dataTable>
+                    </p:panel>
+                    </div>
+                </p:panel>
+            </h:form>
+          
+        </ui:define>
+    </ui:composition>
+</html>

@@ -40,6 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ProcesoPorActividad.findByProcActTiempo", query = "SELECT p FROM ProcesoPorActividad p WHERE p.procActTiempo = :procActTiempo"),
     @NamedQuery(name = "ProcesoPorActividad.findByProcActNumPersonas", query = "SELECT p FROM ProcesoPorActividad p WHERE p.procActNumPersonas = :procActNumPersonas")})
 public class ProcesoPorActividad implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procActCodigo")
+    private List<TiemposPorActividad> tiemposPorActividadList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -165,6 +167,15 @@ public class ProcesoPorActividad implements Serializable {
     @Override
     public String toString() {
         return "Entidades.ProcesoPorActividad[ procActCodigo=" + procActCodigo + " ]";
+    }
+
+    @XmlTransient
+    public List<TiemposPorActividad> getTiemposPorActividadList() {
+        return tiemposPorActividadList;
+    }
+
+    public void setTiemposPorActividadList(List<TiemposPorActividad> tiemposPorActividadList) {
+        this.tiemposPorActividadList = tiemposPorActividadList;
     }
     
 }
