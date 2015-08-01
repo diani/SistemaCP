@@ -26,7 +26,7 @@
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
 
-                        <p:column filterBy="#{item.prodCodigo}" id="codii" sortBy="#{item.prodCodigo}">
+                        <p:column style="text-align: center;" filterBy="#{item.prodCodigo}" id="codii" sortBy="#{item.prodCodigo}">
                             <f:facet name="header" >
                                 <h:outputText value="#{bundle.ListProductoTitle_prodCodigo}"/>
                             </f:facet>

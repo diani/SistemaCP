@@ -5,7 +5,9 @@
  */
 package Entidades;
 
+import Controladores.util.JsfUtil;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class ProduccionDiariaEstructura implements Serializable{
     private Integer codigoUsuario;
     private List<ProduccionDiaria> lstProdDia;
     private String cantidadFruta;
+    private int numeroSemana;
 
     public ProduccionDiariaEstructura(Date prodDiaEstFecha, String nombresCompletos, Integer codigoUsuario) {
         this.prodDiaEstFecha = prodDiaEstFecha;
@@ -67,5 +70,16 @@ public class ProduccionDiariaEstructura implements Serializable{
     public void setCantidadFruta(String cantidadFruta) {
         this.cantidadFruta = cantidadFruta;
     }
-    
+
+    public int getNumeroSemana() {
+        if(prodDiaEstFecha != null){
+            Calendar cal = JsfUtil.DateToCalendar(prodDiaEstFecha);
+            numeroSemana = cal.get(Calendar.WEEK_OF_YEAR);
+        }
+        return numeroSemana;
+    }
+
+    public void setNumeroSemana(int numeroSemana) {
+        this.numeroSemana = numeroSemana;
+    }
 }

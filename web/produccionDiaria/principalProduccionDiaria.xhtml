@@ -21,15 +21,14 @@
                                  paginator="true"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
-                                 rowIndexVar="cont"
                                  widgetVar="prodDiaFechas"
                                  >
 
-                        <p:column>
+                        <p:column style="text-align: center;" filterBy="#{listproddia.numeroSemana}" sortBy="#{listproddia.numeroSemana}" filterMatchMode="contains">
                             <f:facet name="header">
-                                <h:outputText value="Nro"/>
+                                <h:outputText value="Nro Semana: "/>
                             </f:facet>
-                            #{cont+1}
+                            <h:outputText value="#{listproddia.numeroSemana}"/>
                         </p:column>
                         
                         <p:column filterBy="#{listproddia.prodDiaEstFecha}" sortBy="#{listproddia.prodDiaEstFecha}" filterFunction="#{produccionDiariaController.filterByDate}" style="width: 172px;">
@@ -62,7 +61,7 @@
                             <h:outputText value="#{listproddia.nombresCompletos}"/>
                         </p:column>
                         
-                        <p:column sortBy="#{listproddia.cantidadFruta}" >
+                        <p:column style="text-align: center;" sortBy="#{listproddia.cantidadFruta}" >
                             <f:facet name="header">
                                 <h:outputText value="Número de Frutas"/>
                             </f:facet>

@@ -5,7 +5,9 @@
  */
 package Entidades;
 
+import Controladores.util.JsfUtil;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -23,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -52,7 +55,9 @@ public class TiemposProceso implements Serializable {
     private Proceso procCodigo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tieProcCodigo")
     private List<TiemposPorActividad> tiemposPorActividadList;
-
+    
+    private transient int numeroSemana;
+    
     public TiemposProceso() {
     }
 
@@ -84,6 +89,21 @@ public class TiemposProceso implements Serializable {
         this.procCodigo = procCodigo;
     }
 
+    @Transient
+    public int getNumeroSemana() {
+        if(tieProcFecha != null){
+            Calendar cal = JsfUtil.DateToCalendar(tieProcFecha);
+            numeroSemana = cal.get(Calendar.WEEK_OF_YEAR);
+        }
+        return numeroSemana;
+    }
+
+    public void setNumeroSemana(int numeroSemana) {
+        this.numeroSemana = numeroSemana;
+    }
+
+    
+    
     @XmlTransient
     public List<TiemposPorActividad> getTiemposPorActividadList() {
         return tiemposPorActividadList;

@@ -33,6 +33,8 @@ public class TiemposController implements Serializable {
     private Controladores.PlanificacionFacade ejbPlaniProcFacade;
     @EJB
     private Controladores.TiemposFacade ejbTiemposFacade;
+    @EJB
+    private Controladores.PlanificacionPorPresentacionFacade ejbPlaniPresFacade;
     private List<PlanificacionProcesos> planiproc = null;
     
     private PlanificacionProcesos selectedplaproc;
@@ -90,6 +92,7 @@ public class TiemposController implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('ReproductorDialog').hide();");
     }
+    
     public void pause(){
         selectedtiempos.setTieProdHoraFin(new Date());
         ejbTiemposFacade.persist(selectedtiempos);
@@ -129,6 +132,9 @@ public class TiemposController implements Serializable {
     
     public List<PlanificacionProcesos> getPlaniproc() {
         planiproc = ejbPlaniProcFacade.buscarFechaIni();
+        for(PlanificacionProcesos plp: planiproc){
+            plp.setPlanificacionPorPresentacionList(ejbPlaniPresFacade.buscarPlaPorPrePorParamPlani(plp));
+        }
         return planiproc;
     }
 

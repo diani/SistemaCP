@@ -33,7 +33,7 @@ public class PlanificacionFacade extends AbstractFacade<PlanificacionProcesos> {
     
     public List<PlanificacionProcesos> buscarTodosOrdenadosFecha() {
         try {
-                return find("from PlanificacionProcesos pp order by pp.plaProcFechaIni desc, pp.plaProcFechaFin desc");
+                return find("from PlanificacionProcesos pp order by pp.plaProcFechaIni desc, pp.plaProcCodigo desc");
         } catch (Exception e) {
                 return null;
         }

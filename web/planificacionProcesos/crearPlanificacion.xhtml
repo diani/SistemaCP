@@ -28,7 +28,7 @@
                         <p:ajax event="rowSelect"   update="createButton editButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton"/>
 
-                        <p:column filterBy="#{plan.numeroSemana}" sortBy="#{plan.numeroSemana}" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{plan.numeroSemana}" sortBy="#{plan.numeroSemana}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="Nro Semana: "/>
                             </f:facet>
@@ -42,7 +42,7 @@
                             <h:outputText value="#{plan.procCodigo.prodCodigo.prodDescripcion}" />
                         </p:column>
                         
-                        <p:column filterBy="#{plan.plaProcFechaIni}" sortBy="#{plan.plaProcFechaIni}" filterFunction="#{planificacionController.filterByDate}" style="width: 172px;">
+                        <p:column filterBy="#{plan.plaProcFechaIni}" sortBy="#{plan.plaProcFechaIni}" filterFunction="#{planificacionController.filterByDate}" style="width: 172px; text-align: center;">
                             <f:facet name="filter">
                                 <h:inputHidden id="filter" />
                             </f:facet>
@@ -136,7 +136,7 @@
                     </p:panelGrid>
                    </h:panelGroup>
                     <div align="center">
-                        <p:commandButton id="guardarPlaniButton" icon="fa fa-save" value="Guardar" action="#{planificacionController.guardarPlanificacion()}" update="PlanificacionListForm:datalistPlani, :growl"/>
+                        <p:commandButton id="guardarPlaniButton" icon="fa fa-save" value="Guardar" action="#{planificacionController.guardarPlanificacion()}" update="PlanificacionListForm:datalistPlani, :growl, :PulpaForm:datalistp"/>
                     </div>
                 </h:form>
             </p:dialog>

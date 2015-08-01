@@ -93,6 +93,7 @@ public class PlanificacionController implements Serializable {
     }
     
     public void guardarPlanificacion(){
+        Boolean nuevo=true;
         if(planiProcSeleccionado.getProcCodigo().getProcCodigo() !=null && planiProcSeleccionado.getPlaProcFechaIni() != null){    
             try{
                 if(planiProcSeleccionado.getPlaProcCodigo() == null)
@@ -102,11 +103,15 @@ public class PlanificacionController implements Serializable {
                 }else{
                     planiProcSeleccionado.setPlaProcFechaFin(planiProcSeleccionado.getPlaProcFechaIni());
                     ejbPlaniFacade.merge(planiProcSeleccionado); 
+                    nuevo=false;
                 } 
                 lstPlaniProc.add(planiProcSeleccionado);
                 JsfUtil.addSuccessMessage("Guardado Correctamente");
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('PlaniDialog').hide();");
+                if(nuevo){
+                    abrirPresentacionProducto();
+                }
             }catch(Exception ex){
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
