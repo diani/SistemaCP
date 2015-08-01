@@ -16,7 +16,7 @@
             <h:form id="ProduDiaListForm">
                 <p:panel header="Producción Diaria">
                     <div style="width: 100%; height: 80px;" align="center">
-                        <p:commandButton id="guardarProdButton" styleClass="teste" icon="fa fa-save fa-1x" value="Guardar Producción Diaria" actionListener="#{produccionDiariaController.guardarProdDiaria(loginController.usuactivo)}" update="PulpaForm:datalistp, :growl"/>
+                        <p:commandButton id="guardarProdButton" styleClass="teste" icon="fa fa-save fa-1x" value="Guardar Producción Diaria" action="#{produccionDiariaController.guardarProdDiaria(loginController.usuactivo)}" update="PulpaForm:datalistp, :growl"/>
                         <p:spacer width="15px"/>
                         <p:button id="atrasButton" icon="fa fa-reply"  value="Atrás" outcome="/produccionDiaria/principalProduccionDiaria.xhtml"/>
                     </div>
@@ -89,8 +89,8 @@
                             <h:outputText value="#{producdia.totalProdT}"/>
                         </p:column>
                                 
-                       <p:column style="text-align: center">
-                           <p:commandButton id="PresentacionProdsButton" icon="fa fa-plus" value="Agregar Presentación Producto" action="#{produccionDiariaController.abrirPresentacionProducto()}" update="PulpaForm:datalistp">
+                        <p:column style="text-align: center">
+                           <p:commandButton id="PresentacionProdsButton" icon="fa fa-plus" value="Presentación Producto" action="#{produccionDiariaController.abrirPresentacionProducto()}" update="PulpaForm:datalistp">
                                <f:setPropertyActionListener value="#{producdia}" target="#{produccionDiariaController.selectedProduccionDia}" />
                             </p:commandButton>
                         </p:column>

@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PresentacionProducto.findByPreProdHabilitado", query = "SELECT p FROM PresentacionProducto p WHERE p.preProdHabilitado = :preProdHabilitado"),
     @NamedQuery(name = "PresentacionProducto.findByPreProdEquivalenciaPt", query = "SELECT p FROM PresentacionProducto p WHERE p.preProdEquivalenciaPt = :preProdEquivalenciaPt")})
 public class PresentacionProducto implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "preProdCodigo")
+    private List<PlanificacionPorPresentacion> planificacionPorPresentacionList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -124,6 +126,15 @@ public class PresentacionProducto implements Serializable {
     @Override
     public String toString() {
         return preProdDescripcion;
+    }
+
+    @XmlTransient
+    public List<PlanificacionPorPresentacion> getPlanificacionPorPresentacionList() {
+        return planificacionPorPresentacionList;
+    }
+
+    public void setPlanificacionPorPresentacionList(List<PlanificacionPorPresentacion> planificacionPorPresentacionList) {
+        this.planificacionPorPresentacionList = planificacionPorPresentacionList;
     }
     
 }

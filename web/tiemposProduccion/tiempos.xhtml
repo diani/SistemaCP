@@ -16,7 +16,7 @@
             <div style=" width: 100%; float: right;">
                 <h:form id="TiemposListForm">
                  
-                    <p:dataGrid var="planiproc" value="#{tiemposController.planiproc}" columns="4" layout="grid"
+                    <p:dataGrid var="planiproc" value="#{tiemposController.planiproc}" columns="4" layout="grid" style="width: 80%; height: 80%"
                         rows="3" paginator="true" id="plaproc"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="4,8,12,16">
@@ -26,15 +26,33 @@
                         </f:facet>
 
                         <p:panel header="#{planiproc.procCodigo.prodCodigo.prodDescripcion}" style="text-align:center">
-                            <p:commandLink update=":ReproductorForm" action="#{tiemposController.reproductor(loginController.usuactivo)}">
-                                <h:panelGrid columns="1" style="width:100%">
-                                    <img width="100px" height="100px" src="#{facesContext.externalContext.requestContextPath}#{planiproc.procCodigo.prodCodigo.prodImagen}"/> 
-                                    <br></br>
-                                    Personas Trabajando: <h:outputText value="#{tiemposController.usuariosTrabajando(planiproc)}" />
-                                    
-                                </h:panelGrid>
-                                <f:setPropertyActionListener value="#{planiproc}" target="#{tiemposController.selectedplaproc}" />
-                            </p:commandLink>    
+                        
+                                    <tr>
+                                        <table width="100%">
+                                            <tr>
+                                                <td colspan="2"><strong>MATERIA PRIMA</strong></td>
+                                            </tr>
+                                             
+                                            <tr>
+                                                <td align="center">#{planiproc.plaProcMateriaPrima} KL</td>
+                                                <td><img width="80px" height="80px" src="#{facesContext.externalContext.requestContextPath}#{planiproc.procCodigo.prodCodigo.prodImagen}"/></td>
+                                            </tr>
+                                        </table>
+                                    </tr>
+                                    <tr>
+                                        <table width="100%">
+                                            <tr>
+                                                <td colspan="2"><strong>PRODUCTO TERMINADO</strong></td>
+                                            </tr>
+                                            <ui:repeat var="o" value="#{planiproc.planificacionPorPresentacionList}" >
+                                            <tr>
+                                                <td>#{o.preProdCodigo.preProdDescripcion}:</td>
+                                                <td align="left">#{o.plaPreCantidad}</td>
+                                            </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </tr>
+
                         </p:panel>
 
                     </p:dataGrid>

@@ -5,7 +5,9 @@
  */
 package Entidades;
 
+import Controladores.util.JsfUtil;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -40,6 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PlanificacionProcesos.findByPlaProcFechaIni", query = "SELECT p FROM PlanificacionProcesos p WHERE p.plaProcFechaIni = :plaProcFechaIni"),
     @NamedQuery(name = "PlanificacionProcesos.findByPlaProcFechaFin", query = "SELECT p FROM PlanificacionProcesos p WHERE p.plaProcFechaFin = :plaProcFechaFin")})
 public class PlanificacionProcesos implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "plaProcCodigo")
+    private List<PlanificacionPorPresentacion> planificacionPorPresentacionList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,8 +65,11 @@ public class PlanificacionProcesos implements Serializable {
     private Proceso procCodigo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "plaProcCodigo")
     private List<TiemposProduccion> tiemposProduccionList;
+    @Column(name = "PLA_PROC_MATERIA_PRIMA")
+    private Float plaProcMateriaPrima;
     
     private transient int personasTrabajando;
+    private transient int numeroSemana;
 
     public PlanificacionProcesos() {
     }
@@ -135,6 +142,27 @@ public class PlanificacionProcesos implements Serializable {
     public void setPersonasTrabajando(int personasTrabajando) {
         this.personasTrabajando = personasTrabajando;
     }
+
+    public Float getPlaProcMateriaPrima() {
+        return plaProcMateriaPrima;
+    }
+
+    public void setPlaProcMateriaPrima(Float plaProcMateriaPrima) {
+        this.plaProcMateriaPrima = plaProcMateriaPrima;
+    }
+
+    @Transient
+    public int getNumeroSemana() {
+        if(plaProcFechaIni != null){
+            Calendar cal = JsfUtil.DateToCalendar(plaProcFechaIni);
+            numeroSemana = cal.get(Calendar.WEEK_OF_YEAR);
+        }
+        return numeroSemana;
+    }
+
+    public void setNumeroSemana(int numeroSemana) {
+        this.numeroSemana = numeroSemana;
+    }
     
     
 
@@ -161,6 +189,15 @@ public class PlanificacionProcesos implements Serializable {
     @Override
     public String toString() {
         return "Entidades.PlanificacionProcesos[ plaProcCodigo=" + plaProcCodigo + " ]";
+    }
+
+    @XmlTransient
+    public List<PlanificacionPorPresentacion> getPlanificacionPorPresentacionList() {
+        return planificacionPorPresentacionList;
+    }
+
+    public void setPlanificacionPorPresentacionList(List<PlanificacionPorPresentacion> planificacionPorPresentacionList) {
+        this.planificacionPorPresentacionList = planificacionPorPresentacionList;
     }
     
 }

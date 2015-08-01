@@ -28,11 +28,11 @@
                         <p:ajax event="rowSelect"   update="createButton editButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton"/>
 
-                        <p:column>
+                        <p:column filterBy="#{plan.numeroSemana}" sortBy="#{plan.numeroSemana}" filterMatchMode="contains">
                             <f:facet name="header">
-                                <h:outputText value="Nro"/>
+                                <h:outputText value="Nro Semana: "/>
                             </f:facet>
-                            #{rowplan+1}
+                            <h:outputText value="#{plan.numeroSemana}"/>
                         </p:column>
                         
                         <p:column filterBy="#{plan.procCodigo.prodCodigo.prodDescripcion}" sortBy="#{plan.procCodigo.prodCodigo.prodDescripcion}">
@@ -65,26 +65,11 @@
                             </h:outputText>
                         </p:column>
                         
-                        <p:column filterBy="#{plan.plaProcFechaFin}" sortBy="#{plan.plaProcFechaFin}" filterFunction="#{planificacionController.filterByDate}" style="width: 172px;">
-                            <f:facet name="filter">
-                                <h:inputHidden id="filter1" />
-                            </f:facet>
+                        <p:column filterBy="#{plan.plaProcMateriaPrima}" sortBy="#{plan.plaProcMateriaPrima}" filterMatchMode="contains">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPlanificacionTitle_FechaFin}"/>
-                                <br />
-                                <h:outputText value="Desde: "/>
-                                <p:calendar id="from1" pattern="dd/MM/yyyy">
-                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter1')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from1')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to1')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
-                                </p:calendar>
-                                <h:outputText value="Hasta:  "/>
-                                <p:calendar id="to1" pattern="dd/MM/yyyy">
-                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter1')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from1')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to1')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
-                                </p:calendar>
-                                <br />
+                                <h:outputText value="Materia Prima"/>
                             </f:facet>
-                            <h:outputText value="#{plan.plaProcFechaFin}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
+                            <h:outputText value="#{plan.plaProcMateriaPrima}"/>
                         </p:column>
                         
                         <p:column sortBy="#{plan.plaProcHabilitado}" style="text-align: center">
@@ -92,6 +77,12 @@
                                 <h:outputText value="#{bundle.ListPlanificacionTitle_Habilitado}"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{plan.plaProcHabilitado}" disabled="true"/>
+                        </p:column>
+                        
+                        <p:column style="text-align: center">
+                            <p:commandButton id="PresentacionProdsButton" icon="fa fa-plus" value="Presentación Producto" action="#{planificacionController.abrirPresentacionProducto()}" update=":PulpaForm:datalistp">
+                               <f:setPropertyActionListener value="#{plan}" target="#{planificacionController.planiProcSeleccionado}" />
+                            </p:commandButton>
                         </p:column>
                         
                         <p:column style="text-align: center">
@@ -133,14 +124,15 @@
                                            itemLabel="#{ProcItem.prodCodigo.prodDescripcion}" />
                         </p:selectOneMenu>
                         
-                        <p:outputLabel for="fechaini" value="Fecha Inicio:" />
+                        <p:outputLabel for="fechaini" value="Fecha:" />
                         <p:calendar id="fechaini"  value="#{planificacionController.planiProcSeleccionado.plaProcFechaIni}" required="true" requiredMessage="#{bundle.MensajeFechaInicio}"/>
                         
-                        <p:outputLabel for="fechafin" value="Fecha Fin:" />
-                        <p:calendar id="fechafin"  value="#{planificacionController.planiProcSeleccionado.plaProcFechaFin}" required="true" requiredMessage="#{bundle.MensajeFechaFinal}"/>
+                        <p:outputLabel value="Materia Prima" for="matPrima" />
+                        <p:inputText id="matPrima" required="true" value="#{planificacionController.planiProcSeleccionado.plaProcMateriaPrima}" title="Materia Prima" onkeypress="return isNumberKey(event)" requiredMessage="#{bundle.MensajeMateriaPrima}"/>
                         
                         <p:outputLabel value="#{bundle.EditPlanificacionLabel_Habilitado}" for="planiHabilitado" />
                         <p:selectBooleanCheckbox id="planiHabilitado" value="#{planificacionController.planiProcSeleccionado.plaProcHabilitado}" />
+                        
                     </p:panelGrid>
                    </h:panelGroup>
                     <div align="center">
@@ -149,6 +141,54 @@
                 </h:form>
             </p:dialog>
             
+            <!--        Llenar presenttaciones de pulpa-->
+            <p:dialog id="PulpaDlg" widgetVar="PulpaDialog" modal="true" resizable="false" appendTo="@(body)" header="Presentación de Pulpas" width="584px">
+                <h:form id="PulpaForm">
+                    <p:panel header="Pesentaciones">
+                        <p:dataTable id="datalistp" value="#{planificacionController.planiProcSeleccionado.planificacionPorPresentacionList}" var="produccionPre"
+                                 rowIndexVar="cont1"
+                                 editable="true" 
+                                 editMode="cell" 
+                                 widgetVar="PDObjecto1"
+                                 >
+                         
+                        <p:ajax event="cellEdit" listener="#{planificacionController.onCellEdit}" update=":growl"/>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nro"/>
+                            </f:facet>
+                            #{cont1+1}
+                        </p:column>
+                        
+                        <p:column headerText="Presentación Pulpa">
+                               <p:cellEditor>
+                                   <f:facet name="output">
+                                       <h:outputText value="#{produccionPre.preProdCodigo.preProdDescripcion}" />
+                                   </f:facet>
+                                   <f:facet name="input">
+                                       <h:selectOneMenu value="#{produccionPre.preProdCodigo}" style="width:100%" converter="PresentacionProductoControllerConverter">
+                                           <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                           <f:selectItems value="#{planificacionController.presProd}" var="prepro" itemLabel="#{prepro.preProdDescripcion}" itemValue="#{prepro}" />
+                                        </h:selectOneMenu>
+                                   </f:facet>
+                               </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Cantidad">
+                               <p:cellEditor>
+                                   <f:facet name="output"><h:outputText value="#{produccionPre.plaPreCantidad}" /></f:facet>
+                                   <f:facet name="input"><p:inputText value="#{produccionPre.plaPreCantidad}" onkeypress="return isNumberKey(event)" style="width:96%"/></f:facet>
+                               </p:cellEditor>
+                        </p:column>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="sumarTotales" icon="fa fa-save" value="Guardar" action="#{planificacionController.guardarPreProducto}"/>
+                        </f:facet>
+                    </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 

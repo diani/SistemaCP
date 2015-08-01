@@ -1,5 +1,8 @@
 package Controladores.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -66,5 +69,20 @@ public class JsfUtil {
         CREATE,
         DELETE,
         UPDATE
+    }
+    
+    public static Calendar DateToCalendar(Date date){ 
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
+    
+    public static String convertirFechaAString(Date date){
+        String output;
+        SimpleDateFormat formatter;
+
+        formatter = new SimpleDateFormat("dd/MM/yyyy");
+        output = formatter.format(date);
+        return output;
     }
 }

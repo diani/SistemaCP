@@ -79,7 +79,7 @@
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="fa fa-plus" value="#{bundle.Create}" action="#{produccionDiariaController.nuevaProduccionDiaria}" />    
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="#{bundle.Create}" action="#{produccionDiariaController.nuevaProduccionDiaria}" rendered="#{produccionDiariaController.habilitarGuardar}"/>    
                             <p:commandButton id="UpdateButton" icon="fa fa-refresh" value="#{bundle.Actualizar}" oncomplete="location.reload();"/>
                         </f:facet>
                        

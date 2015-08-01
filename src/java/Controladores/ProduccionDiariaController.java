@@ -74,6 +74,7 @@ public class ProduccionDiariaController implements Serializable {
     private DualListModel<Producto> productosdual = new DualListModel<Producto>(prodizq,prodder);
     private List<ProduccionDiariaEstructura> lstproddia = new ArrayList<ProduccionDiariaEstructura>();
     private ProduccionDiariaEstructura selectedProdDiaEst;
+    private Boolean habilitarGuardar = true;
 
     public boolean filterByDate(Object value, Object filter, Locale locale) {
 
@@ -131,6 +132,8 @@ public class ProduccionDiariaController implements Serializable {
         produccionDia = new ArrayList<ProduccionDiaria>();
         produccionDia = selectedProdDiaEst.getLstProdDia();
         for(ProduccionDiaria tot :produccionDia){
+            tot.setProduccionPorPresentacionList(ejbProduccionPreFacade.buscarProPorPrePorParamProdu(tot));
+            tot.setTotalProdT(0F);
             for(ProduccionPorPresentacion cantTot :tot.getProduccionPorPresentacionList()){
                 tot.setTotalProdT((tot.getTotalProdT() != null ? tot.getTotalProdT():0F)+(cantTot.getProdPorPresCantPt()!= null ? cantTot.getProdPorPresCantPt() : 0F)*cantTot.getPresentacionProducto().getPreProdEquivalenciaPt());
             }
@@ -245,7 +248,7 @@ public class ProduccionDiariaController implements Serializable {
         context.execute("PF('PulpaDialog').hide();");
     }
     
-    public void guardarProdDiaria(Usuario usu){
+    public String guardarProdDiaria(Usuario usu){
         try{
             for(ProduccionDiaria prd: produccionDia ){
                 prd.setUsuId(usu);
@@ -270,11 +273,13 @@ public class ProduccionDiariaController implements Serializable {
                 }
             }
             JsfUtil.addSuccessMessage("Guardado Satisfactoriamente");
+            
         }
         catch(Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
+        }
+        return "/produccionDiaria/principalProduccionDiaria?faces-redirect=true";
     }
 
     public ProduccionDiariaEstructura getSelectedProdDiaEst() {
@@ -291,6 +296,15 @@ public class ProduccionDiariaController implements Serializable {
             aux.setLstProdDia(ejbProduccionDiaFacade.buscarPorFechaUsuario(aux.getProdDiaEstFecha(), aux.getCodigoUsuario()));
             aux.setCantidadFruta("" +aux.getLstProdDia().size());
         }
+        for(ProduccionDiariaEstructura temp:lstproddia){
+            if(JsfUtil.convertirFechaAString(temp.getProdDiaEstFecha()).equals(JsfUtil.convertirFechaAString(new Date()))){
+                habilitarGuardar = false;
+                break;
+            }else{
+                habilitarGuardar = true;
+            }
+        }
+        
         return lstproddia;
     }
 
@@ -418,4 +432,14 @@ public class ProduccionDiariaController implements Serializable {
     public void setProductosdual(DualListModel<Producto> productosdual) {
         this.productosdual = productosdual;
     }   
+
+    public Boolean getHabilitarGuardar() {
+        return habilitarGuardar;
+    }
+
+    public void setHabilitarGuardar(Boolean habilitarGuardar) {
+        this.habilitarGuardar = habilitarGuardar;
+    }
+    
+    
 }

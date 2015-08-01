@@ -5,9 +5,8 @@
  */
 package Controladores;
 
-import Entidades.ProduccionDiaria;
-import Entidades.ProduccionPorPresentacion;
-import Entidades.Producto;
+import Entidades.PlanificacionPorPresentacion;
+import Entidades.PlanificacionProcesos;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,7 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author diani
  */
 @Stateless
-public class ProduccionPorPresentacionFacade extends AbstractFacade<ProduccionPorPresentacion> {
+public class PlanificacionPorPresentacionFacade extends AbstractFacade<PlanificacionPorPresentacion> {
     @PersistenceContext(unitName = "SistemaCPPU")
     private EntityManager em;
 
@@ -27,13 +26,13 @@ public class ProduccionPorPresentacionFacade extends AbstractFacade<ProduccionPo
         return em;
     }
 
-    public ProduccionPorPresentacionFacade() {
-        super(ProduccionPorPresentacion.class);
+    public PlanificacionPorPresentacionFacade() {
+        super(PlanificacionPorPresentacion.class);
     }
     
-    public List<ProduccionPorPresentacion> buscarProPorPrePorParamProdu(ProduccionDiaria produDia){
+    public List<PlanificacionPorPresentacion> buscarPlaPorPrePorParamPlani(PlanificacionProcesos plaproc){
         try {
-                return findByParameters("from ProduccionPorPresentacion produpre where produpre.produccionDiaria.prodDiaCodigo = ?1", produDia.getProdDiaCodigo());
+                return findByParameters("from PlanificacionPorPresentacion ppre where ppre.plaProcCodigo.plaProcCodigo = ?1", plaproc.getPlaProcCodigo());
         } catch (Exception e) {
                 return null;
         }

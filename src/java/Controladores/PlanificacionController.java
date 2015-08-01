@@ -6,12 +6,17 @@
 package Controladores;
 
 import Controladores.util.JsfUtil;
+import Entidades.PlanificacionPorPresentacion;
 import Entidades.PlanificacionProcesos;
+import Entidades.PresentacionProducto;
 import Entidades.Proceso;
+import Entidades.ProduccionPorPresentacion;
+import Entidades.ProduccionPorPresentacionPK;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +26,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import static org.jboss.weld.logging.BeanLogger.LOG;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.CellEditEvent;
 
 /**
  *
@@ -38,18 +46,63 @@ public class PlanificacionController implements Serializable {
     private Controladores.PlanificacionFacade ejbPlaniFacade;
     @EJB
     private Controladores.ProcesoFacade ejbProcFacade;
+    @EJB
+    private Controladores.PresentacionProductoFacade ejbPreProdFacade;
+    @EJB
+    private Controladores.PlanificacionPorPresentacionFacade ejbPlaPreFacade;
     private List<PlanificacionProcesos> lstPlaniProc = null;
     private List<Proceso> lstProc = null;
     private PlanificacionProcesos planiProcSeleccionado;
-
+    private List<PresentacionProducto> presProd = null;
+    
+    public void guardarPreProducto(){
+        for(PlanificacionPorPresentacion plapre:planiProcSeleccionado.getPlanificacionPorPresentacionList()){
+            if(plapre.getPlaPreCodigo()!= null)
+                ejbPlaPreFacade.merge(plapre);
+            else
+                ejbPlaPreFacade.persist(plapre);
+        }
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('PulpaDialog').hide();");
+    }
+    
+    public void abrirPresentacionProducto(){
+        presProd = new ArrayList<PresentacionProducto>();
+        presProd = ejbPreProdFacade.preseProdHabilitadas(true);
+        planiProcSeleccionado.setPlanificacionPorPresentacionList(ejbPlaPreFacade.buscarPlaPorPrePorParamPlani(planiProcSeleccionado));
+        if(planiProcSeleccionado.getPlanificacionPorPresentacionList()== null || planiProcSeleccionado.getPlanificacionPorPresentacionList().isEmpty()){
+            planiProcSeleccionado.setPlanificacionPorPresentacionList(new ArrayList<PlanificacionPorPresentacion>());
+            for(PresentacionProducto aux :presProd){
+                PlanificacionPorPresentacion var = new PlanificacionPorPresentacion();
+                var.setPlaProcCodigo(planiProcSeleccionado);
+                var.setPreProdCodigo(aux);
+                planiProcSeleccionado.getPlanificacionPorPresentacionList().add(var);
+            }
+        }
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('PulpaDialog').show();");
+    }
+    
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda Cambiada", "Antigua: " + (oldValue != null ? oldValue : "-") + ", Nueva:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    
     public void guardarPlanificacion(){
-        if(planiProcSeleccionado.getProcCodigo().getProcCodigo() !=null && planiProcSeleccionado.getPlaProcFechaFin() != null && planiProcSeleccionado.getPlaProcFechaIni() != null){    
+        if(planiProcSeleccionado.getProcCodigo().getProcCodigo() !=null && planiProcSeleccionado.getPlaProcFechaIni() != null){    
             try{
                 if(planiProcSeleccionado.getPlaProcCodigo() == null)
                 {
+                    planiProcSeleccionado.setPlaProcFechaFin(planiProcSeleccionado.getPlaProcFechaIni());
                     ejbPlaniFacade.persist(planiProcSeleccionado);
-                }else
-                    ejbPlaniFacade.merge(planiProcSeleccionado);
+                }else{
+                    planiProcSeleccionado.setPlaProcFechaFin(planiProcSeleccionado.getPlaProcFechaIni());
+                    ejbPlaniFacade.merge(planiProcSeleccionado); 
+                } 
                 lstPlaniProc.add(planiProcSeleccionado);
                 JsfUtil.addSuccessMessage("Guardado Correctamente");
                 RequestContext context = RequestContext.getCurrentInstance();
@@ -65,7 +118,7 @@ public class PlanificacionController implements Serializable {
     }
     
     public void destroy() {
-        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("RolDeleted"));
+        persist(JsfUtil.PersistAction.DELETE, "La planificación fue deshabilitada correctamente");
         if (!JsfUtil.isValidationFailed()) {
             planiProcSeleccionado = null; // Remove selection
             lstPlaniProc = null;    // Invalidate list of items to trigger re-query.
@@ -165,4 +218,13 @@ public class PlanificacionController implements Serializable {
         this.planiProcSeleccionado = planiProcSeleccionado;
     }
 
+    public List<PresentacionProducto> getPresProd() {
+        return presProd;
+    }
+
+    public void setPresProd(List<PresentacionProducto> presProd) {
+        this.presProd = presProd;
+    }
+
+    
 }
