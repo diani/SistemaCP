@@ -63,17 +63,10 @@
             
             <p:layoutUnit position="north" >  
                 <div>
-                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/arriba.png); height: 15px; width: 100%;">
-                    </div>
-                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fondo.png); height: 130px; width: 100%;">
-                        <div style="width: 30%; float: left;" align="center">
+                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fondo.png); height: 120px; width: 100%;">
+                        <div style="width: 100%; float: left;" align="center" >
                             <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/proesemica.png" />
                         </div>    
-                        <div style="width: 70%; float: left;" align="center">
-                            <img src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/scp.png" style="padding-top: 20px;"/>
-                        </div>    
-                    </div>
-                    <div style="background-image: url(#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/abajo.png); height: 15px; width: 100%;">
                     </div>
                     
                     <h:form id="menuForm">
@@ -93,8 +86,9 @@
                                     <p:menuitem value="Tarea" outcome="/admin/crud/tarea/List.xhtml" />
                                 </p:submenu>
                                 <p:menuitem value="Productos" icon="fa fa-lemon-o" outcome="/admin/crud/producto/List.xhtml" />
+                                <p:menuitem value="Procesos" icon="fa fa-puzzle-piece" outcome="/admin/crud/proceso/List.xhtml"/>
                             </p:submenu>
-                            <p:menuitem value="Procesos" icon="fa fa-puzzle-piece" outcome="/admin/crud/proceso/List.xhtml" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}"/>
+                            <p:menuitem value="Tiempos Proceso" icon="fa fa-puzzle-piece" outcome="/tiemposProceso/principalTiemposProceso.xhtml" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}"/>
                             <p:menuitem value="Planificación" icon="fa fa-calendar" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
                             <p:menuitem value="Tiempos Producción" icon="fa fa-clock-o" outcome="/tiemposProduccion/tiempos.xhtml" />
                             <p:menuitem value="Producción Diaria" icon="fa fa-group" outcome="/produccionDiaria/principalProduccionDiaria.xhtml" />

@@ -47,4 +47,12 @@ public class TiemposFacade extends AbstractFacade<TiemposProduccion> {
                 return null;
         }
     }  
+    
+    public TiemposProduccion ultimoTiempoPorUsuarioYdia(Usuario usuario){
+        try {
+                return findByParameters("from TiemposProduccion tp where tp.usuId.usuId = ?1 order by tp.tieProdCodigo desc", usuario.getUsuId()).get(0);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }

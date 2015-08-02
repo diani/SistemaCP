@@ -61,7 +61,7 @@ public class LoginController implements Serializable{
                 if(Usuactivo.getRolId().getRolDescripcion().equals("ADMINISTRADOR") || Usuactivo.getRolId().getRolDescripcion().equals("JEFE")){
                     return "/admin/crud/home";
                 }else{
-                    return "/tiemposProduccion/tiempos";
+                    return "/tiemposProduccion/tiempos?faces-redirect=true";
                 }
             }
            

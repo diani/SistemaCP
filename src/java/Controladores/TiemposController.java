@@ -6,6 +6,7 @@
 package Controladores;
 
 import BeanSession.LoginController;
+import Controladores.util.JsfUtil;
 import Entidades.PlanificacionProcesos;
 import Entidades.TiemposProduccion;
 import Entidades.Usuario;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -40,7 +42,12 @@ public class TiemposController implements Serializable {
     private PlanificacionProcesos selectedplaproc;
     private TiemposProduccion selectedtiempos = new TiemposProduccion();
     private Boolean playBandera;
+    private Boolean almuerzo;
 
+    public void init(Usuario user) {
+         reproductor(user);
+    }
+    
     public int usuariosTrabajando(PlanificacionProcesos plpr){
         List<TiemposProduccion> tipro = ejbTiemposFacade.tiempoPorPlanificacion(plpr);
         List<Usuario> us=new ArrayList<Usuario>();
@@ -57,69 +64,62 @@ public class TiemposController implements Serializable {
     
     public void reproductor(Usuario usuarioActivo){
         selectedtiempos=new TiemposProduccion();
-        selectedtiempos.setPlaProcCodigo(selectedplaproc);
-        selectedplaproc.setPersonasTrabajando(this.usuariosTrabajando(selectedplaproc));
+//        selectedtiempos.setPlaProcCodigo(selectedplaproc);
+//        selectedplaproc.setPersonasTrabajando(this.usuariosTrabajando(selectedplaproc));
         selectedtiempos.setUsuId(usuarioActivo);
-        TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuario(selectedplaproc, usuarioActivo);
+        TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuarioYdia(usuarioActivo);
         if(tiempos == null){
             playBandera = true;
         }else{
-            if(tiempos.getTieProdHoraIni() != null){
+            if(tiempos.getTieProdHoraIni() != null && !tiempos.getTieProdFinal()){
                 playBandera = false;
+                almuerzo = true;
+            }else if(tiempos.getTieProdHoraFin()!= null && !tiempos.getTieProdFinal()){
+                playBandera = false;
+                almuerzo = false;
             }else{
                 playBandera = true;
             }
         }
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('ReproductorDialog').show();");
     }
     
     public void play(){
-        selectedtiempos.setTieProdHoraIni(new Date());
-        ejbTiemposFacade.persist(selectedtiempos);
-        TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuario(selectedplaproc, selectedtiempos.getUsuId());
-        if(tiempos == null){
-            playBandera = true;
-        }else{
-            if(tiempos.getTieProdHoraIni() != null){
-                playBandera = false;
-            }else{
-                playBandera = true;
-            }
+        try{
+            selectedtiempos.setTieProdHoraIni(new Date());
+            selectedtiempos.setTieProdFinal(false);
+            ejbTiemposFacade.persist(selectedtiempos);
+            reproductor(selectedtiempos.getUsuId());
+            JsfUtil.addSuccessMessage("Se registro la Hora de ingreso Satisfcatoriamente");
+        }catch(Exception e){
+            JsfUtil.addErrorMessage("No se pudo registra La Hora de ingreso correctamente");
         }
-//        selectedplaproc.setPlaProcPlay(true);
-        ejbPlaniProcFacade.merge(selectedplaproc);
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('ReproductorDialog').hide();");
+        
+        
     }
     
     public void pause(){
-        selectedtiempos.setTieProdHoraFin(new Date());
-        ejbTiemposFacade.persist(selectedtiempos);
-        TiemposProduccion tiempos = ejbTiemposFacade.ultimoTiempoPorUsuario(selectedplaproc, selectedtiempos.getUsuId());
-        if(tiempos == null){
-            playBandera = true;
-        }else{
-            if(tiempos.getTieProdHoraIni() != null){
-                playBandera = false;
-            }else{
-                playBandera = true;
-            }
+        try{
+            selectedtiempos.setTieProdHoraFin(new Date());
+            selectedtiempos.setTieProdFinal(false);
+            ejbTiemposFacade.persist(selectedtiempos);
+            reproductor(selectedtiempos.getUsuId());
+            JsfUtil.addSuccessMessage("Se registro la Hora de Almuerzo Satisfcatoriamente");
+        }catch(Exception e){
+            JsfUtil.addErrorMessage("No se pudo registra La Hora de Almuerzo correctamente");
         }
-//        selectedplaproc.setPlaProcPlay(false);
-        ejbPlaniProcFacade.merge(selectedplaproc);
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('ReproductorDialog').hide();");
+        
     }
     
     public void stop(){
-        selectedtiempos.setTieProdHoraFin(new Date());
-        ejbTiemposFacade.persist(selectedtiempos);
-        selectedplaproc.setPlaProcHabilitado(false);
-//        selectedplaproc.setPlaProcPlay(false);
-        ejbPlaniProcFacade.merge(selectedplaproc);
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('ReproductorDialog').hide();");
+        try{
+            selectedtiempos.setTieProdHoraFin(new Date());
+            selectedtiempos.setTieProdFinal(true);
+            ejbTiemposFacade.persist(selectedtiempos);
+            JsfUtil.addSuccessMessage("Se registro la Hora de Salida Satisfcatoriamente");
+        }catch(Exception e){
+            JsfUtil.addErrorMessage("No se pudo registra La Hora de Salida correctamente");
+        }
+        
     }
     
     public PlanificacionProcesos getSelectedplaproc() {
@@ -158,7 +158,15 @@ public class TiemposController implements Serializable {
         this.playBandera = playBandera;
     }
 
-   
+    public Boolean getAlmuerzo() {
+        return almuerzo;
+    }
+
+    public void setAlmuerzo(Boolean almuerzo) {
+        this.almuerzo = almuerzo;
+    }
+
+    
     
     
 }

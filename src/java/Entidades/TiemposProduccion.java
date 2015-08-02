@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TiemposProduccion.findByTieProdHoraIni", query = "SELECT t FROM TiemposProduccion t WHERE t.tieProdHoraIni = :tieProdHoraIni"),
     @NamedQuery(name = "TiemposProduccion.findByTieProdHoraFin", query = "SELECT t FROM TiemposProduccion t WHERE t.tieProdHoraFin = :tieProdHoraFin")})
 public class TiemposProduccion implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,11 +49,14 @@ public class TiemposProduccion implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date tieProdHoraFin;
     @JoinColumn(name = "PLA_PROC_CODIGO", referencedColumnName = "PLA_PROC_CODIGO")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private PlanificacionProcesos plaProcCodigo;
     @JoinColumn(name = "USU_ID", referencedColumnName = "USU_ID")
     @ManyToOne(optional = false)
     private Usuario usuId;
+    @Column(name = "TIE_PROD_FINAL")
+    private Boolean tieProdFinal;
+    
 
     public TiemposProduccion() {
     }
@@ -124,6 +128,14 @@ public class TiemposProduccion implements Serializable {
     @Override
     public String toString() {
         return "Entidades.TiemposProduccion[ tieProdCodigo=" + tieProdCodigo + " ]";
+    }
+
+    public Boolean getTieProdFinal() {
+        return tieProdFinal;
+    }
+
+    public void setTieProdFinal(Boolean tieProdFinal) {
+        this.tieProdFinal = tieProdFinal;
     }
     
 }

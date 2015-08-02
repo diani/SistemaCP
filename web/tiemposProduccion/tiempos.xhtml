@@ -12,13 +12,17 @@
             <h:outputText value="Tiempos"></h:outputText>
         </ui:define>
         
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{tiemposController.init(loginController.usuactivo)}" />
+        </f:metadata>
+        
         <ui:define name="body">
             <div style=" width: 100%; float: right;">
                 <h:form id="TiemposListForm">
-                 
-                    <p:dataGrid var="planiproc" value="#{tiemposController.planiproc}" columns="4" layout="grid" style="width: 80%; height: 80%"
-                         id="plaproc"
-                        >
+                    <div style="width: 80%; float: left;">
+                    
+                        <p:dataGrid var="planiproc" value="#{tiemposController.planiproc}" columns="4" layout="grid" style="width: 100%; height: 80%"
+                         id="plaproc">
 
                         <f:facet name="header">
                             Productos por Realizar el Día de Hoy
@@ -53,10 +57,26 @@
                                     </tr>
 
                         </p:panel>
-
-                    </p:dataGrid>
-                    
-                    
+                            
+                        </p:dataGrid>
+                    </div>
+                    <div style="width: 20%; float: left;">
+                        <p:panel id="acciones" header="Registro" style="width: 97%; height: 285px; text-align: center;">
+                            <p:commandLink update="acciones, :growl" action="#{tiemposController.play()}" rendered="#{tiemposController.playBandera}">
+                                <img width="230px" height="230px"  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/ingreso.png" /> 
+                            </p:commandLink>
+                            <p:commandLink update="acciones, :growl" action="#{tiemposController.pause()}" rendered="#{!tiemposController.playBandera and tiemposController.almuerzo}">
+                                <img width="120px" height="120px"  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/inicio_almuerzo.png" /> 
+                            </p:commandLink>
+                            <p:commandLink update="acciones, :growl" action="#{tiemposController.play()}" rendered="#{!tiemposController.playBandera and !tiemposController.almuerzo}">
+                                <img width="120px" height="120px"  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/fin_almuerzo.png" /> 
+                            </p:commandLink>
+                            <p:commandLink update="acciones, :growl" action="#{tiemposController.stop()}" rendered="#{!tiemposController.playBandera}">
+                                <img width="120px" height="120px"  src="#{facesContext.externalContext.requestContextPath}/resources/imagenes/layer/salida.png" /> 
+                            </p:commandLink>
+                        </p:panel>
+                    </div>   
+                        
                 </h:form>    
             </div>
            
