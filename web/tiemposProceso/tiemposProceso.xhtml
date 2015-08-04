@@ -37,16 +37,18 @@
                                 <p:spacer rendered="#{tiemposProcesoController.crear}"/>
                                 <p:spacer rendered="#{tiemposProcesoController.crear}"/>
                                 
-                                <p:outputLabel for="fecha" value="Fecha:" />
+                                <p:outputLabel for="fecha" value="Fecha Inicial:" />
                                 <p:calendar id="fecha"  value="#{tiemposProcesoController.selected.tieProcFecha}" required="true" requiredMessage="#{bundle.MensajeFecha}"/>
                         
+                                <p:outputLabel for="fecha2" value="Fecha Fin:" />
+                                <p:calendar id="fecha2"  value="#{tiemposProcesoController.selected.tieProcFechaFin}" />
                                 
                             </p:panelGrid>
                     </p:panel>
                     <p:panel class="borderLess">
                         <p:commandButton id="guardarProcButton" icon="fa fa-save" value="Guardar Tiempos Proceso" action="#{tiemposProcesoController.create()}" update="CrearProcesoForm:tabla, growl"/>
                         <p:spacer width="15px"/>
-                        <p:button id="atrasButton" icon="fa fa-reply"  value="Atrás" outcome="/admin/crud/proceso/List.xhtml"/>
+                        <p:button id="atrasButton" icon="fa fa-reply"  value="Atrás" outcome="/tiemposProceso/principalTiemposProceso.xhtml"/>
                     </p:panel>
                     </p:panelGrid>
                         <br/>
@@ -62,6 +64,7 @@
                                  editable="true" 
                                  editMode="cell" 
                                  widgetVar="PAObjecto"
+                                 
                                  >
                         <p:ajax event="cellEdit" listener="#{tiemposProcesoController.onCellEdit}" update=":growl" />
                         
@@ -78,6 +81,68 @@
                                 <h:outputText value="Actividad"/>
                             </f:facet>
                             <h:outputText value="#{pa.procActCodigo.actCodigo.actDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{pa.tieActFechaIni}" sortBy="#{pa.tieActFechaIni}" filterFunction="#{tiemposProcesoController.filterByDate}" style="width: 172px;">
+                            <f:facet name="filter">
+                                <h:inputHidden id="filter" />
+                            </f:facet>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha Inicial"/>
+                                <br />
+                                <h:outputText value="Desde: "/>
+                                <p:calendar id="from" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
+                                </p:calendar>
+                                <br/>
+                                <h:outputText value="Hasta:  "/>
+                                <p:calendar id="to" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
+                                </p:calendar>
+                                <br />
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{pa.tieActFechaIni}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:calendar value="#{pa.tieActFechaIni}" />
+                                </f:facet>
+                            </p:cellEditor>
+                            
+                        </p:column>
+                        
+                        <p:column filterBy="#{pa.tieActFechaFin}" sortBy="#{pa.tieActFechaFin}" filterFunction="#{tiemposProcesoController.filterByDate}" style="width: 172px;">
+                            <f:facet name="filter">
+                                <h:inputHidden id="filter2" />
+                            </f:facet>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha Fin"/>
+                                <br />
+                                <h:outputText value="Desde: "/>
+                                <p:calendar id="from2" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
+                                </p:calendar>
+                                <br/>
+                                <h:outputText value="Hasta:  "/>
+                                <p:calendar id="to2" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
+                                </p:calendar>
+                                <br />
+                            </f:facet>
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{pa.tieActFechaFin}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:calendar value="#{pa.tieActFechaFin}" />
+                                </f:facet>
+                            </p:cellEditor>
+                            
                         </p:column>
                         
                         <p:column headerText="Cantidad" filterBy="#{pa.tieActCantidad}" sortBy="#{pa.tieActCantidad}">

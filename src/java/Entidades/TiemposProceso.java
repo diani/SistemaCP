@@ -41,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TiemposProceso.findByTieProcCodigo", query = "SELECT t FROM TiemposProceso t WHERE t.tieProcCodigo = :tieProcCodigo"),
     @NamedQuery(name = "TiemposProceso.findByTieProcFecha", query = "SELECT t FROM TiemposProceso t WHERE t.tieProcFecha = :tieProcFecha")})
 public class TiemposProceso implements Serializable {
+    @Column(name = "TIE_PROC_FECHA_FIN")
+    @Temporal(TemporalType.DATE)
+    private Date tieProcFechaFin;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -136,6 +139,14 @@ public class TiemposProceso implements Serializable {
     @Override
     public String toString() {
         return "Entidades.TiemposProceso[ tieProcCodigo=" + tieProcCodigo + " ]";
+    }
+
+    public Date getTieProcFechaFin() {
+        return tieProcFechaFin;
+    }
+
+    public void setTieProcFechaFin(Date tieProcFechaFin) {
+        this.tieProcFechaFin = tieProcFechaFin;
     }
     
 }

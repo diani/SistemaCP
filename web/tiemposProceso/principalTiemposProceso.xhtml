@@ -47,7 +47,7 @@
                                 <h:inputHidden id="filter" />
                             </f:facet>
                             <f:facet name="header">
-                                <h:outputText value="Fecha"/>
+                                <h:outputText value="Fecha Inicial"/>
                                 <br />
                                 <h:outputText value="Desde: "/>
                                 <p:calendar id="from" pattern="dd/MM/yyyy">
@@ -61,6 +61,29 @@
                                 <br />
                             </f:facet>
                                 <h:outputText value="#{item.tieProcFecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column filterBy="#{item.tieProcFechaFin}" sortBy="#{item.tieProcFechaFin}" filterFunction="#{tiemposProcesoController.filterByDate}" style="width: 172px; text-align: center;">
+                            <f:facet name="filter">
+                                <h:inputHidden id="filter2" />
+                            </f:facet>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha Inicial"/>
+                                <br />
+                                <h:outputText value="Desde: "/>
+                                <p:calendar id="from2" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
+                                </p:calendar>
+                                <br/>
+                                <h:outputText value="Hasta:  "/>
+                                <p:calendar id="to2" pattern="dd/MM/yyyy">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
+                                </p:calendar>
+                                <br />
+                            </f:facet>
+                                <h:outputText value="#{item.tieProcFechaFin}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>

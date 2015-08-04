@@ -6,6 +6,7 @@
 package Entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,6 +36,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TiemposPorActividad.findByTieActTiempo", query = "SELECT t FROM TiemposPorActividad t WHERE t.tieActTiempo = :tieActTiempo"),
     @NamedQuery(name = "TiemposPorActividad.findByTieActNumPersonas", query = "SELECT t FROM TiemposPorActividad t WHERE t.tieActNumPersonas = :tieActNumPersonas")})
 public class TiemposPorActividad implements Serializable {
+    @Column(name = "TIE_ACT_FECHA_INI")
+    @Temporal(TemporalType.DATE)
+    private Date tieActFechaIni;
+    @Column(name = "TIE_ACT_FECHA_FIN")
+    @Temporal(TemporalType.DATE)
+    private Date tieActFechaFin;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -131,6 +140,22 @@ public class TiemposPorActividad implements Serializable {
     @Override
     public String toString() {
         return "Entidades.TiemposPorActividad[ tieActCodigo=" + tieActCodigo + " ]";
+    }
+
+    public Date getTieActFechaIni() {
+        return tieActFechaIni;
+    }
+
+    public void setTieActFechaIni(Date tieActFechaIni) {
+        this.tieActFechaIni = tieActFechaIni;
+    }
+
+    public Date getTieActFechaFin() {
+        return tieActFechaFin;
+    }
+
+    public void setTieActFechaFin(Date tieActFechaFin) {
+        this.tieActFechaFin = tieActFechaFin;
     }
     
 }
