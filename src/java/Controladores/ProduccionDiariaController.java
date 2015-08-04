@@ -170,7 +170,7 @@ public class ProduccionDiariaController implements Serializable {
                 if(!contiene){
                     ProduccionDiaria prodDia = new ProduccionDiaria();
                     Calendar cal = JsfUtil.DateToCalendar(new Date());
-                    int day = cal.get(Calendar.WEEK_OF_YEAR)+(cal.get(Calendar.DAY_OF_WEEK));
+                    int day = cal.get(Calendar.DAY_OF_WEEK)-1;
                     if(day == 0){
                         day = 7;
                     }
@@ -186,7 +186,7 @@ public class ProduccionDiariaController implements Serializable {
              for(Producto prod: productosdual.getTarget()){
                 ProduccionDiaria prodDia = new ProduccionDiaria();
                     Calendar cal = JsfUtil.DateToCalendar(new Date());
-                    int day = cal.get(Calendar.WEEK_OF_YEAR)+(cal.get(Calendar.DAY_OF_WEEK));
+                    int day = cal.get(Calendar.DAY_OF_WEEK)-1;
                     if(day == 0){
                         day = 7;
                     }
