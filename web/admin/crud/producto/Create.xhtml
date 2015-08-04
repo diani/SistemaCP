@@ -20,6 +20,9 @@
                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagen}" for="prodImagen" />
                        <p:fileUpload id="prodImagen" value="#{productoController.file}"  mode="simple"  update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                        
+                       <p:outputLabel value="#{bundle.CreateProductoLabel_prodAccion}" for="prodAccion" />
+                       <p:selectBooleanCheckbox id="prodAccion" value="#{productoController.selected.prodAccion}" />
+                       
                        <p:outputLabel value="#{bundle.CreateProductoLabel_prodHabilitado}" for="prodHabilitado" />
                        <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>

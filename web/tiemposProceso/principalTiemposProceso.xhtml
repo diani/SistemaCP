@@ -50,12 +50,12 @@
                                 <h:outputText value="Fecha Inicial"/>
                                 <br />
                                 <h:outputText value="Desde: "/>
-                                <p:calendar id="from" pattern="dd/MM/yyyy">
+                                <p:calendar id="from" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
                                 </p:calendar>
                                 <br/>
                                 <h:outputText value="Hasta:  "/>
-                                <p:calendar id="to" pattern="dd/MM/yyyy">
+                                <p:calendar id="to" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
                                 </p:calendar>
                                 <br />
@@ -73,12 +73,12 @@
                                 <h:outputText value="Fecha Inicial"/>
                                 <br />
                                 <h:outputText value="Desde: "/>
-                                <p:calendar id="from2" pattern="dd/MM/yyyy">
+                                <p:calendar id="from2" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
                                 </p:calendar>
                                 <br/>
                                 <h:outputText value="Hasta:  "/>
-                                <p:calendar id="to2" pattern="dd/MM/yyyy">
+                                <p:calendar id="to2" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
                                 </p:calendar>
                                 <br />

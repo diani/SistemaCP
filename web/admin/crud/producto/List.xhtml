@@ -44,7 +44,13 @@
                             </f:facet>
                             <h:outputText value="#{item.prodDescripcion}"/>
                         </p:column>
-                        <p:column filterBy="#{item.prodHabilitado}" style="text-align: center">
+                        <p:column sortBy="#{item.prodAccion}" style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListProductoTitle_prodAccion}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.prodAccion}" disabled="true"/>
+                        </p:column>
+                        <p:column sortBy="#{item.prodHabilitado}" style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProductoTitle_prodHabilitado}"/>
                             </f:facet>

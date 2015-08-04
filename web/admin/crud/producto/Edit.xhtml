@@ -27,6 +27,9 @@
                         <p:outputLabel value="#{bundle.CreateProductoLabel_prodImagenVer}" />
                         <p:commandButton id="imagenButton" icon="fa fa-picture-o" value="#{bundle.foto}" disabled="#{productoController.selected.prodImagen == null}" update=":ProductoImagenForm" oncomplete="PF('ProductoImagenDialog').show()"/>
                         
+                        <p:outputLabel value="#{bundle.EditProductoLabel_prodAccion}" for="prodAccion" />
+                        <p:selectBooleanCheckbox id="prodAccion" value="#{productoController.selected.prodAccion}" />
+                        
                         <p:outputLabel value="#{bundle.EditProductoLabel_prodHabilitado}" for="prodHabilitado" />
                         <p:selectBooleanCheckbox id="prodHabilitado" value="#{productoController.selected.prodHabilitado}" />
                     </p:panelGrid>

@@ -39,12 +39,12 @@
                                 <h:outputText value="Fecha"/>
                                 <br />
                                 <h:outputText value="Desde: "/>
-                                <p:calendar id="from" pattern="dd/MM/yyyy">
+                                <p:calendar id="from" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
                                 </p:calendar>
                                 <br/>
                                 <h:outputText value="Hasta:  "/>
-                                <p:calendar id="to" pattern="dd/MM/yyyy">
+                                <p:calendar id="to" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
                                 </p:calendar>
                                 <br />
@@ -70,7 +70,7 @@
                         
                         <p:column style="text-align: center">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.View}"/>
+                                <h:outputText value="#{bundle.Edit}"/>
                             </f:facet>
                             <p:commandButton id="editButton" icon="fa fa-pencil" value="#{bundle.Edit}" action="#{produccionDiariaController.verProduccionDiaria()}">
                                 <f:setPropertyActionListener value="#{listproddia}" target="#{produccionDiariaController.selectedProdDiaEst}" />

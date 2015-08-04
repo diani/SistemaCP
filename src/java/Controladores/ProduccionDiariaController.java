@@ -285,13 +285,13 @@ public class ProduccionDiariaController implements Serializable {
                 }
             }
             JsfUtil.addSuccessMessage("Guardado Satisfactoriamente");
-            
+            return "/produccionDiaria/principalProduccionDiaria?faces-redirect=true";
         }
         catch(Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                JsfUtil.addErrorMessage("Ingrese todos los datos de la tabla");
         }
-        return "/produccionDiaria/principalProduccionDiaria?faces-redirect=true";
+        return "";
     }
 
     public ProduccionDiariaEstructura getSelectedProdDiaEst() {

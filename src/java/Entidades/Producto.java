@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Producto.findByProdDescripcion", query = "SELECT p FROM Producto p WHERE p.prodDescripcion = :prodDescripcion"),
     @NamedQuery(name = "Producto.findByProdHabilitado", query = "SELECT p FROM Producto p WHERE p.prodHabilitado = :prodHabilitado")})
 public class Producto implements Serializable {
+    @Column(name = "PROD_ACCION")
+    private Boolean prodAccion;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -146,6 +148,14 @@ public class Producto implements Serializable {
     @Override
     public String toString() {
         return "Entidades.Producto[ prodCodigo=" + prodCodigo + " ]";
+    }
+
+    public Boolean getProdAccion() {
+        return prodAccion;
+    }
+
+    public void setProdAccion(Boolean prodAccion) {
+        this.prodAccion = prodAccion;
     }
     
 }

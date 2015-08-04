@@ -109,7 +109,7 @@ public class PlanificacionController implements Serializable {
                 JsfUtil.addSuccessMessage("Guardado Correctamente");
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.execute("PF('PlaniDialog').hide();");
-                if(nuevo){
+                if(nuevo && !planiProcSeleccionado.getProcCodigo().getProdCodigo().getProdAccion()){
                     abrirPresentacionProducto();
                 }
             }catch(Exception ex){

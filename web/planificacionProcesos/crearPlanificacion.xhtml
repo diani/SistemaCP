@@ -50,12 +50,12 @@
                                 <h:outputText value="#{bundle.ListPlanificacionTitle_FechaIni}"/>
                                 <br/>
                                 <h:outputText value="Desde: "/>
-                                <p:calendar id="from" pattern="dd/MM/yyyy" style="width: 25px; ">
+                                <p:calendar id="from" pattern="dd/MM/yyyy" locale="es" style="width: 25px; ">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
                                 </p:calendar>
                                 <br/>
                                 <h:outputText value="Hasta:  "/>
-                                <p:calendar id="to" pattern="dd/MM/yyyy">
+                                <p:calendar id="to" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('planiFechas').filter()" />
                                 </p:calendar>
                                 <br />
@@ -80,7 +80,7 @@
                         </p:column>
                         
                         <p:column style="text-align: center">
-                            <p:commandButton id="PresentacionProdsButton" icon="fa fa-plus" value="Presentación Producto" action="#{planificacionController.abrirPresentacionProducto()}" update=":PulpaForm:datalistp">
+                            <p:commandButton id="PresentacionProdsButton" icon="fa fa-plus" value="Presentación Producto" action="#{planificacionController.abrirPresentacionProducto()}" update=":PulpaForm:datalistp" rendered="#{!plan.procCodigo.prodCodigo.prodAccion}">
                                <f:setPropertyActionListener value="#{plan}" target="#{planificacionController.planiProcSeleccionado}" />
                             </p:commandButton>
                         </p:column>
@@ -122,13 +122,15 @@
                                            var="ProcItem"
                                            itemValue="#{ProcItem}"
                                            itemLabel="#{ProcItem.prodCodigo.prodDescripcion}" />
+                            
+                            <p:ajax event="change" update="display"/>
                         </p:selectOneMenu>
                         
                         <p:outputLabel for="fechaini" value="Fecha:" />
-                        <p:calendar id="fechaini"  value="#{planificacionController.planiProcSeleccionado.plaProcFechaIni}" required="true" requiredMessage="#{bundle.MensajeFechaInicio}"/>
+                        <p:calendar id="fechaini"  value="#{planificacionController.planiProcSeleccionado.plaProcFechaIni}" required="true" requiredMessage="#{bundle.MensajeFechaInicio}" pattern="dd/MM/yyyy" locale="es"/>
                         
-                        <p:outputLabel value="Materia Prima" for="matPrima" />
-                        <p:inputText id="matPrima" required="true" value="#{planificacionController.planiProcSeleccionado.plaProcMateriaPrima}" title="Materia Prima" onkeypress="return isNumberKey(event)" requiredMessage="#{bundle.MensajeMateriaPrima}"/>
+                        <p:outputLabel value="Materia Prima" for="matPrima" rendered="#{!planificacionController.planiProcSeleccionado.procCodigo.prodCodigo.prodAccion}"/>
+                        <p:inputText id="matPrima" required="true" rendered="#{!planificacionController.planiProcSeleccionado.procCodigo.prodCodigo.prodAccion}" value="#{planificacionController.planiProcSeleccionado.plaProcMateriaPrima}" title="Materia Prima" onkeypress="return isNumberKey(event)" requiredMessage="#{bundle.MensajeMateriaPrima}"/>
                         
                         <p:outputLabel value="#{bundle.EditPlanificacionLabel_Habilitado}" for="planiHabilitado" />
                         <p:selectBooleanCheckbox id="planiHabilitado" value="#{planificacionController.planiProcSeleccionado.plaProcHabilitado}" />

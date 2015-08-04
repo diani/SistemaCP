@@ -38,10 +38,10 @@
                                 <p:spacer rendered="#{tiemposProcesoController.crear}"/>
                                 
                                 <p:outputLabel for="fecha" value="Fecha Inicial:" />
-                                <p:calendar id="fecha"  value="#{tiemposProcesoController.selected.tieProcFecha}" required="true" requiredMessage="#{bundle.MensajeFecha}"/>
+                                <p:calendar id="fecha"  value="#{tiemposProcesoController.selected.tieProcFecha}" required="true" requiredMessage="#{bundle.MensajeFecha}" pattern="dd/MM/yyyy" locale="es"/>
                         
                                 <p:outputLabel for="fecha2" value="Fecha Fin:" />
-                                <p:calendar id="fecha2"  value="#{tiemposProcesoController.selected.tieProcFechaFin}" />
+                                <p:calendar id="fecha2"  value="#{tiemposProcesoController.selected.tieProcFechaFin}" pattern="dd/MM/yyyy" locale="es" disabled="true"/>
                                 
                             </p:panelGrid>
                     </p:panel>
@@ -91,12 +91,12 @@
                                 <h:outputText value="Fecha Inicial"/>
                                 <br />
                                 <h:outputText value="Desde: "/>
-                                <p:calendar id="from" pattern="dd/MM/yyyy">
+                                <p:calendar id="from" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
                                 </p:calendar>
                                 <br/>
                                 <h:outputText value="Hasta:  "/>
-                                <p:calendar id="to" pattern="dd/MM/yyyy">
+                                <p:calendar id="to" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
                                 </p:calendar>
                                 <br />
@@ -122,12 +122,12 @@
                                 <h:outputText value="Fecha Fin"/>
                                 <br />
                                 <h:outputText value="Desde: "/>
-                                <p:calendar id="from2" pattern="dd/MM/yyyy">
+                                <p:calendar id="from2" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
                                 </p:calendar>
                                 <br/>
                                 <h:outputText value="Hasta:  "/>
-                                <p:calendar id="to2" pattern="dd/MM/yyyy">
+                                <p:calendar id="to2" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter2')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from2')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to2')}_input'))[0].value" oncomplete="PF('PAObjecto').filter()" />
                                 </p:calendar>
                                 <br />
@@ -139,7 +139,9 @@
                                     </h:outputText>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:calendar value="#{pa.tieActFechaFin}" />
+                                    <p:calendar value="#{pa.tieActFechaFin}" >
+                                        <p:ajax event="dateSelect" listener="#{tiemposProcesoController.onDateSelect}" update="CrearProcesoForm:fecha2" />
+                                    </p:calendar>
                                 </f:facet>
                             </p:cellEditor>
                             

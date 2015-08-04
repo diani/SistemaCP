@@ -28,8 +28,7 @@
                             Productos por Realizar el Día de Hoy
                         </f:facet>
 
-                        <p:panel header="#{planiproc.procCodigo.prodCodigo.prodDescripcion}" style="text-align:center">
-                        
+                        <p:panel header="#{planiproc.procCodigo.prodCodigo.prodDescripcion}" style="text-align:center;" rendered="#{!planiproc.procCodigo.prodCodigo.prodAccion}">
                                     <tr>
                                         <table width="100%">
                                             <tr>
@@ -57,6 +56,10 @@
                                     </tr>
 
                         </p:panel>
+                        
+                        <p:panel header="#{planiproc.procCodigo.prodCodigo.prodDescripcion}" style="text-align:center; height: 271px;" rendered="#{planiproc.procCodigo.prodCodigo.prodAccion}">
+                            <img width="228px" height="200px" src="#{facesContext.externalContext.requestContextPath}#{planiproc.procCodigo.prodCodigo.prodImagen}"/>
+                        </p:panel>  
                             
                         </p:dataGrid>
                     </div>

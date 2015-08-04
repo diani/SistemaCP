@@ -39,6 +39,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.TreeNode;
@@ -79,6 +80,13 @@ public class TiemposProcesoController implements Serializable {
     private TreeNode arbolProceso;
     
     public TiemposProcesoController() {
+    }
+    
+    public void onDateSelect(SelectEvent event) {
+        TiemposPorActividad tmpAct = selected.getTiemposPorActividadList().get(selected.getTiemposPorActividadList().size()-1);
+        if (tmpAct.getTieActFechaFin() != null) {
+            selected.setTieProcFechaFin(tmpAct.getTieActFechaFin());
+        }
     }
     
     public boolean filterByDate(Object value, Object filter, Locale locale) {
