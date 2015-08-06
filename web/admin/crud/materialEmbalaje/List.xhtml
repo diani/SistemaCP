@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMaterialEmbalajeTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="MaterialEmbalajeListForm">
+                <p:panel header="#{bundle.ListMaterialEmbalajeTitle}">
+                    <p:dataTable id="datalist" value="#{materialEmbalajeController.items}" var="item"
+                                 paginator="true"
+                                 rowKey="#{item.matEmbCodigo}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+
+                        <p:column style="text-align: center;" filterBy="#{item.matEmbCodigo}" sortBy="#{item.matEmbCodigo}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMaterialEmbalajeTitle_matEmbCodigo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.matEmbCodigo}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" filterBy="#{item.matEmbDescripcion}" sortBy="#{item.matEmbDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMaterialEmbalajeTitle_matEmbDescripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.matEmbDescripcion}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" sortBy="#{item.matEmbHabilitado}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMaterialEmbalajeTitle_matEmbHabilitado}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.matEmbHabilitado}" disabled="true"/>
+                        </p:column>
+                        
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Edit}"/>
+                            </f:facet>
+                            <p:commandButton id="editButton" icon="fa fa-pencil" value="#{bundle.Edit}" update=":MaterialEmbalajeEditForm" oncomplete="PF('MaterialEmbalajeEditDialog').show()" >
+                                <f:setPropertyActionListener value="#{item}" target="#{materialEmbalajeController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Delete}"/>
+                            </f:facet>
+                            <p:commandButton id="deleteButton" icon="fa fa-trash-o"  value="#{bundle.Delete}" action="#{materialEmbalajeController.destroy}" update=":growl,datalist">
+                                <f:setPropertyActionListener value="#{item}" target="#{materialEmbalajeController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="fa fa-plus"   value="#{bundle.Create}" actionListener="#{materialEmbalajeController.prepareCreate}" update=":MaterialEmbalajeCreateForm" oncomplete="PF('MaterialEmbalajeCreateDialog').show()"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

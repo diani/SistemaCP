@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MaterialEmbalajeCreateDlg" widgetVar="MaterialEmbalajeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMaterialEmbalajeTitle}">
+            <h:form id="MaterialEmbalajeCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{materialEmbalajeController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateMaterialEmbalajeLabel_matEmbDescripcion}" for="matEmbDescripcion" />
+                        <p:inputText id="matEmbDescripcion" required="true" value="#{materialEmbalajeController.selected.matEmbDescripcion}" title="#{bundle.CreateMaterialEmbalajeTitle_matEmbDescripcion}" />
+                        <p:outputLabel value="#{bundle.CreateMaterialEmbalajeLabel_matEmbHabilitado}" for="matEmbHabilitado" />
+                        <p:selectBooleanCheckbox id="matEmbHabilitado" value="#{materialEmbalajeController.selected.matEmbHabilitado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{materialEmbalajeController.create}" value="#{bundle.Save}" update="display,:MaterialEmbalajeListForm:datalist,:growl" oncomplete="handleSubmit(args,'MaterialEmbalajeCreateDialog');"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -40,6 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByUsuClave", query = "SELECT u FROM Usuario u WHERE u.usuClave = :usuClave"),
     @NamedQuery(name = "Usuario.findByUsuHabilitado", query = "SELECT u FROM Usuario u WHERE u.usuHabilitado = :usuHabilitado")})
 public class Usuario implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuId")
+    private List<UsuarioPorMaterialEmbalaje> usuarioPorMaterialEmbalajeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuId")
+    private List<UsuarioPorCif> usuarioPorCifList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -161,6 +165,24 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "Entidades.Usuario[ usuId=" + usuId + " ]";
+    }
+
+    @XmlTransient
+    public List<UsuarioPorMaterialEmbalaje> getUsuarioPorMaterialEmbalajeList() {
+        return usuarioPorMaterialEmbalajeList;
+    }
+
+    public void setUsuarioPorMaterialEmbalajeList(List<UsuarioPorMaterialEmbalaje> usuarioPorMaterialEmbalajeList) {
+        this.usuarioPorMaterialEmbalajeList = usuarioPorMaterialEmbalajeList;
+    }
+
+    @XmlTransient
+    public List<UsuarioPorCif> getUsuarioPorCifList() {
+        return usuarioPorCifList;
+    }
+
+    public void setUsuarioPorCifList(List<UsuarioPorCif> usuarioPorCifList) {
+        this.usuarioPorCifList = usuarioPorCifList;
     }
     
 }

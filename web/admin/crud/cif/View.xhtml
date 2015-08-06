@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CifViewDlg" widgetVar="CifViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCifTitle}">
+            <h:form id="CifViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{cifController.selected != null}">
+                        <h:outputText value="#{bundle.ViewCifLabel_cifCodigo}"/>
+                        <h:outputText value="#{cifController.selected.cifCodigo}" title="#{bundle.ViewCifTitle_cifCodigo}"/>
+                        <h:outputText value="#{bundle.ViewCifLabel_cifDescripcion}"/>
+                        <h:outputText value="#{cifController.selected.cifDescripcion}" title="#{bundle.ViewCifTitle_cifDescripcion}"/>
+                        <h:outputText value="#{bundle.ViewCifLabel_cifHabilitado}"/>
+                        <p:selectBooleanCheckbox value="#{cifController.selected.cifHabilitado}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="CifViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

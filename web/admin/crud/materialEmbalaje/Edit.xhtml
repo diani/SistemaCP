@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MaterialEmbalajeEditDlg" widgetVar="MaterialEmbalajeEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMaterialEmbalajeTitle}">
+            <h:form id="MaterialEmbalajeEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{materialEmbalajeController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMaterialEmbalajeLabel_matEmbCodigo}" for="matEmbCodigo" />
+                        <p:inputText id="matEmbCodigo" disabled="true" value="#{materialEmbalajeController.selected.matEmbCodigo}" title="#{bundle.EditMaterialEmbalajeTitle_matEmbCodigo}" required="true" requiredMessage="#{bundle.EditMaterialEmbalajeRequiredMessage_matEmbCodigo}"/>
+                        <p:outputLabel value="#{bundle.EditMaterialEmbalajeLabel_matEmbDescripcion}" for="matEmbDescripcion" />
+                        <p:inputText id="matEmbDescripcion" required="true" value="#{materialEmbalajeController.selected.matEmbDescripcion}" title="#{bundle.EditMaterialEmbalajeTitle_matEmbDescripcion}" />
+                        <p:outputLabel value="#{bundle.EditMaterialEmbalajeLabel_matEmbHabilitado}" for="matEmbHabilitado" />
+                        <p:selectBooleanCheckbox id="matEmbHabilitado" value="#{materialEmbalajeController.selected.matEmbHabilitado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{materialEmbalajeController.update}" value="#{bundle.Save}" update="display,:MaterialEmbalajeListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MaterialEmbalajeEditDialog');"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
