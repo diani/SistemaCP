@@ -117,12 +117,12 @@ public class CifController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Cif.class)
+    @FacesConverter("CifControllerConverter")
     public static class CifControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
+            if (value == null || value.length() == 0 || value.equals("Seleccionar Uno...") ) {
                 return null;
             }
             CifController controller = (CifController) facesContext.getApplication().getELResolver().

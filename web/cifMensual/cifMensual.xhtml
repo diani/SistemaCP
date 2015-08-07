@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCifTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="CifListForm">
+                <p:panel header="#{bundle.ListCifTitle}">
+                    <p:dataTable id="datalist" value="#{cifMensualController.lstUsuCif}" var="item"
+                                 paginator="true"
+                                 rowKey="#{item.usuCifCodigo}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rowIndexVar="rowpa"
+                                 widgetVar="prodDiaFechas"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton editButton"/>
+                        <p:ajax event="rowUnselect" update="createButton editButton"/>
+
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Nro"/>
+                            </f:facet>
+                            #{rowpa+1}
+                        </p:column>
+                        
+                        <p:column filterBy="#{item.cifCodigo.cifDescripcion}" sortBy="#{item.cifCodigo.cifDescripcion}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCifTitle_cifDescripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cifCodigo.cifDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{item.usuCifCantidad}" sortBy="#{item.usuCifCantidad}" >
+                            <f:facet name="header">
+                                <h:outputText value="Cantidad"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuCifCantidad}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{item.usuCifCosto}" sortBy="#{item.usuCifCosto}" >
+                            <f:facet name="header">
+                                <h:outputText value="Costo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuCifCosto}"/>
+                        </p:column>
+                        
+                        <p:column style="text-align: center; width: 172px;" filterBy="#{item.usuCifFecha}" sortBy="#{item.usuCifFecha}" filterFunction="#{cifMensualController.filterByDate}">
+                            <f:facet name="filter">
+                                <h:inputHidden id="filter" />
+                            </f:facet>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                                <br />
+                                <h:outputText value="Desde: "/>
+                                <p:calendar id="from" pattern="dd/MM/yyyy" locale="es">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
+                                </p:calendar>
+                                <br/>
+                                <h:outputText value="Hasta:  "/>
+                                <p:calendar id="to" pattern="dd/MM/yyyy" locale="es">
+                                    <p:ajax event="dateSelect" onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" oncomplete="PF('prodDiaFechas').filter()" />
+                                </p:calendar>
+                                <br />
+                            </f:facet>
+                                <h:outputText value="#{item.usuCifFecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column style="text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.Edit}"/>
+                            </f:facet>
+                            <p:commandButton id="editButton" icon="fa fa-pencil" value="#{bundle.Edit}" update=":CifMenForm" oncomplete="PF('CifMenDialog').show()" >
+                                <f:setPropertyActionListener value="#{item}" target="#{cifMensualController.selectedUsuCif}" />
+                            </p:commandButton>
+                        </p:column>
+                       
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="fa fa-plus" value="#{bundle.Create}" actionListener="#{cifMensualController.crearCifMensual(loginController.usuactivo)}" update=":CifMenForm"/>
+                            <p:commandButton id="UpdateButton" icon="fa fa-refresh" value="#{bundle.Actualizar}" oncomplete="location.reload();"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            
+            <p:dialog id="CifMenDlg" widgetVar="CifMenDialog" modal="true" resizable="false" appendTo="@(body)" header="CifMen">
+                <h:form id="CifMenForm">
+                   <h:panelGroup id="display">
+                    <p:panelGrid columns="2" >
+                        <p:outputLabel value="CIF" for="CifMenCodigo" />
+                        <p:selectOneMenu id="CifMenCodigo" value="#{cifMensualController.selectedUsuCif.cifCodigo}" required="true" requiredMessage="#{bundle.MensajeCifMensual}" converter="CifControllerConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" />
+                            <f:selectItems value="#{cifMensualController.lstCif}"
+                                           var="CifItem"
+                                           itemValue="#{CifItem}"
+                                           itemLabel="#{CifItem.cifDescripcion}" />
+                        
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Cantidad:" for="cant"/>
+                        <p:inputText id="cant" required="true" value="#{cifMensualController.selectedUsuCif.usuCifCantidad}" title="Cantidad" onkeypress="return isNumberKey(event)" requiredMessage="#{bundle.MensajeCantidad}"/>
+                        
+                        <p:outputLabel value="Costo:" for="cos"/>
+                        <p:inputText id="cos" required="true" value="#{cifMensualController.selectedUsuCif.usuCifCosto}" title="Costo" onkeypress="return isNumberKey(event)" requiredMessage="#{bundle.MensajeCosto}"/>
+                        
+                        <p:outputLabel for="fecha" value="Fecha:" />
+                        <p:calendar id="fecha"  value="#{cifMensualController.selectedUsuCif.usuCifFecha}" required="true" requiredMessage="#{bundle.MensajeFecha}" pattern="dd/MM/yyyy" locale="es"/>
+                        
+                    </p:panelGrid>
+                       <div align="center">
+                        <p:commandButton id="guardarPlaniButton" icon="fa fa-save" value="Guardar" action="#{cifMensualController.guardarCifMensual}" update="display, :CifListForm:datalist, :growl" />
+                    </div>
+                   </h:panelGroup>
+                    
+                </h:form>
+            </p:dialog>
+            
+
+        </ui:define>
+    </ui:composition>
+
+</html>

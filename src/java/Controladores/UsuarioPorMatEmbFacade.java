@@ -5,7 +5,8 @@
  */
 package Controladores;
 
-import Entidades.Cif;
+import Entidades.UsuarioPorCif;
+import Entidades.UsuarioPorMaterialEmbalaje;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -16,7 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author diani
  */
 @Stateless
-public class CifFacade extends AbstractFacade<Cif> {
+public class UsuarioPorMatEmbFacade extends AbstractFacade<UsuarioPorMaterialEmbalaje> {
     @PersistenceContext(unitName = "SistemaCPPU")
     private EntityManager em;
 
@@ -25,14 +26,18 @@ public class CifFacade extends AbstractFacade<Cif> {
         return em;
     }
 
-    public CifFacade() {
-        super(Cif.class);
+    public UsuarioPorMatEmbFacade() {
+        super(UsuarioPorMaterialEmbalaje.class);
     }
-    public List<Cif> buscarTodosPorHabiltiado(Boolean habilitado) {
+    
+    public List<UsuarioPorMaterialEmbalaje> lstFecha()
+    {
         try {
-                return findByParameters("from Cif c where c.cifHabilitado = ?1", habilitado);
+                return find("from UsuarioPorMaterialEmbalaje usuMaEm order by usuMaEm.usuMatEmbFecha");
         } catch (Exception e) {
                 return null;
         }
     }
+    
 }
+

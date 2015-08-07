@@ -6,6 +6,7 @@
 package Entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UsuarioPorMaterialEmbalaje.findByUsuMatEmbCosto", query = "SELECT u FROM UsuarioPorMaterialEmbalaje u WHERE u.usuMatEmbCosto = :usuMatEmbCosto"),
     @NamedQuery(name = "UsuarioPorMaterialEmbalaje.findByUsuMatEmbCostoUni", query = "SELECT u FROM UsuarioPorMaterialEmbalaje u WHERE u.usuMatEmbCostoUni = :usuMatEmbCostoUni")})
 public class UsuarioPorMaterialEmbalaje implements Serializable {
+    @Column(name = "USU_MAT_EMB_FECHA")
+    @Temporal(TemporalType.DATE)
+    private Date usuMatEmbFecha;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -120,6 +126,14 @@ public class UsuarioPorMaterialEmbalaje implements Serializable {
     @Override
     public String toString() {
         return "Entidades.UsuarioPorMaterialEmbalaje[ usuMatEmbCodigo=" + usuMatEmbCodigo + " ]";
+    }
+
+    public Date getUsuMatEmbFecha() {
+        return usuMatEmbFecha;
+    }
+
+    public void setUsuMatEmbFecha(Date usuMatEmbFecha) {
+        this.usuMatEmbFecha = usuMatEmbFecha;
     }
     
 }

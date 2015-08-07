@@ -5,7 +5,9 @@
  */
 package Controladores;
 
+import Entidades.Cif;
 import Entidades.MaterialEmbalaje;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +28,14 @@ public class MaterialEmbalajeFacade extends AbstractFacade<MaterialEmbalaje> {
 
     public MaterialEmbalajeFacade() {
         super(MaterialEmbalaje.class);
+    }
+    
+    public List<MaterialEmbalaje> buscarTodosPorHabiltiado(Boolean habilitado) {
+        try {
+                return findByParameters("from MaterialEmbalaje me where me.matEmbHabilitado = ?1", habilitado);
+        } catch (Exception e) {
+                return null;
+        }
     }
     
 }
