@@ -169,6 +169,12 @@ public class ProduccionDiariaController implements Serializable {
                 }
                 if(!contiene){
                     ProduccionDiaria prodDia = new ProduccionDiaria();
+                    Calendar cal = JsfUtil.DateToCalendar(new Date());
+                    int day = cal.get(Calendar.WEEK_OF_YEAR)+(cal.get(Calendar.DAY_OF_WEEK));
+                    if(day == 0){
+                        day = 7;
+                    }
+                    prodDia.setProdDiaLote(""+prod.getProdCodigoAux()+JsfUtil.ObtenerAnio(new Date())+day);
                     prodDia.setProdCodigo(prod);
                     prodDia.setProdDiaFecha(new Date());
                     prodDia.setUsuId(usu);
@@ -179,6 +185,12 @@ public class ProduccionDiariaController implements Serializable {
         }else{
              for(Producto prod: productosdual.getTarget()){
                 ProduccionDiaria prodDia = new ProduccionDiaria();
+                    Calendar cal = JsfUtil.DateToCalendar(new Date());
+                    int day = cal.get(Calendar.WEEK_OF_YEAR)+(cal.get(Calendar.DAY_OF_WEEK));
+                    if(day == 0){
+                        day = 7;
+                    }
+                    prodDia.setProdDiaLote(""+prod.getProdCodigoAux()+JsfUtil.ObtenerAnio(new Date())+cal.get(Calendar.WEEK_OF_YEAR)+day);
                     prodDia.setProdCodigo(prod);
                     prodDia.setProdDiaFecha(new Date());
                     prodDia.setUsuId(usu);

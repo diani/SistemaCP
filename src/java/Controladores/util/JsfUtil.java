@@ -85,4 +85,13 @@ public class JsfUtil {
         output = formatter.format(date);
         return output;
     }
+    
+    public static String ObtenerAnio(Date date){
+        String output;
+        SimpleDateFormat formatter;
+
+        formatter = new SimpleDateFormat("yy");
+        output = formatter.format(date);
+        return output;
+    }
 }
