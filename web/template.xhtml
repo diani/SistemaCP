@@ -58,15 +58,15 @@
                             <p:submenu label="Costos" icon="fa fa-cogs" >
                             <p:menuitem value="Producción Diaria" icon="fa fa-group" outcome="/produccionDiaria/principalProduccionDiaria.xhtml" />
                             
-                            <p:submenu label="Mensual" >                              
-                                    <p:menuitem value="Cif" icon="fa fa-group" outcome="/cifMensual/cifMensual.xhtml" />
-                                    <p:menuitem value="Materiales de Embalaje" icon="fa fa-group" outcome="/matEmbMensual/matEmbMensual.xhtml" />
+                            <p:submenu label="Por Mes" >                              
+                                    <p:menuitem value="CIF Mensual" icon="fa fa-group" outcome="/cifMensual/cifMensual.xhtml" />
+                                    <p:menuitem value="Material de Embalaje Mensual" icon="fa fa-group" outcome="/matEmbMensual/matEmbMensual.xhtml" />
                             </p:submenu>
                             
                             </p:submenu>
                             <p:menuitem value="Tiempos Proceso" icon="fa fa-puzzle-piece" outcome="/tiemposProceso/principalTiemposProceso.xhtml" />
                             <p:menuitem value="Planificación" icon="fa fa-calendar" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
-                            <p:menuitem value="Personal" icon="fa fa-clock-o" outcome="/tiemposProduccion/tiempos.xhtml" />
+                            <p:menuitem value="Tiempos Producción" icon="fa fa-clock-o" outcome="/tiemposProduccion/tiempos.xhtml" />
                             
                             <f:facet name="options" rendered="#{loginController.usuactivo != null}">
                                 <p:menuButton value="#{loginController.usuactivo.usuNombre} #{loginController.usuactivo.usuApellido}">
