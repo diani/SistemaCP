@@ -67,7 +67,7 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
-            <p:dialog id="arbolDialog" widgetVar="arbolDialog" modal="true" resizable="false" appendTo="@(body)" header="Arbol de proceso">
+            <p:dialog id="arbolDialog" widgetVar="arbolDialog" modal="true" resizable="false" appendTo="@(body)" header="Arbol de proceso" width="50%" height="590px">
                 <p:tree id="arbolProceso" value="#{procesoController.arbolProceso}" var="node" orientation="horizontal">
                     <p:treeNode>
                         <h:outputText value="#{node}" />
