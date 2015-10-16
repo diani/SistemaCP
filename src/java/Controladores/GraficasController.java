@@ -10,7 +10,11 @@ import Entidades.TiemposProduccion;
 import Entidades.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +22,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.ItemSelectEvent;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 
 /**
@@ -43,9 +51,52 @@ public class GraficasController implements Serializable {
     private PieChartModel livePieModelUsuarios = new PieChartModel();
     
     private List<Usuario> lstUsuariosActivos = null;
+    private List<Usuario> lstUsuariosFaltantes = null;
+    private List<Usuario> lstUsuariosAlmorzando = null;
+    private List<Usuario> lstUsuariosFinalizan = null;
     
     private String texto;
+    
+    private BarChartModel animatedModel2;
+    
+    @PostConstruct
+    public void init() {
+        createAnimatedModels();
+    }
   
+    private void createAnimatedModels() {
+         
+        animatedModel2 = initBarModel();
+        animatedModel2.setTitle("Actividades del dia de hoy");
+        animatedModel2.setAnimate(true);
+        animatedModel2.setLegendPosition("ne");
+        Axis yAxis = animatedModel2.getAxis(AxisType.Y);
+        yAxis.setMin(0);
+    }
+    
+    private BarChartModel initBarModel() {
+        BarChartModel model = new BarChartModel();
+ 
+        ChartSeries cantidadMP = new ChartSeries();
+        
+        cantidadMP.setLabel("Cantidad MP");
+        List<PlanificacionProcesos> planiproc;
+        planiproc = ejbPlaniProcFacade.buscarFechaIni();
+        
+        for(PlanificacionProcesos pla : planiproc){
+            try{
+                cantidadMP.set(pla.getProcCodigo().getProdCodigo().getProdDescripcion(), pla.getPlaProcMateriaPrima());
+            }catch(Exception e){
+                cantidadMP.set(pla.getProcCodigo().getProdCodigo().getProdDescripcion(), 0);
+            }
+            
+        }
+        
+        model.addSeries(cantidadMP);
+         
+        return model;
+    }
+    
     public PieChartModel getLivePieModel() {
         lstPlaniproc = ejbPlaniProcFacade.buscarFechaIni();
         int total = lstPlaniproc.size();
@@ -86,31 +137,64 @@ public class GraficasController implements Serializable {
     }
     
     public PieChartModel getLivePieModelUsuarios() {
-        lstPlaniproc = ejbPlaniProcFacade.buscarFechaIni();
-        
         if(lstUsuarios == null || lstUsuarios.isEmpty()){
             lstUsuarios = ejbUsuarioFacade.findByHabilitado(Boolean.TRUE);
         }
-        
+        Calendar calStart = new GregorianCalendar();
+        calStart.setTime(new Date());
+        calStart.set(Calendar.HOUR_OF_DAY, 0);
+        calStart.set(Calendar.MINUTE, 0);
+        calStart.set(Calendar.SECOND, 0);
+        calStart.set(Calendar.MILLISECOND, 0);
+        Date midnightYesterday = calStart.getTime();
         int total = lstUsuarios.size();
         int activos = 0;
+        int almorzando = 0;
+        int noVino=0;
+        int acabaron=0;
+        
         List<Usuario> lstTempUsu = new ArrayList<Usuario>();
+        
         lstUsuariosActivos = new ArrayList<Usuario>();
-        for(PlanificacionProcesos aux :lstPlaniproc){
-            lstTempUsu.addAll(usuariosTrabajando(aux));
-        }
-        for(Usuario temp : lstTempUsu){
-            if(!lstUsuariosActivos.contains(temp)){
-                lstUsuariosActivos.add(temp);
+        lstUsuariosAlmorzando= new ArrayList<Usuario>();
+        lstUsuariosFaltantes = new ArrayList<Usuario>();
+        lstUsuariosFinalizan = new ArrayList<Usuario>();
+        
+        for(Usuario usu: lstUsuarios){
+            TiemposProduccion ultimoTiempo = ejbTiemposFacade.ultimoTiempoPorUsuarioYdia(usu);
+            
+            
+            if(ultimoTiempo != null){
+                
+                if((ultimoTiempo.getTieProdHoraIni()!=null && ultimoTiempo.getTieProdHoraIni().compareTo(midnightYesterday)==-1)){
+                    ultimoTiempo = null;
+                }
+                if((ultimoTiempo.getTieProdHoraFin()!=null && ultimoTiempo.getTieProdHoraFin().compareTo(midnightYesterday)==-1)){
+                    ultimoTiempo = null;
+                }
             }
+            if(ultimoTiempo==null){
+                lstUsuariosFaltantes.add(usu);
+            }else if(ultimoTiempo.getTieProdHoraFin()!=null && ultimoTiempo.getTieProdFinal()){ //true cuando es positivo y 1 en la bdd
+                lstUsuariosFinalizan.add(usu);
+            }else if(ultimoTiempo.getTieProdHoraFin()!=null && !ultimoTiempo.getTieProdFinal()){// !(false) cuando es negativo y 0 en la bdd
+                lstUsuariosAlmorzando.add(usu);
+            }else 
+                lstUsuariosActivos.add(usu);                            
         }
-        activos =lstUsuariosActivos.size();
-        int inactivos=total-activos;
         
-        livePieModelUsuarios.getData().put("Inactivos", inactivos);
-        livePieModelUsuarios.getData().put("activos", activos);
+        activos=lstUsuariosActivos.size();
+        almorzando=lstUsuariosAlmorzando.size();
+        noVino=lstUsuariosFaltantes.size();
+        acabaron=lstUsuariosFinalizan.size();
         
-        livePieModelUsuarios.setTitle("Personas Trabajando");
+        livePieModelUsuarios.getData().put("Trabajando", activos);
+        livePieModelUsuarios.getData().put("Personas en almuerzo", almorzando);
+        livePieModelUsuarios.getData().put("Finalizaron", acabaron);
+        livePieModelUsuarios.getData().put("Ausentes", noVino);
+        
+        
+        livePieModelUsuarios.setTitle("Personal");
         livePieModelUsuarios.setLegendPosition("ne");
         livePieModelUsuarios.setShowDataLabels(true);
         livePieModelUsuarios.setDataFormat("value");
@@ -141,29 +225,60 @@ public class GraficasController implements Serializable {
     }
     
     public void itemSelectUsuarios(ItemSelectEvent event) {
-        if(event.getItemIndex() == 1){    
-            texto = "Usuarios Trabajando: ";
+        if(event.getItemIndex() == 0){    
+            texto = "Personal Trabajando: ";
             for(Usuario aux :lstUsuariosActivos){
                 texto += aux.getUsuNombre() + " " + aux.getUsuApellido() + ", ";
             }
             texto =texto.substring(0,texto.length() - 2);
-        }else{
-            texto = "Usuarios Inactivos: ";
-            List<Usuario> lstTemp = lstUsuarios;
-            for(Usuario aux :lstUsuariosActivos){
-                if(lstTemp.contains(aux))
-                    lstTemp.remove(aux);
-            }
-            for(Usuario aux :lstTemp){
+        }else if(event.getItemIndex() == 1){
+            texto = "Personal Almorzando: ";
+            for(Usuario aux :lstUsuariosAlmorzando){
                 texto += aux.getUsuNombre() + " " + aux.getUsuApellido() + ", ";
             }
-            texto = texto.substring(0,texto.length() - 2);
+            texto =texto.substring(0,texto.length() - 2);
+        }else if(event.getItemIndex() == 2){
+            texto = "Finalizo Jornada: ";
+            for(Usuario aux :lstUsuariosFinalizan){
+                texto += aux.getUsuNombre() + " " + aux.getUsuApellido() + ", ";
+            }
+            texto =texto.substring(0,texto.length() - 2);
+        }else if(event.getItemIndex() == 3){
+            texto = "Personal Ausente: ";
+            for(Usuario aux :lstUsuariosFaltantes){
+                texto += aux.getUsuNombre() + " " + aux.getUsuApellido() + ", ";
+            }
+            texto =texto.substring(0,texto.length() - 2);
         }
     }
     
     public GraficasController() {
     }
 
+    public List<Usuario> getLstUsuariosFaltantes() {
+        return lstUsuariosFaltantes;
+    }
+
+    public void setLstUsuariosFaltantes(List<Usuario> lstUsuariosFaltantes) {
+        this.lstUsuariosFaltantes = lstUsuariosFaltantes;
+    }
+
+    public List<Usuario> getLstUsuariosAlmorzando() {
+        return lstUsuariosAlmorzando;
+    }
+
+    public void setLstUsuariosAlmorzando(List<Usuario> lstUsuariosAlmorzando) {
+        this.lstUsuariosAlmorzando = lstUsuariosAlmorzando;
+    }
+
+    public List<Usuario> getLstUsuariosFinalizan() {
+        return lstUsuariosFinalizan;
+    }
+
+    public void setLstUsuariosFinalizan(List<Usuario> lstUsuariosFinalizan) {
+        this.lstUsuariosFinalizan = lstUsuariosFinalizan;
+    }
+   
     public List<TiemposProduccion> getLstTiempos() {
         return lstTiempos;
     }
@@ -210,6 +325,14 @@ public class GraficasController implements Serializable {
 
     public void setLstUsuariosActivos(List<Usuario> lstUsuariosActivos) {
         this.lstUsuariosActivos = lstUsuariosActivos;
+    }
+
+    public BarChartModel getAnimatedModel2() {
+        return animatedModel2;
+    }
+
+    public void setAnimatedModel2(BarChartModel animatedModel2) {
+        this.animatedModel2 = animatedModel2;
     }
     
     
