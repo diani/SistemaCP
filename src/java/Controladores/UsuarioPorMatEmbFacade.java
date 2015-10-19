@@ -7,6 +7,7 @@ package Controladores;
 
 import Entidades.UsuarioPorCif;
 import Entidades.UsuarioPorMaterialEmbalaje;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -38,6 +39,12 @@ public class UsuarioPorMatEmbFacade extends AbstractFacade<UsuarioPorMaterialEmb
                 return null;
         }
     }
-    
+    public List<UsuarioPorMaterialEmbalaje> lstUsuMatEmb(Date fechaIn, Date fechaFi){
+        try {
+                return findByParameters("from UsuarioPorMaterialEmbalaje me where me.usuMatEmbFecha between ?1 and ?2", fechaIn, fechaFi);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }
 

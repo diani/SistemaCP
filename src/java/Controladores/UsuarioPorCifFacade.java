@@ -6,6 +6,7 @@
 package Controladores;
 
 import Entidades.UsuarioPorCif;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -38,4 +39,11 @@ public class UsuarioPorCifFacade extends AbstractFacade<UsuarioPorCif> {
         }
     }
     
+    public List<UsuarioPorCif> lstCifs(Date fechaIn, Date fechaFi){
+        try {
+                return findByParameters("from UsuarioPorCif uc where uc.usuCifFecha between ?1 and ?2", fechaIn, fechaFi);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }

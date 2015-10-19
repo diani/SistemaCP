@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Balance"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="BalListForm">
+                <p:panel header="buscador">
+                   
+                    <p:panelGrid columns="5" class="borderLess">
+                        <p:outputLabel value="Fecha Desde: "/>
+                        <p:calendar id="fechaIni" value="#{balanceController.fechaIni}" pattern="dd/MM/yyyy"/>
+                        
+                        <p:outputLabel value="Fecha Hasta: "/>
+                        <p:calendar id="fechaFin" value="#{balanceController.fechaFin}" pattern="dd/MM/yyyy"/>
+                        
+                        <p:commandButton icon="fa fa-save" action="#{balanceController.generarReporte()}" value="Generar Reporte" update=":growl, contenedor" />
+                    </p:panelGrid>
+                        
+                    
+                </p:panel>
+                <p:panel header="balance" id="contenedor">
+                    <p:panelGrid columns="2" rendered="#{balanceController.generado}" >
+                        
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                 <p:row>
+                                     <p:column colspan="2">Balance desde: 
+                                         <h:outputText value="#{balanceController.fechaIni}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                         </h:outputText>
+                                         
+                                         Hasta: 
+                                         <h:outputText value="#{balanceController.fechaFin}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                         </h:outputText>
+                                     </p:column>
+                                </p:row>
+                            </f:facet>
+                            
+                            <p:outputLabel value="Total CIF:"/>
+                            <p:outputLabel value="#{balanceController.sumaCif}"/>
+                           
+                            <p:commandLink id="ajax" update="display" oncomplete="PF('dlg').show();">
+                                <p:outputLabel value="Total MP:"/>
+                            </p:commandLink>
+                            <p:outputLabel value="#{balanceController.totalMP}"/>
+                            
+                        </p:panelGrid>
+                        
+                        
+                    </p:panelGrid>
+                </p:panel>
+                
+                <p:dialog header="Detalle MP" widgetVar="dlg" modal="true" resizable="false" appendTo="@(body)">
+                    
+                    <p:dataTable id="display" var="elemTabla" value="#{balanceController.lstProd}">
+                        
+                        <p:column filterBy="#{elemTabla.prodCodigoAux}" sortBy="#{elemTabla.prodCodigoAux}">
+                            <f:facet name="header">
+                                <h:outputText value="Código Fruta"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.prodCodigoAux}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{elemTabla.prodDescripcion}" sortBy="#{elemTabla.prodDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRolTitle_rolDescripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.prodDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.cantMP}">
+                            <f:facet name="header">
+                                <h:outputText value="Cantidad MP"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.cantMP}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.costoMP}">
+                            <f:facet name="header">
+                                <h:outputText value="Costo MP"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.costoMP}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.cantMP * elemTabla.costoMP}">
+                            <f:facet name="header">
+                                <h:outputText value="Total MP"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.cantMP * elemTabla.costoMP}"/>
+                        </p:column>
+                        
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="$#{balanceController.sumaCantMP}" />
+                                <p:column footerText="$#{balanceController.sumaCostMP}" />
+                                <p:column footerText="$#{balanceController.totalMP}" />
+                            </p:row>
+                        </p:columnGroup>
+
+                    </p:dataTable>
+                </p:dialog>
+                
+            </h:form>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

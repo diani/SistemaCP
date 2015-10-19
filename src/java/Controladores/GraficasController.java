@@ -169,7 +169,7 @@ public class GraficasController implements Serializable {
                 if((ultimoTiempo.getTieProdHoraIni()!=null && ultimoTiempo.getTieProdHoraIni().compareTo(midnightYesterday)==-1)){
                     ultimoTiempo = null;
                 }
-                if((ultimoTiempo.getTieProdHoraFin()!=null && ultimoTiempo.getTieProdHoraFin().compareTo(midnightYesterday)==-1)){
+                else if((ultimoTiempo.getTieProdHoraFin()!=null && ultimoTiempo.getTieProdHoraFin().compareTo(midnightYesterday)==-1)){
                     ultimoTiempo = null;
                 }
             }

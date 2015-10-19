@@ -41,14 +41,7 @@
                             </f:facet>
                             <h:outputText value="#{item.matEmbCodigo.matEmbDescripcion}"/>
                         </p:column>
-                        
-                        <p:column filterBy="#{item.usuMatEmbCosto}" sortBy="#{item.usuMatEmbCosto}" >
-                            <f:facet name="header">
-                                <h:outputText value="Costo"/>
-                            </f:facet>
-                            <h:outputText value="#{item.usuMatEmbCosto}"/>
-                        </p:column>
-                        
+                                                
                         <p:column filterBy="#{item.usuMatEmbCostoUni}" sortBy="#{item.usuMatEmbCostoUni}" >
                             <f:facet name="header">
                                 <h:outputText value="Costo Unitario"/>
@@ -109,9 +102,6 @@
                                            itemLabel="#{MatEmbItem.matEmbDescripcion}" />
                         
                         </p:selectOneMenu>
-                        
-                        <p:outputLabel value="Costo:" for="cost"/>
-                        <p:inputText id="cost" required="true" value="#{matEmbMensualController.selectedUsuMatEmb.usuMatEmbCosto}" title="Costo" onkeypress="return isNumberKey(event)" requiredMessage="#{bundle.MensajeCosto}"/>
                         
                         <p:outputLabel value="Costo Unitario:" for="cos"/>
                         <p:inputText id="cos" required="true" value="#{matEmbMensualController.selectedUsuMatEmb.usuMatEmbCostoUni}" title="Costo Unitario" onkeypress="return isNumberKey(event)" requiredMessage="#{bundle.MensajeCostoUnitario}"/>

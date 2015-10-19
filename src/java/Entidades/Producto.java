@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -59,6 +60,8 @@ public class Producto implements Serializable {
     private List<Proceso> procesoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodCodigo")
     private List<ProduccionDiaria> produccionDiariaList;
+    private transient Float costoMP; //costo unitario
+    private transient Float cantMP;
 
     public Producto() {
     }
@@ -67,6 +70,24 @@ public class Producto implements Serializable {
         this.prodCodigo = prodCodigo;
     }
 
+    @Transient
+    public Float getCantMP() {
+        return cantMP;
+    }
+
+    public void setCantMP(Float cantMP) {
+        this.cantMP = cantMP;
+    }
+        
+    @Transient
+    public Float getCostoMP() {
+        return costoMP;
+    }
+
+    public void setCostoMP(Float costoMP) {
+        this.costoMP = costoMP;
+    }
+    
     public Integer getProdCodigo() {
         return prodCodigo;
     }

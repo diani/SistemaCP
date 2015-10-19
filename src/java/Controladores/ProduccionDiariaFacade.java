@@ -62,4 +62,12 @@ public class ProduccionDiariaFacade extends AbstractFacade<ProduccionDiaria> {
                 return null;
         }
     }
+    
+    public List<ProduccionDiaria> lstProduDia(Date fechaini, Date fechafin){
+        try {
+              return findByParameters("from ProduccionDiaria u where u.prodDiaFecha between ?1 and ?2",fechaini,fechafin);
+        } catch (Exception e) {
+                return null;
+        }
+    }
 }
