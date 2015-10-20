@@ -94,4 +94,67 @@ public class JsfUtil {
         output = formatter.format(date);
         return output;
     }
+    
+    
+    public static Float DiferenciaFechas(Date dinicio, Date dfinal){
+ 
+           
+           long milis1, milis2, diff;
+            //INSTANCIA DEL CALENDARIO GREGORIANO
+            Calendar cinicio = Calendar.getInstance();
+            Calendar cfinal = Calendar.getInstance();
+ 
+            //ESTABLECEMOS LA FECHA DEL CALENDARIO CON EL DATE GENERADO ANTERIORMENTE
+             cinicio.setTime(dinicio);
+             cfinal.setTime(dfinal);
+ 
+ 
+         milis1 = cinicio.getTimeInMillis();
+ 
+         milis2 = cfinal.getTimeInMillis();
+ 
+ 
+         diff = milis2-milis1;
+ 
+ 
+         // calcular la diferencia en segundos
+ 
+     long diffSegundos =  Math.abs (diff / 1000);
+ 
+ 
+     // calcular la diferencia en minutos
+ 
+     long diffMinutos =  Math.abs (diff / (60 * 1000));
+ 
+     
+     long restominutos = diffMinutos%60;
+ 
+ 
+ 
+     // calcular la diferencia en horas
+ 
+     long diffHoras =   (diff / (60 * 60 * 1000));
+ 
+ 
+ 
+     // calcular la diferencia en dias
+ 
+     long diffdias = Math.abs ( diff / (24 * 60 * 60 * 1000) );
+ 
+ 
+     /*
+     System.out.println("En segundos: " + diffSegundos + " segundos.");
+ 
+     System.out.println("En minutos: " + diffMinutos + " minutos.");
+ 
+     System.out.println("En horas: " + diffHoras + " horas.");
+ 
+     System.out.println("En dias: " + diffdias + " dias.");
+     */
+ 
+     
+     
+ 
+            return (float) diffHoras;
+    }
 }

@@ -8,6 +8,7 @@ package Controladores;
 import Entidades.PlanificacionProcesos;
 import Entidades.TiemposProduccion;
 import Entidades.Usuario;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -59,6 +60,14 @@ public class TiemposFacade extends AbstractFacade<TiemposProduccion> {
     public TiemposProduccion penultimoTiempoPorUsuarioYdia(Usuario usuario){
         try {
                 return findByParameters("from TiemposProduccion tp where tp.usuId.usuId = ?1 order by tp.tieProdCodigo desc", usuario.getUsuId()).get(1);
+        } catch (Exception e) {
+                return null;
+        }
+    }
+    
+    public List<TiemposProduccion> lstTiemUsuFecha(Usuario usuario, Date fechaini, Date fechafin){
+        try {
+                return findByParameters("from TiemposProduccion tp where tp.usuId.usuId = ?1 and (tp.tieProdHoraIni between ?1 and ?2) or (tp.tieProdHoraFin between ?1 and ?2)  order by tp.tieProdCodigo asc", usuario.getUsuId(), fechaini, fechafin);
         } catch (Exception e) {
                 return null;
         }

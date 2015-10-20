@@ -6,9 +6,12 @@
 package Controladores;
 
 import Controladores.util.JsfUtil;
+import Entidades.MODEstructura;
 import Entidades.MaterialEmbalaje;
 import Entidades.ProduccionDiaria;
 import Entidades.Producto;
+import Entidades.TiemposProduccion;
+import Entidades.Usuario;
 import Entidades.UsuarioPorCif;
 import Entidades.UsuarioPorMaterialEmbalaje;
 import java.io.Serializable;
@@ -34,14 +37,21 @@ public class BalanceController implements Serializable{
     private Controladores.ProduccionDiariaFacade ejbProduDiaFacade;
     @EJB
     private Controladores.UsuarioPorMatEmbFacade ejbUsuMatEmbFacade;
+    @EJB
+    private Controladores.UsuarioFacade ejbUsuFacade;
+    @EJB
+    private Controladores.TiemposFacade ejbTiemFacade;
     private Date fechaIni;
     private Date fechaFin = new Date();
     private List<UsuarioPorCif> lstUsuCif = null;
     private List<ProduccionDiaria> lstProduDia = null;
     private List<Producto> lstProd = null;
     private List<UsuarioPorMaterialEmbalaje> lstUsuMatEmb = null;
+    private List<Usuario> lstUsu = null;
+    private List<MODEstructura> lstModEst = null;
     private Float sumaCif;
     private Float totalMP;
+    private Float totalMOD;
     private Boolean generado=false;
     
     public void BalanceController(){
@@ -51,9 +61,9 @@ public class BalanceController implements Serializable{
     
     public void generarReporte(){
         calcularCIF();
-        calcularProduccionDiari();
+        calcularProduccionDiaria();
         calcularMP();
-        
+        calcularMOD();
         
         JsfUtil.addSuccessMessage(""+lstProduDia.size());
         generado=true;
@@ -68,7 +78,7 @@ public class BalanceController implements Serializable{
         }
     }
     
-    public void calcularProduccionDiari(){
+    public void calcularProduccionDiaria(){
         lstProduDia = ejbProduDiaFacade.lstProduDia(fechaIni, fechaFin);
         lstProd = new ArrayList<Producto>();
         for(ProduccionDiaria proddia: lstProduDia){
@@ -102,24 +112,110 @@ public class BalanceController implements Serializable{
         
     }
     
-    public float sumaCantMP(){
-        float cantMP=0F;
-        for(Producto product: lstProd){
-            if(product.getCantMP() != null)
-                cantMP+= product.getCantMP();
+    public void calcularMOD(){
+        lstModEst= new ArrayList<MODEstructura>();
+        lstUsu = ejbUsuFacade.findByHabilitado(true);
+        for(Usuario usuu: lstUsu){   //se llena usuario con su valor de hora
+            MODEstructura mod=new MODEstructura();
+            mod.setEmpleado(usuu);   //pasar usuario a estructura
+            if(usuu.getRolId().getRolDescripcion().equals("JEFE")){
+                mod.setValorHora(5F);  //si gana 800 se divide para 160(num hrs mensuals q se trabaja) por lo tanto 5
+            }else  if(usuu.getRolId().getRolDescripcion().equals("OPERARIO")){
+                mod.setValorHora(2.21F); //si gana 354
+            }else  if(usuu.getRolId().getRolDescripcion().equals("ADMINISTRADOR")){
+                mod.setValorHora(7.5F); //si gana 1200
+            }    
+            lstModEst.add(mod);
         }
-        return cantMP;
+        
+        for(MODEstructura mood: lstModEst){  //listado d horas d un usuario
+            List<TiemposProduccion> lstTiempos = ejbTiemFacade.lstTiemUsuFecha(mood.getEmpleado(), fechaIni, fechaFin);
+            if(lstTiempos != null && !lstTiempos.isEmpty()){
+                Float cantHrs=0F;
+                Date horaIni=null;
+                Date horaFin=null;
+                for( TiemposProduccion elemLstTie : lstTiempos){  //lsttiempos tienen las 4 horas registradas diarias
+                   if(elemLstTie.getTieProdHoraIni()!=null){
+                       horaIni = elemLstTie.getTieProdHoraIni();
+                   }else if(elemLstTie.getTieProdHoraFin()!=null){
+                       horaFin = elemLstTie.getTieProdHoraFin();
+                   }
+                   if(horaIni!=null && horaFin!=null){
+                       cantHrs += JsfUtil.DiferenciaFechas(horaIni, horaFin);
+                       horaIni=null;
+                       horaFin=null;
+                   }
+                }
+                mood.setCantHorasTrabajadas(cantHrs);
+                mood.setSueldoTotal(mood.getValorHora()*mood.getCantHorasTrabajadas());
+                if(mood.getEmpleado().getRolId().getRolDescripcion().equals("ADMINISTRADOR")){
+                    Float pagoExtra=0F;
+                    pagoExtra = mood.getSueldoTotal() - 1200F;
+                    if(pagoExtra<0F){
+                        pagoExtra=0F;
+                    }
+                    mood.setValorHorasExtra(pagoExtra);
+                }
+                else if(mood.getEmpleado().getRolId().getRolDescripcion().equals("JEFE")){
+                    Float pagoExtra=0F;
+                    pagoExtra = mood.getSueldoTotal() - 800F;
+                    if(pagoExtra<0F){
+                        pagoExtra=0F;
+                    }
+                    mood.setValorHorasExtra(pagoExtra);
+                }
+                else if(mood.getEmpleado().getRolId().getRolDescripcion().equals("OPERARIO")){
+                    Float pagoExtra=0F;
+                    pagoExtra = mood.getSueldoTotal() - 354F;
+                    if(pagoExtra<0F){
+                        pagoExtra=0F;
+                    }
+                    mood.setValorHorasExtra(pagoExtra);
+                }
+            }
+        }
+        totalMOD=0F;
+        for(MODEstructura mood1: lstModEst){
+            if(mood1.getSueldoTotal()!=null)
+            totalMOD += mood1.getSueldoTotal();
+        }
+        
     }
     
-    public float sumaCostMP(){
+    public float getSumaCantMP(){
+        float cantMP=0F;
+        if(lstProd != null && !lstProd.isEmpty()){
+            for(Producto product : getLstProd()){
+                if(product.getCantMP() != null)
+                    cantMP+= product.getCantMP();
+            }
+        }
+        return cantMP;
+        
+    }
+    
+    public float getSumaCostMP(){
         float costMP=0F;
-        for(Producto product: lstProd){
-            if(product.getCostoMP()!= null)
-                costMP+= product.getCostoMP();
+        if(lstProd != null && !lstProd.isEmpty()){
+            for(Producto product: getLstProd()){
+                if(product.getCostoMP()!= null)
+                    costMP+= product.getCostoMP();
+            }
         }
         return costMP;
     }
 
+    public float getSumaCostCIF(){
+         float costCIF=0F;
+        if(lstUsuCif != null && !lstUsuCif.isEmpty()){
+            for(UsuarioPorCif usucif: getLstUsuCif()){
+                if(usucif.getUsuCifCosto() != null)
+                    costCIF+= usucif.getUsuCifCosto();
+            }
+        }
+        return costCIF;
+    }
+    
     public List<UsuarioPorCif> getLstUsuCif() {
         return lstUsuCif;
     }
@@ -190,6 +286,30 @@ public class BalanceController implements Serializable{
 
     public void setTotalMP(Float totalMP) {
         this.totalMP = totalMP;
+    }
+
+    public List<Usuario> getLstUsu() {
+        return lstUsu;
+    }
+
+    public void setLstUsu(List<Usuario> lstUsu) {
+        this.lstUsu = lstUsu;
+    }
+
+    public List<MODEstructura> getLstModEst() {
+        return lstModEst;
+    }
+
+    public void setLstModEst(List<MODEstructura> lstModEst) {
+        this.lstModEst = lstModEst;
+    }
+
+    public Float getTotalMOD() {
+        return totalMOD;
+    }
+
+    public void setTotalMOD(Float totalMOD) {
+        this.totalMOD = totalMOD;
     }
 
     

@@ -40,7 +40,6 @@
                                          <h:outputText value="#{balanceController.fechaIni}" >
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                          </h:outputText>
-                                         
                                          Hasta: 
                                          <h:outputText value="#{balanceController.fechaFin}" >
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -49,23 +48,64 @@
                                 </p:row>
                             </f:facet>
                             
-                            <p:outputLabel value="Total CIF:"/>
+                            <p:commandLink id="ajax" update="display" oncomplete="PF('dlg').show();">
+                                <p:outputLabel value="Total CIF:"/>
+                            </p:commandLink>
                             <p:outputLabel value="#{balanceController.sumaCif}"/>
                            
-                            <p:commandLink id="ajax" update="display" oncomplete="PF('dlg').show();">
+                            <p:commandLink id="ajax1" update="display1" oncomplete="PF('dlg1').show();">
                                 <p:outputLabel value="Total MP:"/>
                             </p:commandLink>
                             <p:outputLabel value="#{balanceController.totalMP}"/>
                             
+                            <p:outputLabel value="Total MOD:"/>
+                            <p:outputLabel value="#{balanceController.totalMOD}"/>
                         </p:panelGrid>
-                        
                         
                     </p:panelGrid>
                 </p:panel>
                 
-                <p:dialog header="Detalle MP" widgetVar="dlg" modal="true" resizable="false" appendTo="@(body)">
+                <p:dialog header="Detalle CIF" widgetVar="dlg" modal="true" resizable="false" appendTo="@(body)" width="50%">
                     
-                    <p:dataTable id="display" var="elemTabla" value="#{balanceController.lstProd}">
+                    <p:dataTable id="display" var="elemTabla" value="#{balanceController.lstUsuCif}">
+                        
+                        <p:column filterBy="#{elemTabla.cifCodigo.cifDescripcion}" sortBy="#{elemTabla.cifCodigo.cifDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="CIF"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.cifCodigo.cifDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.usuCifFecha}">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.usuCifFecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.usuCifCosto}">
+                            <f:facet name="header">
+                                <h:outputText value="Costo"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.usuCifCosto}"/>
+                        </p:column>
+                        
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="#{balanceController.sumaCostCIF}" />
+                                
+                            </p:row>
+                        </p:columnGroup>
+
+                    </p:dataTable>
+                </p:dialog>
+                
+                <p:dialog header="Detalle MP" widgetVar="dlg1" modal="true" resizable="false" appendTo="@(body)" width="75%">
+                    
+                    <p:dataTable id="display1" var="elemTabla" value="#{balanceController.lstProd}">
                         
                         <p:column filterBy="#{elemTabla.prodCodigoAux}" sortBy="#{elemTabla.prodCodigoAux}">
                             <f:facet name="header">
@@ -76,7 +116,7 @@
                         
                         <p:column filterBy="#{elemTabla.prodDescripcion}" sortBy="#{elemTabla.prodDescripcion}">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListRolTitle_rolDescripcion}"/>
+                                <h:outputText value="Fruta"/>
                             </f:facet>
                             <h:outputText value="#{elemTabla.prodDescripcion}"/>
                         </p:column>
@@ -105,7 +145,7 @@
                         <p:columnGroup type="footer">
                             <p:row>
                                 <p:column colspan="2" style="text-align:right" footerText="Total:" />
-                                <p:column footerText="$#{balanceController.sumaCantMP}" />
+                                <p:column footerText="#{balanceController.sumaCantMP}" />
                                 <p:column footerText="$#{balanceController.sumaCostMP}" />
                                 <p:column footerText="$#{balanceController.totalMP}" />
                             </p:row>
@@ -113,6 +153,7 @@
 
                     </p:dataTable>
                 </p:dialog>
+                
                 
             </h:form>
         </ui:define>
