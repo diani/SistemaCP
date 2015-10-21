@@ -6,8 +6,10 @@
 package Controladores;
 
 import Controladores.util.JsfUtil;
+import Entidades.IngresosEstructura;
 import Entidades.MODEstructura;
 import Entidades.MaterialEmbalaje;
+import Entidades.PresentacionProducto;
 import Entidades.ProduccionDiaria;
 import Entidades.Producto;
 import Entidades.TiemposProduccion;
@@ -41,6 +43,8 @@ public class BalanceController implements Serializable{
     private Controladores.UsuarioFacade ejbUsuFacade;
     @EJB
     private Controladores.TiemposFacade ejbTiemFacade;
+    @EJB
+    private Controladores.PresentacionProductoFacade ejbPreProdFacade;
     private Date fechaIni;
     private Date fechaFin = new Date();
     private List<UsuarioPorCif> lstUsuCif = null;
@@ -49,6 +53,8 @@ public class BalanceController implements Serializable{
     private List<UsuarioPorMaterialEmbalaje> lstUsuMatEmb = null;
     private List<Usuario> lstUsu = null;
     private List<MODEstructura> lstModEst = null;
+    private List<PresentacionProducto> lstPreProd = null;
+    private List<IngresosEstructura> lstIngEst = null;
     private Float sumaCif;
     private Float totalMP;
     private Float totalMOD;
@@ -182,6 +188,28 @@ public class BalanceController implements Serializable{
         
     }
     
+    public void calcularIngresos(){
+        lstPreProd = ejbPreProdFacade.preseProdHabilitadas(true);
+        lstIngEst = new ArrayList<IngresosEstructura>();
+        for(PresentacionProducto preprod: lstPreProd){
+            IngresosEstructura ingestr = new IngresosEstructura();
+            ingestr.setPreprod(preprod);
+            if(preprod.getPreProdDescripcion().equals("kL")){
+                ingestr.setPrecio(3.50F);
+            }else if(preprod.getPreProdDescripcion().equals("500 GR")){
+                ingestr.setPrecio(2.60F);
+            }else if(preprod.getPreProdDescripcion().equals("150 GR")){
+                ingestr.setPrecio(1.40F);
+            }else if(preprod.getPreProdDescripcion().equals("110 GR")){
+                ingestr.setPrecio(1.20F);
+            }else if(preprod.getPreProdDescripcion().equals("Granel")){
+                ingestr.setPrecio(1.10F);
+            }
+            
+            lstIngEst.add(ingestr);
+        }
+    }
+    
     public float getSumaCantMP(){
         float cantMP=0F;
         if(lstProd != null && !lstProd.isEmpty()){
@@ -310,6 +338,22 @@ public class BalanceController implements Serializable{
 
     public void setTotalMOD(Float totalMOD) {
         this.totalMOD = totalMOD;
+    }
+
+    public List<PresentacionProducto> getLstPreProd() {
+        return lstPreProd;
+    }
+
+    public void setLstPreProd(List<PresentacionProducto> lstPreProd) {
+        this.lstPreProd = lstPreProd;
+    }
+
+    public List<IngresosEstructura> getLstIngEst() {
+        return lstIngEst;
+    }
+
+    public void setLstIngEst(List<IngresosEstructura> lstIngEst) {
+        this.lstIngEst = lstIngEst;
     }
 
     
