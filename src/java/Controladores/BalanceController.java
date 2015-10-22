@@ -58,6 +58,7 @@ public class BalanceController implements Serializable{
     private Float sumaCif;
     private Float totalMP;
     private Float totalMOD;
+    private Float totalIngresos;
     private Boolean generado=false;
     
     public void BalanceController(){
@@ -70,7 +71,7 @@ public class BalanceController implements Serializable{
         calcularProduccionDiaria();
         calcularMP();
         calcularMOD();
-        
+        calcularIngresos();
         JsfUtil.addSuccessMessage(""+lstProduDia.size());
         generado=true;
         
@@ -242,6 +243,51 @@ public class BalanceController implements Serializable{
             }
         }
         return costCIF;
+    }
+    
+    public float getSumaValorHora(){
+        float valhora=0F;
+        if(lstModEst != null && !lstModEst.isEmpty()){
+            for(MODEstructura modest : getLstModEst()){
+                if(modest.getValorHora() != null)
+                    valhora+= modest.getValorHora();
+            }
+        }
+        return valhora;
+    }
+    
+    public float getSumaCantHrsTrab(){
+        float hrsTra=0F;
+        if(lstModEst != null && !lstModEst.isEmpty()){
+            for(MODEstructura modest : getLstModEst()){
+                if(modest.getCantHorasTrabajadas() != null)
+                    hrsTra+= modest.getCantHorasTrabajadas();
+            }
+        }
+        return hrsTra;
+    }
+    
+    public float getSumaValHrsExt(){
+        float valHrsExt=0F;
+        if(lstModEst != null && !lstModEst.isEmpty()){
+            for(MODEstructura modest : getLstModEst()){
+                if(modest.getValorHorasExtra() != null)
+                    valHrsExt+= modest.getValorHorasExtra();
+            }
+        }
+        return valHrsExt;
+    }
+    
+    public float getSumaPrecioIngr(){
+        float preIng=0F;
+        if(lstIngEst != null && !lstIngEst.isEmpty()){
+            for(IngresosEstructura ingrEst : getLstIngEst()){
+                if(ingrEst.getPrecio() != null)
+                    preIng+= ingrEst.getPrecio();
+            }
+        }
+        return preIng;
+        
     }
     
     public List<UsuarioPorCif> getLstUsuCif() {

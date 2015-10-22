@@ -27,7 +27,6 @@
                         
                         <p:commandButton icon="fa fa-save" action="#{balanceController.generarReporte()}" value="Generar Reporte" update=":growl, contenedor" />
                     </p:panelGrid>
-                        
                     
                 </p:panel>
                 <p:panel header="balance" id="contenedor">
@@ -58,8 +57,16 @@
                             </p:commandLink>
                             <p:outputLabel value="#{balanceController.totalMP}"/>
                             
-                            <p:outputLabel value="Total MOD:"/>
+                            <p:commandLink id="ajax2" update="display2" oncomplete="PF('dlg2').show();">
+                                <p:outputLabel value="Total MOD:"/>
+                            </p:commandLink>
                             <p:outputLabel value="#{balanceController.totalMOD}"/>
+                            
+                            <p:commandLink id="ajax3" update="display3" oncomplete="PF('dlg3').show();">
+                                <p:outputLabel value="Ingresos:"/>
+                            </p:commandLink>
+                            <p:outputLabel value="#{balanceController.totalMOD}"/>
+                            
                         </p:panelGrid>
                         
                     </p:panelGrid>
@@ -154,6 +161,108 @@
                     </p:dataTable>
                 </p:dialog>
                 
+                <p:dialog header="Detalle MOD" widgetVar="dlg2" modal="true" resizable="false" appendTo="@(body)" width="75%">
+                    
+                    <p:dataTable id="display2" var="elemTabla" value="#{balanceController.lstModEst}">
+                        
+                        <p:column filterBy="#{elemTabla.empleado.usuNombre} #{elemTabla.empleado.usuApellido}" sortBy="#{elemTabla.empleado.usuNombre} #{elemTabla.empleado.usuApellido}">
+                            <f:facet name="header">
+                                <h:outputText value="Usuario"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.empleado.usuNombre} #{elemTabla.empleado.usuApellido}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{elemTabla.empleado.rolId.rolDescripcion}" sortBy="#{elemTabla.empleado.rolId.rolDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="Rol"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.empleado.rolId.rolDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.valorHora}">
+                            <f:facet name="header">
+                                <h:outputText value="Valor Hora"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.valorHora}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.cantHorasTrabajadas}">
+                            <f:facet name="header">
+                                <h:outputText value="Horas Trabajadas"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.cantHorasTrabajadas}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.valorHorasExtra}">
+                            <f:facet name="header">
+                                <h:outputText value="Valor Hora extra"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.valorHorasExtra}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.sueldoTotal}">
+                            <f:facet name="header">
+                                <h:outputText value="Total sueldo"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.sueldoTotal}"/>
+                        </p:column>
+                        
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="$#{balanceController.sumaValorHora}" />
+                                <p:column footerText="#{balanceController.sumaCantHrsTrab}" />
+                                <p:column footerText="$#{balanceController.sumaValHrsExt}" />
+                                <p:column footerText="$#{balanceController.totalMOD}" />
+                            </p:row>
+                        </p:columnGroup>
+
+                    </p:dataTable>
+                </p:dialog>
+                
+                <p:dialog header="Detalle Ingresos" widgetVar="dlg3" modal="true" resizable="false" appendTo="@(body)" width="75%">
+                    
+                    <p:dataTable id="display3" var="elemTabla" value="#{balanceController.lstIngEst}">
+                        
+                        <p:column filterBy="#{elemTabla.preprod.preProdDescripcion}" sortBy="#{elemTabla.preprod.preProdDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="Presentación Producto"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.preprod.preProdDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.precio}">
+                            <f:facet name="header">
+                                <h:outputText value="Precio"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.precio}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.cant}">
+                            <f:facet name="header">
+                                <h:outputText value="Cantidad"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.cant}"/>
+                        </p:column>
+                                               
+                        <p:column sortBy="#{elemTabla.cant}">
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.cant}"/>
+                        </p:column>
+                        
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="1" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="$#{balanceController.sumaPrecioIngr}" />
+                                <p:column footerText="#{balanceController.sumaCantHrsTrab}" />
+                                <p:column footerText="$#{balanceController.sumaCantHrsTrab}" />
+                            </p:row>
+                        </p:columnGroup>
+
+                    </p:dataTable>
+                </p:dialog>
                 
             </h:form>
         </ui:define>

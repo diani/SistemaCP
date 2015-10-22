@@ -68,7 +68,7 @@
                             <p:menuitem value="Planificación" icon="fa fa-calendar" outcome="/planificacionProcesos/crearPlanificacion.xhtml" />
                             <p:menuitem value="Tiempos Producción" icon="fa fa-clock-o" outcome="/tiemposProduccion/tiempos.xhtml" />
                                                         
-                            <p:submenu label="Reportes" icon="fa fa-cogs" >
+                            <p:submenu label="Reportes" icon="fa fa-cogs" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}" >
                             <p:menuitem value="Balance" icon="fa fa-group" outcome="/informes/balance.xhtml" />
                             </p:submenu>
                             
