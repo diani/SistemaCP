@@ -47,6 +47,16 @@
                                 </p:row>
                             </f:facet>
                             
+                            <p:commandLink id="ajax3" update="display3" oncomplete="PF('dlg3').show();">
+                                <p:outputLabel value="Ingresos:"/>
+                            </p:commandLink>
+                            <p:outputLabel value="#{balanceController.totalIngresos}"/>
+                            
+                            <p:commandLink id="ajax4" update="display4" oncomplete="PF('dlg4').show();">
+                                <p:outputLabel value="Total Material de Embalaje:"/>
+                            </p:commandLink>
+                            <p:outputLabel value="#{balanceController.totalME}"/>
+                            
                             <p:commandLink id="ajax" update="display" oncomplete="PF('dlg').show();">
                                 <p:outputLabel value="Total CIF:"/>
                             </p:commandLink>
@@ -62,10 +72,7 @@
                             </p:commandLink>
                             <p:outputLabel value="#{balanceController.totalMOD}"/>
                             
-                            <p:commandLink id="ajax3" update="display3" oncomplete="PF('dlg3').show();">
-                                <p:outputLabel value="Ingresos:"/>
-                            </p:commandLink>
-                            <p:outputLabel value="#{balanceController.totalMOD}"/>
+                            
                             
                         </p:panelGrid>
                         
@@ -245,19 +252,63 @@
                             <h:outputText value="#{elemTabla.cant}"/>
                         </p:column>
                                                
-                        <p:column sortBy="#{elemTabla.cant}">
+                        <p:column sortBy="#{elemTabla.cant * elemTabla.precio}">
                             <f:facet name="header">
                                 <h:outputText value="Total"/>
                             </f:facet>
-                            <h:outputText value="#{elemTabla.cant}"/>
+                            <h:outputText value="#{elemTabla.cant * elemTabla.precio}"/>
                         </p:column>
                         
                         <p:columnGroup type="footer">
                             <p:row>
                                 <p:column colspan="1" style="text-align:right" footerText="Total:" />
                                 <p:column footerText="$#{balanceController.sumaPrecioIngr}" />
-                                <p:column footerText="#{balanceController.sumaCantHrsTrab}" />
-                                <p:column footerText="$#{balanceController.sumaCantHrsTrab}" />
+                                <p:column footerText="#{balanceController.sumaCantIngr}" />
+                                <p:column footerText="$#{balanceController.totalIngresos}" />
+                            </p:row>
+                        </p:columnGroup>
+
+                    </p:dataTable>
+                </p:dialog>
+                
+                <p:dialog header="Detalle Material de Embalaje" widgetVar="dlg4" modal="true" resizable="false" appendTo="@(body)" width="75%">
+                    
+                    <p:dataTable id="display4" var="elemTabla" value="#{balanceController.lstIngEst}">
+                        
+                        <p:column filterBy="#{elemTabla.preprod.preProdDescripcion}" sortBy="#{elemTabla.preprod.preProdDescripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="Presentación Producto"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.preprod.preProdDescripcion}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.costo}">
+                            <f:facet name="header">
+                                <h:outputText value="Costo"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.costo}"/>
+                        </p:column>
+                        
+                        <p:column sortBy="#{elemTabla.cant}">
+                            <f:facet name="header">
+                                <h:outputText value="Cantidad"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.cant}"/>
+                        </p:column>
+                                               
+                        <p:column sortBy="#{elemTabla.costo * elemTabla.cant}">
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>
+                            <h:outputText value="#{elemTabla.costo * elemTabla.cant}"/>
+                        </p:column>
+                        
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="1" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="$#{balanceController.sumaCostME}" />
+                                <p:column footerText="#{balanceController.sumaCantIngr}" />
+                                <p:column footerText="$#{balanceController.totalME}" />
                             </p:row>
                         </p:columnGroup>
 

@@ -11,6 +11,7 @@ import Entidades.MODEstructura;
 import Entidades.MaterialEmbalaje;
 import Entidades.PresentacionProducto;
 import Entidades.ProduccionDiaria;
+import Entidades.ProduccionPorPresentacion;
 import Entidades.Producto;
 import Entidades.TiemposProduccion;
 import Entidades.Usuario;
@@ -59,6 +60,7 @@ public class BalanceController implements Serializable{
     private Float totalMP;
     private Float totalMOD;
     private Float totalIngresos;
+    private Float totalME;
     private Boolean generado=false;
     
     public void BalanceController(){
@@ -72,6 +74,7 @@ public class BalanceController implements Serializable{
         calcularMP();
         calcularMOD();
         calcularIngresos();
+        calcularME();
         JsfUtil.addSuccessMessage(""+lstProduDia.size());
         generado=true;
         
@@ -116,7 +119,6 @@ public class BalanceController implements Serializable{
             if(product.getCostoMP()!= null)
                 totalMP+= product.getCostoMP()*product.getCantMP();
         }
-        
     }
     
     public void calcularMOD(){
@@ -195,7 +197,7 @@ public class BalanceController implements Serializable{
         for(PresentacionProducto preprod: lstPreProd){
             IngresosEstructura ingestr = new IngresosEstructura();
             ingestr.setPreprod(preprod);
-            if(preprod.getPreProdDescripcion().equals("kL")){
+            if(preprod.getPreProdDescripcion().equals("KL")){
                 ingestr.setPrecio(3.50F);
             }else if(preprod.getPreProdDescripcion().equals("500 GR")){
                 ingestr.setPrecio(2.60F);
@@ -209,6 +211,95 @@ public class BalanceController implements Serializable{
             
             lstIngEst.add(ingestr);
         }
+        Float contKl = 0F;
+        Float cont500gr = 0F;
+        Float cont150gr = 0F;
+        Float cont110gr = 0F;
+        Float contGranel = 0F;
+        for(ProduccionDiaria prepro: lstProduDia){
+            for(ProduccionPorPresentacion prodPre: prepro.getProduccionPorPresentacionList()){
+                if(prodPre.getPresentacionProducto().getPreProdDescripcion().equals("KL")){
+                    if(prodPre.getProdPorPresCantPt() != null)
+                        contKl += prodPre.getProdPorPresCantPt();
+                }else if(prodPre.getPresentacionProducto().getPreProdDescripcion().equals("500 GR")){
+                    if(prodPre.getProdPorPresCantPt() != null)
+                        cont500gr += prodPre.getProdPorPresCantPt();
+                }else if(prodPre.getPresentacionProducto().getPreProdDescripcion().equals("150 GR")){
+                    if(prodPre.getProdPorPresCantPt() != null)
+                        cont150gr += prodPre.getProdPorPresCantPt();
+                }else if(prodPre.getPresentacionProducto().getPreProdDescripcion().equals("110 GR")){
+                    if(prodPre.getProdPorPresCantPt() != null)
+                        cont110gr += prodPre.getProdPorPresCantPt();
+                }else if(prodPre.getPresentacionProducto().getPreProdDescripcion().equals("Granel")){
+                    if(prodPre.getProdPorPresCantPt() != null)
+                        contGranel += prodPre.getProdPorPresCantPt();
+                }
+            }
+        }
+        
+        for(IngresosEstructura ingEst: lstIngEst){
+            if(ingEst.getPreprod().getPreProdDescripcion().equals("KL")){
+                ingEst.setCant(contKl);
+            }else if(ingEst.getPreprod().getPreProdDescripcion().equals("500 GR")){
+                ingEst.setCant(cont500gr);
+            }else if(ingEst.getPreprod().getPreProdDescripcion().equals("150 GR")){
+                ingEst.setCant(cont150gr);
+            }else if(ingEst.getPreprod().getPreProdDescripcion().equals("110 GR")){
+                ingEst.setCant(cont110gr);
+            }else if(ingEst.getPreprod().getPreProdDescripcion().equals("Granel")){
+                ingEst.setCant(contGranel);
+            }
+        }
+        
+        totalIngresos=0F;
+        for(IngresosEstructura inEs: lstIngEst){
+            if(inEs.getCant()!= null){
+                totalIngresos+=(inEs.getPrecio() * inEs.getCant());
+            }
+        }
+        
+    }
+    
+    public void calcularME(){
+        Float costoKl=0F;
+        Float costo500gr=0F;
+        Float costo150gr=0F;
+        Float costo110gr=0F;
+        Float costoGranel=0F;
+        for(UsuarioPorMaterialEmbalaje usuMatEm: lstUsuMatEmb){
+            if(usuMatEm.getMatEmbCodigo().getMatEmbDescripcion().contains("Presentación KL")){
+                costoKl+=usuMatEm.getUsuMatEmbCostoUni();
+            }else if(usuMatEm.getMatEmbCodigo().getMatEmbDescripcion().contains("500 GR")){
+                costo500gr+=usuMatEm.getUsuMatEmbCostoUni();
+            }else if(usuMatEm.getMatEmbCodigo().getMatEmbDescripcion().contains("150 GR")){
+                costo150gr+=usuMatEm.getUsuMatEmbCostoUni();
+            }else if(usuMatEm.getMatEmbCodigo().getMatEmbDescripcion().contains("110 GR")){
+                costo110gr+=usuMatEm.getUsuMatEmbCostoUni();
+            }else if(usuMatEm.getMatEmbCodigo().getMatEmbDescripcion().contains("Granel")){
+                costoGranel+=usuMatEm.getUsuMatEmbCostoUni();
+            } 
+        }
+        
+        for(IngresosEstructura ingEs: lstIngEst){
+            if(ingEs.getPreprod().getPreProdDescripcion().contains("KL")){
+                ingEs.setCosto(costoKl);
+            }else if(ingEs.getPreprod().getPreProdDescripcion().contains("500 GR")){
+                ingEs.setCosto(costo500gr);
+            }else if(ingEs.getPreprod().getPreProdDescripcion().contains("150 GR")){
+                ingEs.setCosto(costo150gr);
+            }else if(ingEs.getPreprod().getPreProdDescripcion().contains("110 GR")){
+                ingEs.setCosto(costo110gr);
+            }else if(ingEs.getPreprod().getPreProdDescripcion().contains("Granel")){
+                ingEs.setCosto(costoGranel);
+            }
+        }
+        
+        totalME=0F;
+        for(IngresosEstructura inEs: lstIngEst){
+            if(inEs.getCosto()!=null && inEs.getCant()!=null)
+                totalME+= inEs.getCosto() * inEs.getCant();
+        }
+        
     }
     
     public float getSumaCantMP(){
@@ -287,7 +378,28 @@ public class BalanceController implements Serializable{
             }
         }
         return preIng;
-        
+    }
+    
+    public float getSumaCantIngr(){
+        float preIng=0F;
+        if(lstIngEst != null && !lstIngEst.isEmpty()){
+            for(IngresosEstructura ingrEst : getLstIngEst()){
+                if(ingrEst.getCant() != null)
+                    preIng+= ingrEst.getCant();
+            }
+        }
+        return preIng;
+    }
+    
+    public float getSumaCostME(){
+        float preIng=0F;
+        if(lstIngEst != null && !lstIngEst.isEmpty()){
+            for(IngresosEstructura ingrEst : getLstIngEst()){
+                if(ingrEst.getCosto() != null)
+                    preIng+= ingrEst.getCosto();
+            }
+        }
+        return preIng;
     }
     
     public List<UsuarioPorCif> getLstUsuCif() {
@@ -400,6 +512,22 @@ public class BalanceController implements Serializable{
 
     public void setLstIngEst(List<IngresosEstructura> lstIngEst) {
         this.lstIngEst = lstIngEst;
+    }
+
+    public Float getTotalIngresos() {
+        return totalIngresos;
+    }
+
+    public void setTotalIngresos(Float totalIngresos) {
+        this.totalIngresos = totalIngresos;
+    }
+
+    public Float getTotalME() {
+        return totalME;
+    }
+
+    public void setTotalME(Float totalME) {
+        this.totalME = totalME;
     }
 
     

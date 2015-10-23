@@ -14,9 +14,10 @@ import java.io.Serializable;
 public class IngresosEstructura implements Serializable{
     private PresentacionProducto preprod;
     private Float precio;
-    private Integer cant;
+    private Float cant;
+    private Float costo;
 
-    public IngresosEstructura(PresentacionProducto preprod, Float precio, Integer cant) {
+    public IngresosEstructura(PresentacionProducto preprod, Float precio, Float cant) {
         this.preprod = preprod;
         this.precio = precio;
         this.cant = cant;
@@ -41,12 +42,20 @@ public class IngresosEstructura implements Serializable{
         this.precio = precio;
     }
 
-    public Integer getCant() {
+    public Float getCant() {
         return cant;
     }
 
-    public void setCant(Integer cant) {
+    public void setCant(Float cant) {
         this.cant = cant;
+    }
+
+    public Float getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Float costo) {
+        this.costo = costo;
     }
     
     
