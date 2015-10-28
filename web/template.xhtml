@@ -70,6 +70,7 @@
                                                         
                             <p:submenu label="Reportes" icon="fa fa-cogs" rendered="#{loginController.usuactivo.rolId.rolDescripcion!='JEFE'}" >
                             <p:menuitem value="Balance" icon="fa fa-group" outcome="/informes/balance.xhtml" />
+                            <p:menuitem value="Variación de Costos" icon="fa fa-group" outcome="/informes/variacionCostos.xhtml" />
                             </p:submenu>
                             
                             <f:facet name="options" rendered="#{loginController.usuactivo != null}">

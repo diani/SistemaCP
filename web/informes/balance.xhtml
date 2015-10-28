@@ -6,8 +6,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     
-
-
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
@@ -29,6 +27,7 @@
                     </p:panelGrid>
                     
                 </p:panel>
+                
                 <p:panel header="balance" id="contenedor">
                     <p:panelGrid columns="2" rendered="#{balanceController.generado}" >
                         
@@ -78,6 +77,15 @@
                         
                     </p:panelGrid>
                 </p:panel>
+                
+                <p:panel header="Grafica" >
+                    <p:panelGrid columns="2" rendered="#{balanceController.generado}" >
+                        <p:poll interval="3" update="costos" />
+                        <p:chart id="costos" type="pie" model="#{balanceController.livePieModel}" style="width:400px;height:300px"/> 
+                    </p:panelGrid>
+                </p:panel>
+                
+                
                 
                 <p:dialog header="Detalle CIF" widgetVar="dlg" modal="true" resizable="false" appendTo="@(body)" width="50%">
                     

@@ -19,12 +19,16 @@ import Entidades.UsuarioPorCif;
 import Entidades.UsuarioPorMaterialEmbalaje;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
@@ -62,10 +66,27 @@ public class BalanceController implements Serializable{
     private Float totalIngresos;
     private Float totalME;
     private Boolean generado=false;
+    private Float totalEgresos;
+    
+    private PieChartModel livePieModel;
     
     public void BalanceController(){
         generado=false;
         fechaIni = null;
+    }
+    
+    public PieChartModel getLivePieModel() {
+        
+        totalEgresos = sumaCif+totalME+totalMOD+totalMP;
+        
+        livePieModel.getData().put("Ingresos", totalIngresos);
+        livePieModel.getData().put("Egresos", totalEgresos);
+         
+        livePieModel.setTitle("Costos");
+        livePieModel.setLegendPosition("ne");
+         
+        return livePieModel;
+        
     }
     
     public void generarReporte(){
@@ -529,6 +550,16 @@ public class BalanceController implements Serializable{
     public void setTotalME(Float totalME) {
         this.totalME = totalME;
     }
+
+    public Float getTotalEgresos() {
+        return totalEgresos;
+    }
+
+    public void setTotalEgresos(Float totalEgresos) {
+        this.totalEgresos = totalEgresos;
+    }
+
+  
 
     
     

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Variación de Costos"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="VarListForm">
+                <p:panel header="buscador">
+                   
+                    <p:panelGrid columns="5" class="borderLess">
+                        <p:outputLabel value="Fecha Desde: "/>
+                        <p:calendar id="fechaIni" value="#{variacionCostosController.fechaIni}" pattern="dd/MM/yyyy"/>
+                        
+                        <p:outputLabel value="Fecha Hasta: "/>
+                        <p:calendar id="fechaFin" value="#{variacionCostosController.fechaFin}" pattern="dd/MM/yyyy"/>
+                        
+                        <p:commandButton icon="fa fa-save" action="#{variacionCostosController.generarReporte()}" value="Generar Reporte" update=":growl, contenedor" />
+                    </p:panelGrid>
+                    
+                    <h:panelGrid columns="2" style="margin-bottom:25px" cellpadding="5">
+                        <p:outputLabel for="console" value="Console:" />
+                        <p:selectOneRadio id="console" value="#{variacionCostosController.console}">
+                            <f:selectItem itemLabel="Ingresos" itemValue="Ingresos" />
+                            <f:selectItem itemLabel="Material de Embalaje" itemValue="Material de Embalaje" />
+                            <f:selectItem itemLabel="CIF" itemValue="CIF" />
+                            <f:selectItem itemLabel="MP" itemValue="MP" />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                    
+                  
+                    
+                </p:panel>
+                
+                <p:panel header="balance" id="contenedor">
+                    <h:panelGrid columns="1" columnClasses="left,right" style="width:100%" rendered="#{variacionCostosController.generado}">
+                          <p:chart type="line" model="#{variacionCostosController.animatedModel}" style="width:100%;" />
+                    </h:panelGrid>
+                </p:panel>
+                
+            </h:form>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>
