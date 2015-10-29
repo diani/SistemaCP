@@ -8,6 +8,8 @@ package Controladores;
 import Controladores.util.JsfUtil;
 import Entidades.Cif;
 import Entidades.MaterialEmbalaje;
+import Entidades.ProduccionDiaria;
+import Entidades.ProduccionPorPresentacion;
 import Entidades.Producto;
 import Entidades.UsuarioPorCif;
 import Entidades.UsuarioPorMaterialEmbalaje;
@@ -43,9 +45,14 @@ public class VariacionCostosController implements Serializable{
     private Controladores.ProductoFacade ejbProdFacade;
     @EJB
     private Controladores.MaterialEmbalajeFacade ejbMEFacade;
+    @EJB
+    private Controladores.ProduccionDiariaFacade ejbProduDiarFacade;
+    @EJB
+    private Controladores.ProduccionPorPresentacionFacade ejbProduccionPreFacade;
     private List<UsuarioPorCif> lstUsuCif = null;
     private List<Cif> lstCif = null;
     private List<Producto> lstProd = null;
+    private List<ProduccionDiaria> lstProduDia = null;
     private List<MaterialEmbalaje> lstME = null;
     private List<UsuarioPorMaterialEmbalaje> lstUsuMatEmb = null;
     private List<UsuarioPorMaterialEmbalaje> lstMP = null;
@@ -78,7 +85,15 @@ public class VariacionCostosController implements Serializable{
     }
     
     public void calcularIngresos(){
-        
+        lstProduDia = ejbProduDiarFacade.lstProduDia(fechaIni, fechaFin);
+        lstProd = ejbProdFacade.lstProductosHabilitados(true);
+        for(ProduccionDiaria tot :lstProduDia){
+            tot.setProduccionPorPresentacionList(ejbProduccionPreFacade.buscarProPorPrePorParamProdu(tot));
+            tot.setTotalProdT(0F);
+            for(ProduccionPorPresentacion cantTot :tot.getProduccionPorPresentacionList()){
+                tot.setTotalProdT((tot.getTotalProdT() != null ? tot.getTotalProdT():0F)+(cantTot.getProdPorPresCantPt()!= null ? cantTot.getProdPorPresCantPt() : 0F)*cantTot.getPresentacionProducto().getPreProdEquivalenciaPt());
+            }
+        }
     }
     
     public void calcularMP(){
@@ -203,13 +218,13 @@ public class VariacionCostosController implements Serializable{
     
     private LineChartModel ingresosLinearModel() {
         LineChartModel model = new LineChartModel();
-        for(MaterialEmbalaje me: lstME){
-            if(me.getMatEmbDescripcion().contains("Presentación KL") || me.getMatEmbDescripcion().contains("Presentación 500 GR") || me.getMatEmbDescripcion().contains("Presentación 150 GR") || me.getMatEmbDescripcion().contains("Presentación 110 GR") || me.getMatEmbDescripcion().contains("Presentación Granel") ){    
+        for(Producto produ: lstProd){
+            if(!produ.getProdAccion()){
                 LineChartSeries series1 = new LineChartSeries();  //series 1 es una linea del grafico
-                series1.setLabel(me.getMatEmbDescripcion());
-                for(UsuarioPorMaterialEmbalaje usume: lstMatE){
-                    if(usume.getMatEmbCodigo().getMatEmbDescripcion().contains(me.getMatEmbDescripcion()) ){
-                        series1.set(JsfUtil.convertirFechaAString(usume.getUsuMatEmbFecha()), usume.getUsuMatEmbCostoUni());
+                series1.setLabel(produ.getProdDescripcion());
+                for(ProduccionDiaria proddia: lstProduDia){
+                    if(proddia.getProdCodigo().getProdDescripcion().contains(produ.getProdDescripcion()) ){
+                        series1.set(JsfUtil.convertirFechaAString(proddia.getProdDiaFecha()), proddia.getTotalProdT());
                     }               
                 }
                 model.addSeries(series1);
@@ -312,6 +327,14 @@ public class VariacionCostosController implements Serializable{
 
     public void setLstMatE(List<UsuarioPorMaterialEmbalaje> lstMatE) {
         this.lstMatE = lstMatE;
+    }
+
+    public List<ProduccionDiaria> getLstProduDia() {
+        return lstProduDia;
+    }
+
+    public void setLstProduDia(List<ProduccionDiaria> lstProduDia) {
+        this.lstProduDia = lstProduDia;
     }
     
     

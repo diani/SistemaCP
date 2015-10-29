@@ -73,19 +73,14 @@
                             
                             
                             
+                        </p:panelGrid>    
+                       
+                        <p:panelGrid columns="1" rendered="#{balanceController.generado}" >
+                            <p:chart id="costos" type="pie" model="#{balanceController.pieModel}" style="width:400px;height:300px"/> 
                         </p:panelGrid>
                         
                     </p:panelGrid>
                 </p:panel>
-                
-                <p:panel header="Grafica" >
-                    <p:panelGrid columns="2" rendered="#{balanceController.generado}" >
-                        <p:poll interval="3" update="costos" />
-                        <p:chart id="costos" type="pie" model="#{balanceController.livePieModel}" style="width:400px;height:300px"/> 
-                    </p:panelGrid>
-                </p:panel>
-                
-                
                 
                 <p:dialog header="Detalle CIF" widgetVar="dlg" modal="true" resizable="false" appendTo="@(body)" width="50%">
                     

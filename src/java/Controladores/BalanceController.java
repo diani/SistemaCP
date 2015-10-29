@@ -68,25 +68,24 @@ public class BalanceController implements Serializable{
     private Boolean generado=false;
     private Float totalEgresos;
     
-    private PieChartModel livePieModel;
+    private PieChartModel pieModel;
     
     public void BalanceController(){
         generado=false;
         fechaIni = null;
     }
     
-    public PieChartModel getLivePieModel() {
-        
+    private void crearPieModel() {
+        pieModel = new PieChartModel();
         totalEgresos = sumaCif+totalME+totalMOD+totalMP;
         
-        livePieModel.getData().put("Ingresos", totalIngresos);
-        livePieModel.getData().put("Egresos", totalEgresos);
-         
-        livePieModel.setTitle("Costos");
-        livePieModel.setLegendPosition("ne");
-         
-        return livePieModel;
+        pieModel.set("Ingresos", totalIngresos);
+        pieModel.set("Egresos", totalEgresos);
         
+        pieModel.setTitle("Costos");
+        pieModel.setLegendPosition("w");
+        pieModel.setShowDataLabels(true);
+        pieModel.setDataFormat("value");
     }
     
     public void generarReporte(){
@@ -96,6 +95,7 @@ public class BalanceController implements Serializable{
         calcularMOD();
         calcularIngresos();
         calcularME();
+        crearPieModel();
         JsfUtil.addSuccessMessage(""+lstProduDia.size());
         generado=true;
         
@@ -557,6 +557,14 @@ public class BalanceController implements Serializable{
 
     public void setTotalEgresos(Float totalEgresos) {
         this.totalEgresos = totalEgresos;
+    }
+
+    public PieChartModel getPieModel() {
+        return pieModel;
+    }
+
+    public void setPieModel(PieChartModel pieModel) {
+        this.pieModel = pieModel;
     }
 
   
