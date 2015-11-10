@@ -67,7 +67,7 @@ public class TiemposFacade extends AbstractFacade<TiemposProduccion> {
     
     public List<TiemposProduccion> lstTiemUsuFecha(Usuario usuario, Date fechaini, Date fechafin){
         try {
-                return findByParameters("from TiemposProduccion tp where tp.usuId.usuId = ?1 and (tp.tieProdHoraIni between ?2 and ?3) or (tp.tieProdHoraFin between ?2 and ?3)  order by tp.tieProdCodigo asc", usuario.getUsuId(), fechaini, fechafin);
+                return findByParameters("from TiemposProduccion tp where tp.usuId.usuId = ?1 and ((tp.tieProdHoraIni between ?2 and ?3) or (tp.tieProdHoraFin between ?2 and ?3))  order by tp.tieProdCodigo asc", usuario.getUsuId(), fechaini, fechafin);
         } catch (Exception e) {
                 return null;
         }

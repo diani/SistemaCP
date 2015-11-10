@@ -159,7 +159,11 @@ public class BalanceController implements Serializable{
         }
         
         for(MODEstructura mood: lstModEst){  //listado d horas d un usuario
-            List<TiemposProduccion> lstTiempos = ejbTiemFacade.lstTiemUsuFecha(mood.getEmpleado(), fechaIni, fechaFin);
+            List<TiemposProduccion> lstTiempos  = new ArrayList<TiemposProduccion>();
+            lstTiempos = ejbTiemFacade.lstTiemUsuFecha(mood.getEmpleado(), fechaIni, fechaFin);
+            mood.setCantHorasTrabajadas(0F);
+            mood.setValorHorasExtra(0F);
+            mood.setSueldoTotal(0F);
             if(lstTiempos != null && !lstTiempos.isEmpty()){
                 Float cantHrs=0F;
                 Date horaIni=null;

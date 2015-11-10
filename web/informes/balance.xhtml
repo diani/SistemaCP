@@ -71,7 +71,8 @@
                             </p:commandLink>
                             <p:outputLabel value="#{balanceController.totalMOD}"/>
                             
-                            
+                            <p:outputLabel value="Total:"/>
+                            <p:outputLabel value="#{balanceController.totalIngresos - balanceController.totalME - balanceController.sumaCif - balanceController.totalMP - balanceController.totalMOD}"/>
                             
                         </p:panelGrid>    
                        
