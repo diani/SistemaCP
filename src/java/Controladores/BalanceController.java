@@ -223,15 +223,15 @@ public class BalanceController implements Serializable{
             IngresosEstructura ingestr = new IngresosEstructura();
             ingestr.setPreprod(preprod);
             if(preprod.getPreProdDescripcion().equals("KL")){
-                ingestr.setPrecio(3.50F);
+                ingestr.setPrecio(3.88F);
             }else if(preprod.getPreProdDescripcion().equals("500 GR")){
-                ingestr.setPrecio(2.60F);
+                ingestr.setPrecio(1.47F);
             }else if(preprod.getPreProdDescripcion().equals("150 GR")){
-                ingestr.setPrecio(1.40F);
+                ingestr.setPrecio(0.47F);
             }else if(preprod.getPreProdDescripcion().equals("110 GR")){
-                ingestr.setPrecio(1.20F);
+                ingestr.setPrecio(0.47F);
             }else if(preprod.getPreProdDescripcion().equals("Granel")){
-                ingestr.setPrecio(1.10F);
+                ingestr.setPrecio(1.38F);
             }
             
             lstIngEst.add(ingestr);
